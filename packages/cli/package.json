@@ -1,0 +1,28 @@
+{
+  "name": "usecontextual",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The Contextual CLI: adds, checks and updates the plain-markdown context that coding agents read.",
+  "type": "module",
+  "bin": {
+    "usecontextual": "bin/usecontextual.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  },
+  "license": "MIT",
+  "author": "Mikael Endale",
+  "homepage": "https://contextual.mikaelen.site",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikaelendale/contextual.git",
+    "directory": "packages/cli"
+  }
+}

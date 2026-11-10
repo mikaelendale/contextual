@@ -1,0 +1,15 @@
+{
+  "contextual": "{{contextual_version}}",
+  "created": "{{date}}",
+  "defaultBranch": "{{default_branch}}",
+  "cli": "{{cli}}",
+  "skillDirs": [".agents/skills", ".claude/skills"],
+  "lastSync": { "commit": null, "date": null },
+  "hashes": { "idea": null, "deslop": "{{deslop_hash}}" },
+  "caps": {
+    "agentsBlockLines": 60,
+    "statusLines": 40,
+    "featureReadmeLines": 60,
+    "startTokens": 3000
+  }
+}

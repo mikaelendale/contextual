@@ -1,0 +1,62 @@
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { dirname, join } from "node:path"
+import { fileURLToPath } from "node:url"
+
+import { check } from "../src/check.js"
+import { readFeatures, readShared, readText } from "../src/context.js"
+
+const here = dirname(fileURLToPath(import.meta.url))
+export const repoRoot = join(here, "..", "..", "..")
+export const example = join(repoRoot, "example")
+export const templates = join(repoRoot, "templates")
+export const bin = join(here, "..", "bin", "usecontextual.js")
+
+const copies = []
+
+/** A throwaway copy of example/, removed when the process exits. */
+export function copyExample() {
+  const dir = mkdtempSync(join(tmpdir(), "usecontextual-test-"))
+  cpSync(example, dir, { recursive: true })
+  copies.push(dir)
+  return dir
+}
+process.on("exit", () => {
+  for (const dir of copies) rmSync(dir, { recursive: true, force: true })
+})
+
+export function edit(dir, file, change) {
+  const path = join(dir, file)
+  writeFileSync(path, change(readFileSync(path, "utf8")))
+}
+
+export function write(dir, file, text) {
+  mkdirSync(dirname(join(dir, file)), { recursive: true })
+  writeFileSync(join(dir, file), text)
+}
+
+export const errorsIn = (dir, branch = "feat/boards") => check({ root: dir, branch }).findings.filter((f) => f.level === "error")
+export const warningsIn = (dir, branch = "feat/boards") => check({ root: dir, branch }).findings.filter((f) => f.level === "warning")
+export const describe = (findings) => findings.map((f) => `${f.level} ${f.file ?? ""}: ${f.message}`).join("\n") || "(none)"
+
+/** A file path that the glob matches, for creating stand-in code. */
+export function sampleFor(glob) {
+  let path = glob.replace(/\*\*\/?/g, "sample/").replace(/\*/g, "sample").replace(/\?/g, "s").replace(/\/$/, "")
+  if (!/\.[a-z0-9]+$/i.test(path.split("/").pop())) path += ".ts"
+  return path
+}
+
+/**
+ * Adds a stand-in file for every covers: glob of features that are in progress
+ * or shipped, and for every glob on the shared: line, so the ownership checks
+ * have code to look at.
+ */
+export function addCode(dir) {
+  for (const f of readFeatures(dir)) {
+    if (f.status !== "shipped" && f.status !== "in-progress") continue
+    for (const glob of f.covers) write(dir, sampleFor(glob), "// stand-in\n")
+  }
+  for (const glob of readShared(readText(join(dir, "context", "architecture.md"))) ?? []) {
+    write(dir, sampleFor(glob), "// stand-in\n")
+  }
+}

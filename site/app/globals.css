@@ -1,0 +1,360 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* The page is a light paper design; `dark:` utilities only apply under a .dark class. */
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-sans); /* No monospace on this site. */
+  --font-serif: var(--font-newsreader);
+  --font-heading: var(--font-sans);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
+  --color-ember: var(--ember);
+  --color-ember-soft: var(--ember-soft);
+  --color-faint: var(--faint);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  color-scheme: light;
+
+  /* Warm paper, soft ink, two greys. */
+  --background: #f7f5f2;
+  --foreground: #17171b;
+  --muted-foreground: #6c6c74;
+  --faint: #a4a4ab;
+
+  /* One hot orange from the sky: vivid for big type, deeper where white sits on it, darker for small text. */
+  --brand: #f24d00;
+  --brand-deep: #db3300;
+  --brand-soft: #ffe7d6;
+  --brand-ink: #c43c00;
+  --ember: #f0541c;
+  --ember-soft: #ffe8da;
+
+  --card: #ffffff;
+  --card-foreground: #111113;
+  --popover: #ffffff;
+  --popover-foreground: #111113;
+  --primary: #17171b;
+  --primary-foreground: #fafaf8;
+  --secondary: #e8e8e4;
+  --secondary-foreground: #111113;
+  --muted: #e8e8e4;
+  --accent: #e8e8e4;
+  --accent-foreground: #111113;
+  --destructive: #dc3a1c;
+  --border: rgb(17 17 19 / 0.09);
+  --input: rgb(17 17 19 / 0.13);
+  --ring: rgb(242 77 0 / 0.45);
+  --chart-1: #ffd6bf;
+  --chart-2: #ffad80;
+  --chart-3: #ff7d3d;
+  --chart-4: #f24d00;
+  --chart-5: #c43c00;
+  --radius: 0.75rem;
+  --sidebar: #fafaf8;
+  --sidebar-foreground: #111113;
+  --sidebar-primary: #111113;
+  --sidebar-primary-foreground: #fafaf8;
+  --sidebar-accent: #e8e8e4;
+  --sidebar-accent-foreground: #111113;
+  --sidebar-border: rgb(17 17 19 / 0.09);
+  --sidebar-ring: rgb(242 77 0 / 0.45);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Entrance: content settles in once, on load. */
+@keyframes blur-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@utility blur-in {
+  animation: blur-in 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* Headline words arrive one by one, each from a soft blur. */
+@keyframes word-in {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(0.28em);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@utility word-in {
+  display: inline-block;
+  animation: word-in 950ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--base, 0ms) + var(--i, 0) * 75ms);
+}
+
+/* The constellation draws itself left to right; stars pop as the line reaches them. */
+@keyframes wipe-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@utility wipe-in {
+  animation: wipe-in 1800ms cubic-bezier(0.45, 0, 0.25, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes star-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility star-in {
+  animation: star-in 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes spark-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-45deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.1) rotate(3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility spark-in {
+  animation: spark-in 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* Clouds: roll in on load, then drift; layers move by depth with scroll and pointer. */
+@keyframes clouds-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--from, 6%)) scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility clouds-in {
+  animation: clouds-in 2400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes drift-near {
+  from {
+    transform: translateX(-2.6%);
+  }
+  to {
+    transform: translateX(2.6%);
+  }
+}
+
+@keyframes drift-far {
+  from {
+    transform: translateX(3.4%);
+  }
+  to {
+    transform: translateX(-3.4%);
+  }
+}
+
+@utility drift-near {
+  animation: drift-near 34s ease-in-out infinite alternate;
+}
+
+@utility drift-far {
+  animation: drift-far 52s ease-in-out infinite alternate;
+}
+
+/* Each layer follows the pointer by its depth (set --mx/--my from script). */
+@utility sky-layer {
+  translate: calc(var(--mx, 0) * var(--depth, 0) * 22px) calc(var(--my, 0) * var(--depth, 0) * 12px);
+  transition: translate 1.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Farther layers lag behind as the page scrolls. */
+@keyframes sky-scroll {
+  to {
+    transform: translateY(var(--lift, 0px));
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .sky-layer {
+    animation: sky-scroll linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100vh;
+  }
+}
+
+/* The live dot on the channel call to action. */
+@keyframes live {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@utility live {
+  animation: live 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Stars breathe slowly. */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@utility twinkle {
+  animation: twinkle 4.5s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility rise {
+  animation: rise 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@utility appear {
+  animation: appear 900ms cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .appear,
+  .blur-in,
+  .twinkle,
+  .word-in,
+  .wipe-in,
+  .star-in,
+  .spark-in,
+  .clouds-in,
+  .drift-near,
+  .drift-far,
+  .live,
+  .sky-layer {
+    animation: none;
+  }
+  .sky-layer {
+    translate: none;
+    transition: none;
+  }
+}
