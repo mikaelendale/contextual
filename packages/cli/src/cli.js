@@ -6,6 +6,7 @@ import { findRoot } from "./context.js"
 import { which } from "./which.js"
 
 const { version } = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"))
+const DOCS = "https://github.com/mikaelendale/contextual"
 
 const HELP = `usecontextual ${version}
 
@@ -13,8 +14,8 @@ Usage:
   usecontextual check [--branch <name>]   check the context in this repo
   usecontextual which <path>              show which feature owns a file
 
-Not built yet: init, update, check --fix, check --staged.
-Docs: https://github.com/mikaelendale/contextual`
+Not released yet: init, update, check --fix, check --staged.
+Docs: ${DOCS}`
 
 function parseArgs(args) {
   const flags = { _: [] }
@@ -34,7 +35,12 @@ function parseArgs(args) {
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`
 
-/** Runs the CLI and returns its exit code: 0 ok, 1 problems found, 2 usage errors. */
+function notReleased(what, err) {
+  err(`usecontextual ${what}: not released yet. See ${DOCS}`)
+  return 2
+}
+
+/** Runs the CLI and returns its exit code: 0 ok, 1 problems found, 2 usage errors and commands that aren't released yet. */
 export function runCli(argv, { cwd, out, err }) {
   const [command, ...rest] = argv
   const flags = parseArgs(rest)
@@ -47,10 +53,8 @@ export function runCli(argv, { cwd, out, err }) {
     out(version)
     return 0
   }
-  if (command === "init" || command === "update") {
-    err(`usecontextual ${command} isn't built yet.`)
-    return 2
-  }
+  if (command === "init" || command === "update") return notReleased(command, err)
+  if (command === "check" && (flags.fix || flags.staged)) return notReleased(`check --${flags.fix ? "fix" : "staged"}`, err)
   if (command !== "check" && command !== "which") {
     err(`Unknown command "${command}". Run usecontextual --help.`)
     return 2
@@ -63,10 +67,6 @@ export function runCli(argv, { cwd, out, err }) {
   }
 
   if (command === "check") {
-    if (flags.fix || flags.staged) {
-      err("check --fix and check --staged aren't built yet.")
-      return 2
-    }
     if (flags.branch === true) {
       err("--branch needs a branch name.")
       return 2
