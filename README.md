@@ -7,7 +7,23 @@ Contextual is an open source context structure for codebases: a folder of plain 
 > [!WARNING]
 > The npm package is **`usecontextual`**. `npx contextual` runs a different, unrelated package that has nothing to do with this project. Always type `npx usecontextual`.
 
-**Not released yet.** [`usecontextual` 0.0.1](https://www.npmjs.com/package/usecontextual) is on npm to hold the name. Only `check` and `which` work in it; the other commands print "not released yet". This repo is being built in the open.
+**Not released yet.** Version 0.0.1 is on npm to hold the name. Only `check` and `which` work in it; the other commands print "not released yet". This repo is being built in the open.
+
+## Install
+
+The package is [`usecontextual` on npm](https://www.npmjs.com/package/usecontextual). Run it without installing:
+
+```bash
+npx usecontextual
+```
+
+Or add it to your project as a dev dependency:
+
+```bash
+npm install --save-dev usecontextual
+```
+
+With pnpm, use `pnpm dlx usecontextual` or `pnpm add -D usecontextual`.
 
 ## How it will work
 
@@ -24,7 +40,7 @@ Contextual is an open source context structure for codebases: a folder of plain 
 | [`templates/`](templates/) | Every blank context file, plus `deslop.md` | Written |
 | [`example/`](example/) | A finished context folder for a small app, Linkboard, to imitate | Written |
 | [`skills/`](skills/) | The agent skills and the chat planning prompt | Not started |
-| [`packages/cli/`](packages/cli/) | The `usecontextual` npm package | `check` and `which`, published as 0.0.1 |
+| [`packages/cli/`](packages/cli/) | The [`usecontextual`](https://www.npmjs.com/package/usecontextual) npm package | `check` and `which`, published as 0.0.1 |
 | [`hooks/`](hooks/) | The git pre-commit hook | Not started |
 | [`presets/`](presets/) | Ready-made stacks: Next.js, and Laravel with Inertia and React | Not started |
 | [`site/`](site/) | The website, contextual.mikaelen.site | Teaser |
