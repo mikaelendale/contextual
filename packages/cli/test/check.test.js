@@ -206,6 +206,12 @@ test("a deslop result with no reason, no fix named, or a form deslop.md doesn't 
   hasError(dir, /links\/log\.md: "Deslop: looks fine" isn't a deslop result/)
 })
 
+test("not UI may carry a short reason", () => {
+  const dir = copyExample()
+  edit(dir, "context/features/teams/log.md", (t) => t.replace("- Deslop: not UI.", "- Deslop: not UI (an email subject only)"))
+  assert.deepEqual(errorsIn(dir), [])
+})
+
 // --- ownership: covers and shared (spec 3.8)
 
 test("with code present, the example passes the ownership checks too", () => {

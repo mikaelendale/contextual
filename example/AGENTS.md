@@ -18,7 +18,7 @@ Don't read other features' folders, `context/decisions/` or old log entries by d
 ### Before editing a file
 Run `npx usecontextual which <path>`. If it names a feature, read that feature's `README.md` first. If it says the path is shared, keep the change small and mention it in your log entry. If no feature owns the path, say so before changing it, then add the path to the right feature's `covers:` or to the `shared:` line in `context/architecture.md`.
 
-### Definition of done (every task)
+### Definition of done (every task on a feature)
 1. Add an entry at the top of the feature's `log.md`.
 2. Update the feature's `README.md` (status, acceptance boxes) and any facts that changed in its `build.md`, `tests.md` or `notes.md`.
 3. Rewrite `context/status/<branch>.md`, in 40 lines or fewer.

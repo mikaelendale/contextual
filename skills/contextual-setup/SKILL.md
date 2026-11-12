@@ -32,6 +32,7 @@ Read `contextual-plan.md` in full. Then fill the files in the order given in [re
 - Keep every heading the template has, in order. Delete each `<!-- fill: … -->` comment once its content is written.
 - Write only what the plan says or what follows directly from it. When something isn't decided, write "Not decided yet" and add the question to "Blocked / needs a human" in `context/status/main.md`.
 - Never edit between `<!-- contextual:start -->` and `<!-- contextual:end -->` in `AGENTS.md`, and never edit `context/design/deslop.md` or `context/features/_index.md`.
+- Write no `log.md` or other feature files. Setup isn't work on a feature, and a planned feature has only its `README.md`. The definition of done in `AGENTS.md` starts with the first feature.
 
 ## 4. Finish
 

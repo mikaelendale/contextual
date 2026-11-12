@@ -60,7 +60,7 @@ function deslopProblem(result) {
   if (/^not verified\b/i.test(result)) {
     return /^not verified[:,]?\s+\S/i.test(result) ? null : `${shown} must give the reason: "Deslop: not verified <reason>"`
   }
-  if (/^not UI\.?$/i.test(result)) return null
+  if (/^not UI\b/i.test(result)) return null
   return `${shown} isn't a deslop result: use "pass (<how checked>)", "fixed <what>", "not verified <reason>" or "not UI"`
 }
 
