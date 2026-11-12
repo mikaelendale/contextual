@@ -38,11 +38,11 @@ With pnpm, use `pnpm dlx usecontextual` or `pnpm add -D usecontextual`.
 
 | Folder | What it is | Status |
 |---|---|---|
-| [`docs/`](docs/) | [The spec](docs/spec.md) and [the plan-file format](docs/plan-file.md) | Written |
+| [`docs/`](docs/) | [The spec](docs/spec.md), [the plan-file format](docs/plan-file.md), [where each harness reads skills](docs/harnesses.md) and [the rules for this repo](docs/maintaining.md) | Written |
 | [`templates/`](templates/) | Every blank context file, plus `deslop.md` | Written |
 | [`example/`](example/) | A finished context folder for a small app, Linkboard, to imitate | Written |
-| [`skills/`](skills/) | The agent skills and the chat planning prompt | Not started |
-| [`packages/cli/`](packages/cli/) | The [`usecontextual`](https://www.npmjs.com/package/usecontextual) npm package | `check` and `which`, published as 0.0.1 |
+| [`skills/`](skills/) | The agent skills and the chat planning prompt | `contextual-setup` (from a plan, or from questions), `contextual-next` and `contextual-sync` written; tried in Claude Code. The chat prompt isn't started |
+| [`packages/cli/`](packages/cli/) | The [`usecontextual`](https://www.npmjs.com/package/usecontextual) npm package | `check`, `which` and `check --fix`, tested. 0.0.1 on npm has `check` and `which` |
 | [`hooks/`](hooks/) | The git pre-commit hook | Not started |
 | [`presets/`](presets/) | Ready-made stacks: Next.js, and Laravel with Inertia and React | Not started |
 | [`site/`](site/) | The website, contextual.mikaelen.site | Teaser |

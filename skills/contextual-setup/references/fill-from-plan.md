@@ -26,7 +26,7 @@ End Boundaries with the `shared:` line: the paths no single feature will own, in
 
 ## 5. `context/design/`
 
-- `principles.md`: from Design direction and Users. Turn the plain words into concrete values: color tokens with hex values and the contrast of muted text on the background (at least 4.5:1 for body text), font families, a type scale, a spacing scale, corner radius, motion, icons, and the words' tone. Say once, under Look and feel, that the values were proposed at setup and can be changed.
+- `principles.md`: from Design direction and Users. Turn the plain words into concrete values: color tokens with hex values, and each one's contrast against the background: at least 4.5:1 for body and muted text, and at least 3:1 for anything that marks a control, such as a field's outline or a focus ring. Then font families, a type scale, a spacing scale, corner radius, motion, icons, and the words' tone. Say once, under Look and feel, that the values were proposed at setup and can be changed.
 - `layouts.md`: one section for each page template the Phase 1 features need, with its structure from top to bottom. Include where the empty, loading and error states go.
 - `components.md`: keep the table header. Under it write "None yet. Add a row when you build a shared component."
 

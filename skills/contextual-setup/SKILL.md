@@ -35,7 +35,7 @@ Read `contextual-plan.md` in full. Then fill the files in the order given in [re
 
 ## 4. Finish
 
-1. Move `contextual-plan.md` to `context/idea.md` without changing a character. From now on nobody edits it.
+1. Move `contextual-plan.md` to `context/idea.md` without changing a character: plain `mv`, or `git mv` if `git ls-files contextual-plan.md` lists it. Then check that `context/idea.md` exists and the plan file is gone. From now on nobody edits `idea.md`.
 2. Run `<cli> check --fix`. It rebuilds the feature index and stores the hash of `idea.md`. Then fix every error it reports and run it again, until there are 0 errors. Before any code exists, these warnings are expected: no code outside `context/`, and `shared:` paths that match no files yet.
 3. If this is a git repo, commit everything setup wrote, plus what `init` added, as one commit on the default branch: `Set up Contextual`. Skip this if the person said not to commit.
 4. Tell the person, in a few lines, what you wrote, the open questions waiting for them, and that "build the next feature" starts Phase 1.

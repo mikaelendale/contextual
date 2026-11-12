@@ -1,7 +1,7 @@
 # Contextual — product and build spec
 
-Status: step 1 built and approved (templates, `deslop.md`, plan-file format, example). From step 3, `check` and `which` exist early, with tests. Steps 2–7 otherwise not started.
-Written: November 2026. Last updated: 10 November 2026 (harness behaviour verified against official docs, npm name `usecontextual`, a marked block in `AGENTS.md`, hook rules, collapsed feature index and `which`, sync fallbacks, one public repo with the site in `site/`). Section 14 lists every change.
+Status: step 1 built and approved (templates, `deslop.md`, plan-file format, example). Step 2 built and tried in Claude Code (the three agent skills, without setup path 3), waiting for review. From step 3, `check`, `which` and part of `check --fix` exist early, with tests. Steps 3–7 otherwise not started.
+Written: November 2026. Last updated: 12 November 2026 (deslop results, the agent skills, `check --fix`; harnesses checked again). Before that, 10 November 2026 (harness behaviour verified against official docs, npm name `usecontextual`, a marked block in `AGENTS.md`, hook rules, collapsed feature index and `which`, sync fallbacks, one public repo with the site in `site/`). Section 14 lists every change.
 Audience: whoever builds this (including a coding agent starting with no prior context).
 
 ---
@@ -423,6 +423,7 @@ Three skills in the standard `SKILL.md` format, installed into the repo by the p
 - `name` equals the folder name: lowercase letters, digits and single hyphens, 64 characters at most.
 - `description` is at most 1,024 characters and starts with the trigger phrases. Codex shortens descriptions when many skills are installed, so what comes first is what survives.
 - Supporting files, such as the feature templates, ship inside the skill's folder.
+- Each skill stays short. `SKILL.md` lists the steps in order, in about 40 lines. Detail for one step goes in `references/`, which the agent reads only when that step comes up. The templates the skill creates files from go in `assets/`, as exact copies of the files in `templates/`; tests catch a copy that drifted. Paths are one level deep (Agent Skills specification; [harnesses.md](harnesses.md)).
 
 ### `contextual-setup` — one skill, three paths
 
@@ -494,7 +495,7 @@ contextual/
 
 1. **Templates and example.** Everything else depends on these. Includes `deslop.md` and the plan-file format. *Done 10 November 2026.*
 2. **Agent skills**: `contextual-setup` paths 1 and 2, `contextual-next`, `contextual-sync`.
-3. **Package**: `init`, `check`, `update`, `which`, harness detection, and the git hook. *Started early: `check` (without `--fix` and `--staged`) and `which`, tested against `example/`.*
+3. **Package**: `init`, `check`, `update`, `which`, harness detection, and the git hook. *Started early: `check`, `which` and part of `check --fix` (rebuilding the index, storing the `idea.md` hash; the skills need both), tested against `example/`. Not built: `--staged`, and `--fix` creating a missing status file, which comes with `init` and its templates.*
 4. **Chat skill** and the copy-paste prompt.
 5. **`contextual-setup` path 3** (existing codebases).
 6. **Testing** (section 10).
@@ -582,6 +583,11 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 ## 14. Revision history
 
+- **12 November 2026.**
+  - Deslop results: `pass (<how it was checked>)`, `fixed <what>`, `not verified <reason>`, `not UI`. `check` validates them (sections 3.6, 6.1).
+  - Step 2 built: `contextual-setup` paths 1 and 2, `contextual-next` and `contextual-sync`, each a short `SKILL.md` with `references/` and `assets/` (section 7.1). Tried for real in Claude Code.
+  - `check --fix` rebuilds the index and stores the `idea.md` hash. The plan parser ignores the sample phase in the template's comment, so a fresh repo passes `check`.
+  - Harnesses checked again; findings and links in `docs/harnesses.md`. Rules for working on this repo in `docs/maintaining.md`.
 - **10 November 2026, third revision.**
   - Step 1 approved.
   - Shared code is declared on a `shared:` line in `architecture.md`. A changed file with no owner gets "no feature owns this path" (sections 3.8, 6.1, 6.2).
