@@ -1,4 +1,5 @@
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { execFileSync } from "node:child_process"
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -59,4 +60,24 @@ export function addCode(dir) {
   for (const glob of readShared(readText(join(dir, "context", "architecture.md"))) ?? []) {
     write(dir, sampleFor(glob), "// stand-in\n")
   }
+}
+
+/** A new, empty git repo in a temp folder, removed when the process exits. */
+export function tempRepo() {
+  const dir = mkdtempSync(join(tmpdir(), "usecontextual-repo-"))
+  copies.push(dir)
+  gitIn(dir, ["init", "-q", "-b", "main"])
+  return dir
+}
+
+/** Turns a folder (like a copy of example/) into a git repo with everything committed on main. */
+export function commitAll(dir, message = "Start") {
+  if (!existsSync(join(dir, ".git"))) gitIn(dir, ["init", "-q", "-b", "main"])
+  gitIn(dir, ["add", "-A"])
+  gitIn(dir, ["commit", "-q", "--no-verify", "-m", message])
+}
+
+const IDENTITY = ["-c", "user.name=Test", "-c", "user.email=test@example.invalid", "-c", "commit.gpgsign=false"]
+export function gitIn(dir, args, options = {}) {
+  return execFileSync("git", [...IDENTITY, ...args], { cwd: dir, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], ...options })
 }
