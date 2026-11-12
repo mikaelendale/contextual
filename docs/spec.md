@@ -1,6 +1,6 @@
 # Contextual — product and build spec
 
-Status: step 1 built and approved (templates, `deslop.md`, plan-file format, example). Step 2 built and tried in Claude Code (the three agent skills, without setup path 3), waiting for review. From step 3, `check`, `which` and part of `check --fix` exist early, with tests. Steps 3–7 otherwise not started.
+Status: steps 1 to 5 built on the branch `build/v0.1` (13–14 November 2026), and 0.1.0 is ready to publish. Tried for real in Claude Code, Codex and OpenCode (`docs/trials/`). Not yet tried in Antigravity. Steps 6 and 7 (wider testing, launch) are next.
 Written: November 2026. Last updated: 12 November 2026 (deslop results, the agent skills, `check --fix`; harnesses checked again). Before that, 10 November 2026 (harness behaviour verified against official docs, npm name `usecontextual`, a marked block in `AGENTS.md`, hook rules, collapsed feature index and `which`, sync fallbacks, one public repo with the site in `site/`). Section 14 lists every change.
 Audience: whoever builds this (including a coding agent starting with no prior context).
 
@@ -67,8 +67,8 @@ Verified on 10 November 2026 against each tool's official docs, and against its 
 |---|---|---|---|---|
 | Claude Code | Fully supported, tested by us | `CLAUDE.md`, which imports `AGENTS.md`. It reads `AGENTS.md` directly only when there is no `CLAUDE.md` | `.claude/skills/` | `/contextual-setup` |
 | Codex | Fully supported, tested by us | `AGENTS.md`, from the repo root down to the working directory, 32 KiB combined | `.agents/skills/` | `$contextual-setup` |
-| Antigravity | Supported through the standards, lightly tested | `AGENTS.md` (combined with `GEMINI.md` when both exist) | `.agents/skills/` (the older `.agent/skills/` still works) | `/contextual-setup` |
-| OpenCode | Supported through the standards, lightly tested | `AGENTS.md` only. Version 2 never reads `CLAUDE.md` | `.agents/skills/`, `.claude/skills/`, `.opencode/skills/` | `@contextual-setup` |
+| Antigravity | Supported through the standards, not yet tested | `AGENTS.md` (combined with `GEMINI.md` when both exist) | `.agents/skills/` (the older `.agent/skills/` still works) | `/contextual-setup` |
+| OpenCode | Supported through the standards, tested once (setup and one feature) | `AGENTS.md` only. Version 2 never reads `CLAUDE.md` | `.agents/skills/`, `.claude/skills/`, `.opencode/skills/` | `@contextual-setup` |
 | Cursor, Copilot, others | Probably works, untested, no promises | `AGENTS.md` | varies | varies |
 
 What follows from the table:
@@ -499,9 +499,9 @@ contextual/
 
 1. **Templates and example.** Everything else depends on these. Includes `deslop.md` and the plan-file format. *Done 10 November 2026.*
 2. **Agent skills**: `contextual-setup` paths 1 and 2, `contextual-next`, `contextual-sync`.
-3. **Package**: `init`, `check`, `update`, `which`, harness detection, and the git hook. *Started early: `check`, `which` and part of `check --fix` (rebuilding the index, storing the `idea.md` hash; the skills need both), tested against `example/`. Not built: `--staged`, and `--fix` creating a missing status file, which comes with `init` and its templates.*
-4. **Chat skill** and the copy-paste prompt.
-5. **`contextual-setup` path 3** (existing codebases).
+3. **Package**: `init`, `check`, `update`, `which`, harness detection, and the git hook. *Built 13 November 2026, with presets.*
+4. **Chat skill** and the copy-paste prompt. *Built 13 November 2026.*
+5. **`contextual-setup` path 3** (existing codebases). *Built 13 November 2026; tried on mdn/todo-react.*
 6. **Testing** (section 10).
 7. **Docs and launch.**
 
@@ -587,6 +587,11 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 ## 14. Revision history
 
+- **13–14 November 2026, overnight build (branch `build/v0.1`).**
+  - The CLI's `init`, `update`, `check --staged` and the pre-commit hook (section 6). Presets for Next.js and for Laravel with Inertia and React.
+  - `contextual-plan`: the chat skill and the copy-paste prompt. `contextual-setup` path 3.
+  - Trials in Claude Code, Codex and OpenCode, including full runs from a packed 0.1.0 (`docs/trials/`). The harness table in section 2 now says what was tested.
+  - Small rule changes from the trials: the definition of done applies to tasks on a feature; `not UI` may carry a reason; a plan may have one sentence under a phase heading.
 - **13 November 2026.**
   - `deslop.md`: a ninth checklist line, 3:1 contrast for field outlines and focus rings.
   - Every project gets a first feature, `foundation`, for the app shell, layouts and config; `shared:` is only for generated files and UI building blocks, and `check` warns when more than a third of owned files are on it (sections 3.8, 6.1, 7). The example has a `foundation` feature.

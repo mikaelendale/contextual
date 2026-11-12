@@ -19,11 +19,11 @@ The overnight build of 13–14 November 2026, on the branch `build/v0.1`. Read t
 | 1 | Finish the current round: Codex, OpenCode, Antigravity runs; the setup-log conflict; a real sync; a browser run ending in "Deslop: pass" | Done, except Antigravity (not signed in) |
 | 2 | CLI: `init`, `update`, `check --staged`, the hook | Done (4eeaf8f) |
 | 3 | Presets: Next.js; Laravel with Inertia and React | Done (453e55f) |
-| 4 | `contextual-plan`: the chat skill and the copy-paste prompt | Done (1cfd090); setup on the prompt's plan running in OpenCode |
-| 5 | `contextual-setup` path 3, existing code | Written; trial on mdn/todo-react running (turn 2) |
-| 6 | Full run from zero with a packed tarball, in Claude Code and Codex | |
-| 7 | Docs: quickstart, a page per skill, the tested-harness table, CHANGELOG | Skill pages and CHANGELOG written, not committed |
-| 8 | Prepare 0.1.0: version, `npm pack --dry-run`, file list. Don't publish | |
+| 4 | `contextual-plan`: the chat skill and the copy-paste prompt | Done (1cfd090). OpenCode's setup on the prompt's plan: 0 errors |
+| 5 | `contextual-setup` path 3, existing code | Done. Trial on mdn/todo-react: 0 errors, 0 warnings (docs/trials/2026-11-13-path3-todo-react) |
+| 6 | Full run from zero with a packed tarball, in Claude Code and Codex | In progress: ~/contextual-trials/full-cc and full-codex, setup running |
+| 7 | Docs: quickstart, a page per skill, the tested-harness table, CHANGELOG | Done (8cd1146). The README's Claude Code explicit-call cell needs stage 6 to confirm it |
+| 8 | Prepare 0.1.0: version, `npm pack --dry-run`, file list. Don't publish | Version bumped (dfa7ec2); file list to do |
 | 9 | `docs/overnight-report.md` | |
 
 ## Done so far
@@ -58,6 +58,7 @@ Claude Code reports a cost for each headless run; Codex runs on the ChatGPT plan
 | Build add-items with Playwright | Claude Code | $0.95 |
 | contextual-plan skill | Claude Code | $0.25 |
 | Path 3 proposal (mdn/todo-react) | Claude Code | $0.28 |
+| Path 3 write | Claude Code | $1.22 |
 | contextual-plan prompt | Codex | ChatGPT plan |
 | Setup from the prompt's plan | OpenCode | free model |
 | Setup, then foundation | Codex | ChatGPT plan, no cost reported |
