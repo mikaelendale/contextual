@@ -5,7 +5,7 @@ import { readdirSync, statSync } from "node:fs"
 import { join } from "node:path"
 import { test } from "node:test"
 
-import { contextualBlock, readText } from "../src/context.js"
+import { contextualBlock, hashText, readText } from "../src/context.js"
 import { example, templates } from "./helpers.js"
 
 const walk = (dir) =>
@@ -22,6 +22,22 @@ test("the example ships deslop.md unchanged", () => {
     readText(join(example, "context", "design", "deslop.md")),
     readText(join(templates, "repo", "context", "design", "deslop.md")),
   )
+})
+
+test("the example's deslop.md hash in .meta.json is the shipped file's hash", () => {
+  const meta = JSON.parse(readText(join(example, "context", ".meta.json")))
+  assert.equal(meta.hashes.deslop, hashText(readText(join(templates, "repo", "context", "design", "deslop.md"))))
+})
+
+test("the example's logs show every deslop result: pass with how it was checked, fixed, not verified, not UI", () => {
+  const featuresDir = join(example, "context", "features")
+  const lines = walk(featuresDir)
+    .filter((p) => p.endsWith("log.md"))
+    .flatMap((p) => readText(p).split("\n"))
+    .filter((l) => l.startsWith("- Deslop: "))
+  for (const form of [/^- Deslop: pass \(.+\)$/, /^- Deslop: fixed \S/, /^- Deslop: not verified \S/, /^- Deslop: not UI\.?$/]) {
+    assert.ok(lines.some((l) => form.test(l)), `no log line matches ${form}`)
+  }
 })
 
 test("the example has every file the repo template lays down", () => {

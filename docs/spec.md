@@ -212,7 +212,7 @@ The first sentence under "What it does" becomes the feature's line in `_index.md
 
 **`notes.md`** — gotchas that broke or surprised us, and open questions a human must decide.
 
-**`log.md`** — one entry per task, newest first, dated (no global numbering). What changed, what tests were added, what was left open, and the deslop check result for UI work. Each entry starts with `## <YYYY-MM-DD> · <agent> · <what was done>`.
+**`log.md`** — one entry per task, newest first, dated (no global numbering). What changed, what tests were added, what was left open, and the deslop result (section 3.6). Each entry starts with `## <YYYY-MM-DD> · <agent> · <what was done>`.
 
 A **planned** feature has only `README.md`. The other four files are created when work starts. This avoids dozens of empty files.
 
@@ -237,6 +237,17 @@ Starting ban list:
 - Lists, tables, and async actions with no empty, loading, or error state.
 
 `deslop.md` says what to avoid. `principles.md` says what to do for this project (colors, type scale, spacing scale, radius, tone). Both are required reading for UI work.
+
+**The result goes in the log entry**, as one of four forms:
+
+| Result | When |
+|---|---|
+| `Deslop: pass (<how it was checked>)` | Every item passed. The parentheses name a screenshot path or the tool used (for example "Playwright screenshots at 375px and 1280px"). A pass without them is an error |
+| `Deslop: fixed <what>` | Problems were found and fixed |
+| `Deslop: not verified <reason>` | The UI couldn't be rendered (no browser, no dev server), so the checklist couldn't run. The next session that can render it runs the checklist |
+| `Deslop: not UI` | The task didn't touch the UI |
+
+An agent never writes `pass` for a screen it hasn't seen. `check` rejects any other form (section 6.1).
 
 ### 3.7 `.meta.json`
 
@@ -282,7 +293,7 @@ Target: the agent spends under roughly 3,000 tokens on context before starting w
 1. Add an entry to the feature's `log.md`.
 2. Update the feature's `README.md` (status, acceptance boxes) and any changed facts in `build.md` / `tests.md` / `notes.md`.
 3. Rewrite the status file for the current branch.
-4. If the task touched UI: run the deslop checklist and record the result in the log entry.
+4. If the task touched UI: run the deslop checklist and record the result in the log entry, in one of the forms in section 3.6.
 
 A task missing any of these is not done. This is an instruction in AGENTS.md, backed by a git pre-commit hook that runs `usecontextual check --staged` (section 6.2). Git does not care which agent is driving, so enforcement works in every harness, on every clone where the hook is installed.
 
@@ -366,6 +377,7 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 - A status file exists for the current branch.
 - The two skill copies are identical, and every `SKILL.md` has valid frontmatter (section 7.1). Harnesses skip a malformed skill without a word, so this is the only place the problem shows up.
 - No template guidance (`<!-- fill: … -->` comments) is left in a file after setup (warning only).
+- Every `Deslop:` line in a feature's `log.md` is one of the four results in section 3.6, and a `pass` says how it was checked.
 - `idea.md` and `deslop.md` are unmodified (hash check; warning only).
 
 Exit code is non-zero on errors. It runs in the git pre-commit hook that `init` installs, and can also run in CI.

@@ -50,6 +50,20 @@ const LOG_HEADING = /^(\d{4}-\d{2}-\d{2}) · \S+ · \S.*$/
 const DECISION_FILE = /^\d{4}-\d{2}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$/
 const stripComments = (text) => text.replace(/<!--[\s\S]*?-->/g, "")
 
+/** The four results design/deslop.md allows in a log entry. Returns what's wrong with one, or null. */
+function deslopProblem(result) {
+  const shown = `"Deslop: ${result}"`
+  if (/^pass\b/i.test(result)) {
+    return /^pass \(.*\S.*\)\.?$/i.test(result) ? null : `${shown} must say how it was checked: "Deslop: pass (<screenshot path or tool>)"`
+  }
+  if (/^fixed\b/i.test(result)) return /^fixed:?\s+\S/i.test(result) ? null : `${shown} must say what was fixed: "Deslop: fixed <what>"`
+  if (/^not verified\b/i.test(result)) {
+    return /^not verified[:,]?\s+\S/i.test(result) ? null : `${shown} must give the reason: "Deslop: not verified <reason>"`
+  }
+  if (/^not UI\.?$/i.test(result)) return null
+  return `${shown} isn't a deslop result: use "pass (<how checked>)", "fixed <what>", "not verified <reason>" or "not UI"`
+}
+
 function walkMarkdown(dir) {
   if (!existsSync(dir)) return []
   return readdirSync(dir).flatMap((name) => {
@@ -240,6 +254,10 @@ export function check({ root, branch = null }) {
         }
         if (previous && date > previous) warn(file, `entries should be newest first ("${heading}" comes after an older entry)`)
         previous = date
+      }
+      for (const m of visible.matchAll(/^[ \t]*(?:[-*][ \t]+)?Deslop:[ \t]*(.*)$/gm)) {
+        const problem = deslopProblem(m[1].trim())
+        if (problem) error(file, problem)
       }
     }
   }

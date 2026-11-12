@@ -3,9 +3,9 @@ Newest first. One entry per task.
 
 ## 2026-11-05 · codex · "Add to board" in the link menu (from feat/boards)
 - Changed: `src/app/app/links/page.tsx` passes boards' `AddToBoardMenu` into `LinkRow`'s `menuSlot`. Nothing else in links changed.
-- Tests: `pnpm test:e2e e2e/links.spec.ts` 5/5 pass.
+- Tests: `pnpm vitest run src/features/links` 23/23 pass. No e2e run: this session had no browser installed.
 - Left open: nothing.
-- Deslop: pass
+- Deslop: not verified (Codex session with no browser installed; the next session that can run Playwright checks the menu)
 
 ## 2026-10-21 · claude-code · Merged to main
 - Changed: contextual-sync on main: status → shipped, ticked in build-plan.md, deleted status/feat-links.md, added a line to status/main.md.
@@ -17,16 +17,16 @@ Newest first. One entry per task.
 - Changed: edit dialog, and delete with a confirm, in the link's ⋯ menu. `updateLink` and `deleteLink` check `created_by`.
 - Tests: 4 unit tests for who can edit and delete; e2e "edit" and "delete" pass.
 - Left open: nothing.
-- Deslop: fixed: the delete confirm had two primary buttons; now one destructive button and a secondary Cancel.
+- Deslop: fixed the delete confirm's two primary buttons; it has one destructive button and a secondary Cancel now.
 
 ## 2026-10-13 · claude-code · Duplicate links
 - Changed: `normalizeUrl()` and the unique index; saving a URL the team already has highlights the existing link.
 - Tests: `normalize.test.ts` (14 cases); e2e "duplicate" passes.
 - Left open: edit and delete.
-- Deslop: pass
+- Deslop: pass (screenshot of the highlighted duplicate at 375px: e2e/screens/links-duplicate.png)
 
 ## 2026-10-09 · claude-code · Save a link, list the team's links
 - Changed: branch `feat/links`; `links` table (`drizzle/0003_links.sql`); the save form; `/app/links` with its empty and loading states; `/app` now redirects to it.
 - Tests: 5 unit tests for `saveLink`; e2e "save" and "invalid URL" pass.
 - Left open: duplicates; edit and delete.
-- Deslop: pass
+- Deslop: pass (Playwright screenshots of /app/links empty, loading and with links, at 375px and 1280px)

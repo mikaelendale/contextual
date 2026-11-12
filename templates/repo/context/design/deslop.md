@@ -50,4 +50,11 @@ Read this before any UI work. When the work is done, run the checklist at the bo
 7. At 375px wide nothing overflows, overlaps or scrolls sideways.
 8. Every heading, button and message says something specific to this product.
 
-Record the result in the log entry as `Deslop: pass` or `Deslop: fixed <what>`. Anything you couldn't fix goes under Open questions in the feature's `notes.md`.
+Record the result in the log entry as one of these:
+
+- `Deslop: pass (<how you checked>)`: every item passed. Say how you saw the screens: a screenshot path, or the tool you used, such as `Playwright screenshots at 375px and 1280px`.
+- `Deslop: fixed <what>`: you found problems and fixed them.
+- `Deslop: not verified <reason>`: you couldn't render the UI, so you couldn't run the checklist. Say why. The next session that can render it runs the checklist.
+- `Deslop: not UI`: the task didn't touch the UI.
+
+Never write `pass` for a screen you haven't seen. Anything you couldn't fix goes under Open questions in the feature's `notes.md`.

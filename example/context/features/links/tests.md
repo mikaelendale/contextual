@@ -21,4 +21,4 @@ After signing in, the app opens on Links. "Save link" is at the top right, or pr
 - No new row after step 4.
 
 ## Last result
-2026-11-05 · e2e 5/5 pass (rerun after boards changed the links page; see log). Before that: 2026-10-21 · vitest 23/23 pass, e2e 5/5 pass, manual steps 1–5 checked.
+2026-11-08 · e2e 5/5 pass, run from feat/boards: the first e2e run since boards changed the links page on 2026-11-05 (see log). Before that: 2026-10-21 · vitest 23/23 pass, e2e 5/5 pass, manual steps 1–5 checked.

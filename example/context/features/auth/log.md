@@ -11,10 +11,10 @@ Newest first. One entry per task.
 - Changed: account menu with Sign out; `requireSession()`; `src/proxy.ts` redirects signed-out visitors away from `/app`.
 - Tests: e2e "redirects when signed out" and "signs out" pass.
 - Left open: nothing.
-- Deslop: pass
+- Deslop: pass (Playwright screenshots of the account menu at 375px and 1280px)
 
 ## 2026-09-18 · claude-code · Magic-link sign-in
 - Changed: branch `feat/auth`; Better Auth with the Drizzle adapter and the magic-link plugin (links expire after 10 minutes); `/sign-in`; development emails print to the terminal.
 - Tests: e2e "sign-in link works once" passes.
 - Left open: signing out; redirecting signed-out visitors.
-- Deslop: fixed: the form sat under a large illustration; now the plain Auth page layout.
+- Deslop: fixed the form sitting under a large illustration; it uses the plain Auth page layout now.

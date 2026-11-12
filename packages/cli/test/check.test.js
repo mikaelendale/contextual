@@ -188,6 +188,24 @@ test("an edited idea.md is a warning, not an error", () => {
   assert.ok(warningsIn(dir).some((w) => /idea\.md/.test(w.file ?? "") && /changed since setup/.test(w.message)))
 })
 
+// --- deslop results in log entries (design/deslop.md)
+
+test("a deslop pass that doesn't say how it was checked", () => {
+  const dir = copyExample()
+  edit(dir, "context/features/auth/log.md", (t) => t.replace("- Deslop: pass (Playwright screenshots of the account menu at 375px and 1280px)", "- Deslop: pass"))
+  hasError(dir, /auth\/log\.md: "Deslop: pass" must say how it was checked/)
+})
+
+test("a deslop result with no reason, no fix named, or a form deslop.md doesn't allow", () => {
+  const dir = copyExample()
+  edit(dir, "context/features/teams/log.md", (t) => t.replace("- Deslop: not UI.", "- Deslop: not verified"))
+  edit(dir, "context/features/auth/log.md", (t) => t.replace("- Deslop: not UI.", "- Deslop: fixed"))
+  edit(dir, "context/features/links/log.md", (t) => t.replace("- Deslop: not UI.", "- Deslop: looks fine"))
+  hasError(dir, /teams\/log\.md: "Deslop: not verified" must give the reason/)
+  hasError(dir, /auth\/log\.md: "Deslop: fixed" must say what was fixed/)
+  hasError(dir, /links\/log\.md: "Deslop: looks fine" isn't a deslop result/)
+})
+
 // --- ownership: covers and shared (spec 3.8)
 
 test("with code present, the example passes the ownership checks too", () => {
