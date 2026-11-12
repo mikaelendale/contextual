@@ -320,11 +320,21 @@ export function check({ root, branch = null }) {
     for (const glob of shared ?? []) {
       if (!projectFiles.some((p) => matches(p, glob))) warn("context/architecture.md", `shared: ${glob} matches no files`)
     }
+    let withOwner = 0
+    let onlyShared = 0
     for (const p of projectFiles) {
       const owners = features.filter((f) => f.covers.some((g) => matches(p, g))).map((f) => f.name)
       const isShared = (shared ?? []).some((g) => matches(p, g))
       if (owners.length > 1) error(p, `is covered by more than one feature: ${owners.join(", ")}`)
       else if (owners.length === 1 && isShared) error(p, `is covered by ${owners[0]} and is also on the shared: line`)
+      if (owners.length > 0 || isShared) withOwner++
+      if (owners.length === 0 && isShared) onlyShared++
+    }
+    if (onlyShared * 3 > withOwner) {
+      warn(
+        "context/architecture.md",
+        `${onlyShared} of the ${withOwner} files with an owner are on the shared: line, more than a third. Keep shared: for generated files and UI building blocks; the app shell, layout and config belong to the foundation feature`,
+      )
     }
   }
 

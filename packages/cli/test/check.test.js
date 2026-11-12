@@ -227,7 +227,7 @@ test("a file covered by two features", () => {
 test("a file covered by a feature and on the shared: line", () => {
   const dir = copyExample()
   addCode(dir)
-  edit(dir, "context/architecture.md", (t) => t.replace("shared: *,", "shared: *, src/features/links/**,"))
+  edit(dir, "context/architecture.md", (t) => t.replace("shared: src/components/**,", "shared: src/components/**, src/features/links/**,"))
   hasError(dir, /is covered by links and is also on the shared: line/)
 })
 
@@ -243,8 +243,17 @@ test("a shipped feature whose covers: matches nothing is an error; in progress, 
 test("a shared: glob that matches nothing is a warning", () => {
   const dir = copyExample()
   addCode(dir)
-  edit(dir, "context/architecture.md", (t) => t.replace("shared: *,", "shared: *, scripts/**,"))
+  edit(dir, "context/architecture.md", (t) => t.replace("shared: src/components/**,", "shared: src/components/**, scripts/**,"))
   assert.ok(warningsIn(dir).some((w) => /shared: scripts\/\*\* matches no files/.test(w.message)))
+})
+
+test("more than a third of owned files on the shared: line is a warning", () => {
+  const dir = copyExample()
+  addCode(dir)
+  assert.ok(!warningsIn(dir).some((w) => /more than a third/.test(w.message)), "the example itself shouldn't trip it")
+  for (let i = 0; i < 30; i++) write(dir, `src/components/app/piece-${i}.tsx`, "// stand-in\n")
+  assert.ok(warningsIn(dir).some((w) => /files with an owner are on the shared: line, more than a third/.test(w.message)), describe(warningsIn(dir)))
+  assert.deepEqual(errorsIn(dir), [])
 })
 
 // --- skills (spec 7.1)

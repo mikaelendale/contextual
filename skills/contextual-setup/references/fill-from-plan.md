@@ -2,6 +2,8 @@
 
 Fill the files in this order. Later files depend on choices made in earlier ones: `conventions.md` decides where code goes, and the feature READMEs' `covers:` paths follow from it.
 
+Every project gets one feature the plan doesn't list: **`foundation`**, always the first item of Phase 1. It owns the app shell, the layouts, the config files at the repo root and the test setup, so that code has a real owner instead of piling up on the `shared:` line.
+
 ## 1. `AGENTS.md`
 
 Replace the comment above the Contextual block with `# <Project name>` and, on the next line, one sentence saying what the project is, taken from Idea. Don't touch anything between the markers.
@@ -16,13 +18,13 @@ Replace the comment above the Contextual block with `# <Project name>` and, on t
 
 ## 3. `context/conventions.md`
 
-From the stack: the lint and format commands (or "None yet"), **where new code goes** (folders per feature, shared folders), naming, the test tools and the exact command to run one feature's tests, the git rules (`feat/<feature>` branches; tiny fixes may go straight on the default branch; the person merges), and how errors reach the user.
+From the stack: the lint and format commands (or "None yet"), **where new code goes** (folders per feature, the app shell and config, which `foundation` owns, and the folder for UI building blocks), naming, the test tools and the exact command to run one feature's tests, the git rules (`feat/<feature>` branches; tiny fixes may go straight on the default branch; the person merges), and how errors reach the user. Keep the template's "Packages and tools" section exactly as it is.
 
 ## 4. `context/architecture.md`
 
 Describe the system as planned. It's fine that nothing is built yet: say "Planned" where it helps. Overview, Parts, How a request flows (one user action, step by step, with the file paths it will use), Data (what is stored, where, and which feature owns it), Outside services ("None" if none).
 
-End Boundaries with the `shared:` line: the paths no single feature will own, in the same glob form as `covers:`. For example, root config files (`*`), the app shell, shared UI and styles. Make sure no feature's `covers:` overlaps them.
+End Boundaries with the `shared:` line, in the same glob form as `covers:`. It lists only generated files (such as migrations) and UI building blocks (such as a `components/` folder). The app shell, layout and config go in `foundation`'s `covers:`, not here. Make sure no feature's `covers:` overlaps the line. If the stack has neither generated files nor UI building blocks yet, leave the line as `shared:` with nothing after it.
 
 ## 5. `context/design/`
 
@@ -36,11 +38,12 @@ One section per phase, in order, all `[planned]`:
 
 ```
 ## Phase 1 — The list  [planned]
+- [ ] features/foundation
 - [ ] features/add-items
 - [ ] features/check-off-items
 ```
 
-The heading is `## Phase <n> — <name>`, with an em dash, then two spaces and the marker. Items are `- [ ] features/<folder>`, in the plan's order. Delete the template comment.
+The heading is `## Phase <n> — <name>`, with an em dash, then two spaces and the marker. Items are `- [ ] features/<folder>`, in the plan's order, after `- [ ] features/foundation` at the top of Phase 1. Delete the template comment.
 
 ## 7. `context/features/<folder>/README.md`, one per feature
 
@@ -52,13 +55,21 @@ Create a folder for every feature in every phase, named after the feature in keb
 - What it does: the first sentence must make sense alone, because it becomes the feature's line in the index. Up to three more sentences.
 - Acceptance: one `- [ ] ` checkbox per acceptance line in the plan, in the plan's words.
 
+`foundation/README.md` is written the same way, from what the plan implies rather than from feature lines:
+
+- `covers:` the root config files (`*`), the app shell and layouts, global styles and the test setup, as `conventions.md` places them. `depends-on: none`.
+- What it does: "The app shell every other feature builds on: …", naming what it sets up for this stack.
+- Acceptance: two to four lines anyone can check, taken from Platform, Stack and Design direction. For example: the steps in `stack/requirements.md` end with the app open; the main layout matches `design/layouts.md` at 375px and at desktop width; a must-have such as working offline actually works.
+
+Every other Phase 1 feature has `foundation` in its `depends-on:`.
+
 ## 8. `context/status/main.md`
 
 - Updated: today's date, and you as the agent (`claude-code`, `codex`, `antigravity` or `opencode`).
 - Current phase: Phase 1 and its features. Nothing is built yet.
 - Recently merged: "Nothing yet."
 - Blocked / needs a human: every Open question from the plan, plus anything you marked "Not decided yet". "Nothing." if there are none.
-- Next: the first feature of Phase 1, and why it comes first.
+- Next: `foundation`, then the first feature of Phase 1.
 
 Keep it under 40 lines.
 

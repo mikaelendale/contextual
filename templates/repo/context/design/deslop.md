@@ -47,8 +47,9 @@ Read this before any UI work. When the work is done, run the checklist at the bo
 4. Every list, table and async action has an empty, a loading and an error state, and you have seen each one on screen.
 5. Every control works with the keyboard and shows a visible focus ring.
 6. Body text has a contrast ratio of at least 4.5:1 against its background.
-7. At 375px wide nothing overflows, overlaps or scrolls sideways.
-8. Every heading, button and message says something specific to this product.
+7. Field outlines and focus rings have a contrast ratio of at least 3:1 against the colors next to them.
+8. At 375px wide nothing overflows, overlaps or scrolls sideways.
+9. Every heading, button and message says something specific to this product.
 
 Record the result in the log entry as one of these:
 

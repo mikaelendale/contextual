@@ -38,6 +38,7 @@ Each feature keeps its tables in its own `schema.ts`; `drizzle.config.ts` collec
 - Features use each other only through `schema.ts` (for foreign keys) and exported components (like `LinkRow` and its `menuSlot`).
 - Only `actions.ts` files write to the database.
 - Every query filters by `team_id`.
-- Code no single feature owns is listed on the line below: the files at the repo root (config), the app shell, UI components, the database client, migrations, test helpers and static files.
+- The app shell, the config at the repo root, the database client, the test setup and static files belong to the `foundation` feature.
+- The line below lists only what no feature owns: UI building blocks and generated migrations.
 
-shared: *, src/app/*.tsx, src/app/globals.css, src/app/app/layout.tsx, src/app/app/error.tsx, src/components/**, src/db/index.ts, drizzle/**, e2e/helpers/**, public/**
+shared: src/components/**, drizzle/**

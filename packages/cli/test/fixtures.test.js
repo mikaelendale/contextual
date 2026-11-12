@@ -40,6 +40,11 @@ test("the example's logs show every deslop result: pass with how it was checked,
   }
 })
 
+test("the example keeps the conventions template's fixed rule on packages and tools", () => {
+  const section = readText(join(templates, "repo", "context", "conventions.md")).match(/## Packages and tools\n[^#]+/)[0]
+  assert.ok(readText(join(example, "context", "conventions.md")).includes(section))
+})
+
 test("the example has every file the repo template lays down", () => {
   const base = join(templates, "repo")
   for (const path of walk(base)) {

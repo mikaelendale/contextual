@@ -218,7 +218,7 @@ A **planned** feature has only `README.md`. The other four files are created whe
 
 ### 3.6 `design/deslop.md`
 
-Shipped by default, identical in every project, never generated. It is a ban list plus a checklist the agent runs after any UI work. The first full version is `templates/repo/context/design/deslop.md`; it grows the starting list below into five groups (color and effects, layout, icons and images, words, controls and states) and an eight-step checklist.
+Shipped by default, identical in every project, never generated. It is a ban list plus a checklist the agent runs after any UI work. The first full version is `templates/repo/context/design/deslop.md`; it grows the starting list below into five groups (color and effects, layout, icons and images, words, controls and states) and a nine-step checklist, which includes 4.5:1 contrast for body text and 3:1 for field outlines and focus rings.
 
 Starting ban list:
 
@@ -264,11 +264,13 @@ An agent never writes `pass` for a screen it hasn't seen. `check` rejects any ot
 Every file outside `context/` has exactly one owner:
 
 - **A feature**, through the `covers:` globs in its README.
-- **The shared list**, for code no single feature owns: generated migrations, UI primitives, the app shell. It is one line at the end of the Boundaries section of `context/architecture.md`, in the same glob syntax as `covers:`:
+- **The shared list**, only for generated files (such as migrations) and UI building blocks. It is one line at the end of the Boundaries section of `context/architecture.md`, in the same glob syntax as `covers:`:
 
 ```
-shared: drizzle/**, src/components/**, src/db/index.ts, src/app/app/layout.tsx
+shared: drizzle/**, src/components/**
 ```
+
+The app shell, layouts, root config and test setup are not shared: they belong to **`foundation`**, a feature `contextual-setup` adds to every project as the first item of Phase 1. Without it, the first feature built puts most of its files on the shared list (it happened in testing: 10 of 13), and `which` stops telling the agent anything.
 
 Contextual's own files (`context/`, `AGENTS.md`, `CLAUDE.md`, the skill folders) need no owner. A file can't be covered by two features, or by a feature and the shared list; `check` reports either as an error. A changed file that has no owner at all gets a warning, "no feature owns this path" (section 6.2). `usecontextual which <path>` answers the question for one file.
 
@@ -371,6 +373,7 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 - `covers:` globs match at least one file: an error for shipped features, a warning for features in progress (the work may not have created the files yet).
 - Every file has at most one owner: no file is covered by two features, or by a feature and the `shared:` line (section 3.8).
 - Every glob on the `shared:` line matches at least one file (warning).
+- No more than a third of the files that have an owner are on the `shared:` line (warning). More means the app shell or config is being parked there instead of in `foundation`.
 - When there are no files outside `context/` at all (a project before its first code, or `example/`), the three checks above are skipped with a warning that says so.
 - Links between context files resolve.
 - No file is over its size cap. For `AGENTS.md`, only the Contextual block counts.
@@ -429,7 +432,7 @@ Three skills in the standard `SKILL.md` format, installed into the repo by the p
 
 The skill detects which situation it is in:
 
-1. **Plan file present.** Reads `contextual-plan.md`, distributes it into `build-plan.md`, feature folders (README only), `stack/`, `design/principles.md`, `architecture.md`, `conventions.md`. Moves the plan file to `context/idea.md`.
+1. **Plan file present.** Reads `contextual-plan.md`, distributes it into `build-plan.md`, feature folders (README only), `stack/`, `design/principles.md`, `architecture.md`, `conventions.md`. Adds `foundation` as the first feature of Phase 1 (section 3.8). Moves the plan file to `context/idea.md`.
 2. **No plan file, empty repo.** Asks the same questions as the chat skill, writes the answers to `context/idea.md` in the plan-file format, then writes everything as in path 1.
 3. **Existing code.** Scans the repo (tree, manifests, README, routes, schema), proposes a feature list with the paths each covers, **waits for the person to confirm**, then writes the context. Features found in code are marked `shipped` with `build.md` filled in; anything it inferred but did not verify is marked as such.
 
@@ -453,9 +456,10 @@ For when a human changed code by hand or the rule was skipped. Diff since the la
 
 **Finding "since the last sync".** `.meta.json` stores the commit hash and the date of the last sync.
 
-1. If that commit is still in the current branch's history, diff from it.
-2. If it is gone (a squash merge or a rebase removed it), diff from the last commit before the stored date: `git rev-list -1 --before=<date> HEAD`.
-3. If that fails too (no date stored, or no commit before it), rescan: compare every in-progress and shipped feature's `covers:` paths with its `build.md`, and update whatever no longer matches.
+1. If no sync has run yet, diff from the commit that set Contextual up (the one that added `context/.meta.json`), so the first sync sees content changes too, not only added and removed files.
+2. If that commit is still in the current branch's history, diff from it.
+3. If it is gone (a squash merge or a rebase removed it), diff from the last commit before the stored date: `git rev-list -1 --before=<date> HEAD`.
+4. If that fails too (no date stored, or no commit before it), rescan: compare every in-progress and shipped feature's `covers:` paths with its `build.md`, and update whatever no longer matches.
 
 At the end, sync stores the new commit hash and date.
 
@@ -583,6 +587,11 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 ## 14. Revision history
 
+- **13 November 2026.**
+  - `deslop.md`: a ninth checklist line, 3:1 contrast for field outlines and focus rings.
+  - Every project gets a first feature, `foundation`, for the app shell, layouts and config; `shared:` is only for generated files and UI building blocks, and `check` warns when more than a third of owned files are on it (sections 3.8, 6.1, 7). The example has a `foundation` feature.
+  - `conventions.md` has a fixed rule: no package or tool outside the stack, not even a one-off `npx` command, without a `decisions/` record.
+  - The first sync diffs from the setup commit (section 7).
 - **12 November 2026.**
   - Deslop results: `pass (<how it was checked>)`, `fixed <what>`, `not verified <reason>`, `not UI`. `check` validates them (sections 3.6, 6.1).
   - Step 2 built: `contextual-setup` paths 1 and 2, `contextual-next` and `contextual-sync`, each a short `SKILL.md` with `references/` and `assets/` (section 7.1). Tried for real in Claude Code.

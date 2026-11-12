@@ -27,7 +27,7 @@ Look at what's in the repo, ignoring `.git/`, `context/`, `AGENTS.md`, `CLAUDE.m
 
 ## 3. Write the context from the plan
 
-Read `contextual-plan.md` in full. Then fill the files in the order given in [references/fill-from-plan.md](references/fill-from-plan.md), which says what goes where. Rules for every file:
+Read `contextual-plan.md` in full. Then fill the files in the order given in [references/fill-from-plan.md](references/fill-from-plan.md), which says what goes where. Always add a first feature the plan doesn't list, `foundation`: it owns the app shell, layouts and config. Rules for every file:
 
 - Keep every heading the template has, in order. Delete each `<!-- fill: … -->` comment once its content is written.
 - Write only what the plan says or what follows directly from it. When something isn't decided, write "Not decided yet" and add the question to "Blocked / needs a human" in `context/status/main.md`.
