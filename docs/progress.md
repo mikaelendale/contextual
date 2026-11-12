@@ -21,10 +21,10 @@ The overnight build of 13–14 November 2026, on the branch `build/v0.1`. Read t
 | 3 | Presets: Next.js; Laravel with Inertia and React | Done (453e55f) |
 | 4 | `contextual-plan`: the chat skill and the copy-paste prompt | Done (1cfd090). OpenCode's setup on the prompt's plan: 0 errors |
 | 5 | `contextual-setup` path 3, existing code | Done. Trial on mdn/todo-react: 0 errors, 0 warnings (docs/trials/2026-11-13-path3-todo-react) |
-| 6 | Full run from zero with a packed tarball, in Claude Code and Codex | In progress: ~/contextual-trials/full-cc and full-codex, setup running |
+| 6 | Full run from zero with a packed tarball, in Claude Code and Codex | Done: 0 errors in both (docs/trials/full-runs.md) |
 | 7 | Docs: quickstart, a page per skill, the tested-harness table, CHANGELOG | Done (8cd1146). The README's Claude Code explicit-call cell needs stage 6 to confirm it |
-| 8 | Prepare 0.1.0: version, `npm pack --dry-run`, file list. Don't publish | Version bumped (dfa7ec2); file list to do |
-| 9 | `docs/overnight-report.md` | |
+| 8 | Prepare 0.1.0: version, `npm pack --dry-run`, file list. Don't publish | Done: 84 files (docs/release/0.1.0-pack-dry-run.txt). Not published |
+| 9 | `docs/overnight-report.md` | Done. Branch pushed, draft PR open |
 
 ## Done so far
 
@@ -59,6 +59,9 @@ Claude Code reports a cost for each headless run; Codex runs on the ChatGPT plan
 | contextual-plan skill | Claude Code | $0.25 |
 | Path 3 proposal (mdn/todo-react) | Claude Code | $0.28 |
 | Path 3 write | Claude Code | $1.22 |
+| Full run: setup, /contextual-next, sync | Claude Code | $2.45 |
+| Full run: setup, $contextual-next, sync | Codex | ChatGPT plan |
+| **Total** | | **$7.66** |
 | contextual-plan prompt | Codex | ChatGPT plan |
 | Setup from the prompt's plan | OpenCode | free model |
 | Setup, then foundation | Codex | ChatGPT plan, no cost reported |
