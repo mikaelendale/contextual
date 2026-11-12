@@ -157,7 +157,7 @@ function runInit(flags, { cwd, out, err }) {
   out(`  package  ${result.dependency}`)
   out(hookReport(result.hook))
   out("")
-  out('Next: tell your coding agent "set up contextual". It fills in the context from contextual-plan.md, or asks you a few questions.')
+  out('Next: tell your coding agent "set up contextual". It writes the context from contextual-plan.md, from a few questions, or from the code that is already here.')
   return 0
 }
 

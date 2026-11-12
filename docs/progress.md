@@ -16,13 +16,13 @@ The overnight build of 13–14 November 2026, on the branch `build/v0.1`. Read t
 
 | # | Stage | State |
 |---|---|---|
-| 1 | Finish the current round: Codex, OpenCode, Antigravity runs; the setup-log conflict; a real sync; a browser run ending in "Deslop: pass" | In progress |
+| 1 | Finish the current round: Codex, OpenCode, Antigravity runs; the setup-log conflict; a real sync; a browser run ending in "Deslop: pass" | Done, except Antigravity (not signed in) |
 | 2 | CLI: `init`, `update`, `check --staged`, the hook | Done (4eeaf8f) |
-| 3 | Presets: Next.js; Laravel with Inertia and React | Next |
-| 4 | `contextual-plan`: the chat skill and the copy-paste prompt | |
-| 5 | `contextual-setup` path 3, existing code | |
+| 3 | Presets: Next.js; Laravel with Inertia and React | Done (453e55f) |
+| 4 | `contextual-plan`: the chat skill and the copy-paste prompt | Done (1cfd090); setup on the prompt's plan running in OpenCode |
+| 5 | `contextual-setup` path 3, existing code | Written; trial on mdn/todo-react running (turn 2) |
 | 6 | Full run from zero with a packed tarball, in Claude Code and Codex | |
-| 7 | Docs: quickstart, a page per skill, the tested-harness table, CHANGELOG | |
+| 7 | Docs: quickstart, a page per skill, the tested-harness table, CHANGELOG | Skill pages and CHANGELOG written, not committed |
 | 8 | Prepare 0.1.0: version, `npm pack --dry-run`, file list. Don't publish | |
 | 9 | `docs/overnight-report.md` | |
 
@@ -42,7 +42,9 @@ The overnight build of 13–14 November 2026, on the branch `build/v0.1`. Read t
 - Codex found the conflict (setup vs the definition of done) and asked instead of guessing. Fixed in 32f6746.
 - Codex's `workspace-write` sandbox makes `.git` read-only, so it can't commit. `--add-dir <repo>/.git` makes only that folder writable; with it, `contextual-next` branched and committed.
 - OpenCode read every feature README, the decisions and idea.md, against the read order.
-- Sync test: running in ~/contextual-trials/cc-browser after merging feat/foundation and hand-editing two foundation files, a file under add-items (planned) and lib/export-csv.js (no owner).
+- Sync test (Claude Code, $0.56): after merging feat/foundation and hand-editing two foundation files, a new file under add-items (planned) and lib/export-csv.js (no owner). It diffed from the setup commit (no sync had run), marked foundation shipped, logged the edits as "Deslop: not verified", moved add-items to in-progress, flagged lib/export-csv.js and asked about it, found a real bug in the hand-written add-items code, set lastSync. check: 0 errors.
+- Browser runs (Claude Code + Playwright MCP, headless Chrome): foundation ended "Deslop: fixed" (two real problems); add-items ended "Deslop: pass" naming four screenshots. Both sets are in docs/trials/.
+- contextual-plan: the prompt in Codex and the skill in Claude Code ($0.25) both gave valid plans (docs/trials/2026-11-13-contextual-plan).
 
 ## Trial spend
 
@@ -52,6 +54,12 @@ Claude Code reports a cost for each headless run; Codex runs on the ChatGPT plan
 |---|---|---|
 | Setup from the plan (cc-browser) | Claude Code | $0.72 |
 | Build foundation with Playwright | Claude Code | $1.23 |
+| Sync | Claude Code | $0.56 |
+| Build add-items with Playwright | Claude Code | $0.95 |
+| contextual-plan skill | Claude Code | $0.25 |
+| Path 3 proposal (mdn/todo-react) | Claude Code | $0.28 |
+| contextual-plan prompt | Codex | ChatGPT plan |
+| Setup from the prompt's plan | OpenCode | free model |
 | Setup, then foundation | Codex | ChatGPT plan, no cost reported |
 | Setup, then foundation | OpenCode | free model |
 
@@ -62,4 +70,12 @@ Claude Code reports a cost for each headless run; Codex runs on the ChatGPT plan
 
 ## Decisions made without Mikael
 
-None yet.
+1. **Antigravity left untested.** Its CLI isn't signed in, and signing in needs Mikael's browser. Conservative choice: don't try to get around the login; record it as untested.
+2. **Codex gets write access to `.git` only** (`--add-dir <repo>/.git`), not the blanket bypass flag. Without it, its sandbox can't create a branch or commit, which contextual-next needs.
+3. **The plan file may have one sentence under a phase heading.** Codex wrote one in the prompt trial; the plan-file rules already say detail goes under the closest heading, and setup ignores it. Loosening the format was safer than making every model avoid it.
+4. **`not UI` may carry a short reason** ("Deslop: not UI (setup only)"). Codex wrote one; it hides nothing.
+5. **Path 3 trial (mdn/todo-react): accepted the agent's split as proposed** (foundation, add-task, manage-tasks, filter-tasks; shared: src/index.css, public/**). Told it the clone is local and won't be deployed, and to keep the other issues as open questions.
+6. **Hook when the local copy isn't installed:** it prints a note and lets the commit through rather than blocking every commit on a fresh clone.
+7. **`check --staged` on the default branch downgrades every finding to a warning**, including full-check errors, so a broken context file never stops a hand edit on main (spec 4.2: warn on the default branch).
+8. **`init` outside a git repo refuses** and says to run `git init`, rather than running it.
+9. **`init --force` never overwrites**; it only lets init add its files next to an existing `context/` folder that isn't Contextual's.
