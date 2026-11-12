@@ -7,9 +7,11 @@ Contextual is an open source context structure for codebases: a folder of plain 
 > [!WARNING]
 > The npm package is **`usecontextual`**. `npx contextual` runs a different, unrelated package that has nothing to do with this project. Always type `npx usecontextual`.
 
-**Not released yet.** Version 0.0.1 is on npm to hold the name. Only `check` and `which` work in it; the other commands print "not released yet". This repo is being built in the open.
+**Not released yet.** This repo is being built in the open.
 
 ## Install
+
+**Pre-release:** 0.0.1 reserves the name. `check` and `which` work; `init` and the skills are coming.
 
 The package is [`usecontextual` on npm](https://www.npmjs.com/package/usecontextual). Run it without installing:
 
