@@ -48,6 +48,7 @@ The same headings, in the same order, every time. Don't add, rename or reorder t
 ## Phases
 
 - Number them from 1, in the order they get built: `### Phase 1 — <name>`.
+- Under a phase heading, one plain sentence saying what the phase delivers is fine. Everything else under it is feature lines.
 - The first phase should end with something a person can use, even if it is small.
 - Three to six features per phase is typical.
 

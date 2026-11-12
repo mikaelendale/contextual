@@ -438,7 +438,7 @@ The skill detects which situation it is in:
 
 All three paths end by running `usecontextual check --fix` and writing the first `status/main.md`.
 
-Path 3 is the hardest to get right (feature boundaries are easy to get wrong) and should be built last.
+Path 3 is the hardest to get right (feature boundaries are easy to get wrong) and is built last. Its procedure is `skills/contextual-setup/references/existing-code.md`: features found in code get all five files and a "Found at setup" log entry; an acceptance line read in the code but not verified is ticked and ends with "(found in the code, not verified)"; `idea.md` is written from the README and the confirmed feature list.
 
 ### `contextual-next` — build the next feature
 
