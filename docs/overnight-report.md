@@ -78,7 +78,7 @@ $7.66 of the $20, all in Claude Code. Codex ran on your ChatGPT plan and reporte
 
 ## In the morning
 
-1. Read the pull request (`gh pr view --web`), and this report's decisions.
+1. Read [pull request #1](https://github.com/mikaelendale/contextual/pull/1) (`gh pr view 1 --web`), and this report's decisions.
 2. Publish 0.1.0 from the branch, so the commit npm records is on the branch:
 
    ```bash
@@ -100,7 +100,7 @@ $7.66 of the $20, all in Claude Code. Codex ran on your ChatGPT plan and reporte
 4. Merge with a merge commit, not a squash, so the published commit stays in `main`'s history:
 
    ```bash
-   gh pr ready <number> && gh pr merge <number> --merge
+   gh pr ready 1 && gh pr merge 1 --merge
    ```
 
 5. To try Antigravity: run `agy` once and sign in. Then ask me to run its trial: setup from the plan, then `/contextual-next`.
