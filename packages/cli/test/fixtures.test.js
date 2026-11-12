@@ -56,3 +56,25 @@ test("templates: valid JSON, every comment closed, no filled-in project content"
     assert.ok(!/Linkboard/.test(text), `${path} mentions the example project`)
   }
 })
+
+test("the repo templates, as init lays them down, pass check with 0 errors", async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } = await import("node:fs")
+  const { tmpdir } = await import("node:os")
+  const { check } = await import("../src/check.js")
+  const dir = mkdtempSync(join(tmpdir(), "usecontextual-fresh-"))
+  try {
+    const fill = { "{{cli}}": "npx usecontextual", "{{date}}": "2026-11-12", "{{contextual_version}}": "0.0.1", "{{default_branch}}": "main", "{{deslop_hash}}": "sha256:x" }
+    const base = join(templates, "repo")
+    for (const path of walk(base)) {
+      const to = join(dir, path.slice(base.length + 1))
+      mkdirSync(join(to, ".."), { recursive: true })
+      let text = readFileSync(path, "utf8")
+      for (const [k, v] of Object.entries(fill)) text = text.replaceAll(k, v)
+      writeFileSync(to, text)
+    }
+    const errors = check({ root: dir, branch: "main" }).findings.filter((f) => f.level === "error")
+    assert.deepEqual(errors, [], errors.map((e) => `${e.file}: ${e.message}`).join("\n"))
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})

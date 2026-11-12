@@ -108,7 +108,8 @@ export function readFeatures(root) {
 export function readPlan(text) {
   const phases = []
   const problems = []
-  for (const block of text.split(/^## /m).slice(1)) {
+  // Template guidance in <!-- --> comments shows the format with sample phases; it isn't the plan.
+  for (const block of text.replace(/<!--[\s\S]*?-->/g, "").split(/^## /m).slice(1)) {
     const heading = block.split("\n")[0].trim()
     const m = heading.match(/^Phase (\d+) — (.+?)\s+\[(planned|in progress|done)\]$/)
     if (!m) {
