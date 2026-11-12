@@ -2,6 +2,8 @@
 
 Fill the files in this order. Later files depend on choices made in earlier ones: `conventions.md` decides where code goes, and the feature READMEs' `covers:` paths follow from it.
 
+If `init` used a preset (`context/stack/_index.md` says "Preset: …"), `stack/`, `architecture.md` and `conventions.md` already hold its defaults. Keep them, fill the remaining comments from the plan, and change a default only where the plan says otherwise.
+
 Every project gets one feature the plan doesn't list: **`foundation`**, always the first item of Phase 1. It owns the app shell, the layouts, the config files at the repo root and the test setup, so that code has a real owner instead of piling up on the `shared:` line.
 
 ## 1. `AGENTS.md`

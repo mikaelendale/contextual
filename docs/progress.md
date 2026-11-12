@@ -17,8 +17,8 @@ The overnight build of 13–14 November 2026, on the branch `build/v0.1`. Read t
 | # | Stage | State |
 |---|---|---|
 | 1 | Finish the current round: Codex, OpenCode, Antigravity runs; the setup-log conflict; a real sync; a browser run ending in "Deslop: pass" | In progress |
-| 2 | CLI: `init`, `update`, `check --staged`, the hook | Next |
-| 3 | Presets: Next.js; Laravel with Inertia and React | |
+| 2 | CLI: `init`, `update`, `check --staged`, the hook | Done (4eeaf8f) |
+| 3 | Presets: Next.js; Laravel with Inertia and React | Next |
 | 4 | `contextual-plan`: the chat skill and the copy-paste prompt | |
 | 5 | `contextual-setup` path 3, existing code | |
 | 6 | Full run from zero with a packed tarball, in Claude Code and Codex | |
@@ -30,6 +30,20 @@ The overnight build of 13–14 November 2026, on the branch `build/v0.1`. Read t
 
 - The two changes from earlier this round are on this branch: d0a5707 (foundation, the narrower `shared:` line, the 3:1 deslop line, the packages-and-tools rule) and 32f6746 (setup writes no feature logs; `not UI` may carry a reason). That covers the decisions Mikael gave on 13 November and the conflict Codex found.
 
+## Stage 1 results so far
+
+| Harness | Model | Setup from plain words | Explicit call | Setup check | Feature check |
+|---|---|---|---|---|---|
+| Claude Code 2.1.322 | claude-opus-5-5 | Triggered | Not tried (plain words used for both runs) | 0 errors | 0 errors (foundation, with Playwright; Deslop: fixed) |
+| Codex CLI 0.167.2 | gpt-6.1-sol | Triggered | `$contextual-next` worked | 0 errors after answering its question | 0 errors (foundation; Deslop: not verified, sandbox blocks sockets) |
+| OpenCode 2.2.7 | opencode/big-pickle (free) | Triggered | `@contextual-next` worked | 0 errors, 0 warnings | 0 errors (foundation; Deslop: not verified) |
+| Antigravity CLI 1.5.6 | – | Not run: the CLI isn't signed in, and signing in needs Mikael's browser | – | – | – |
+
+- Codex found the conflict (setup vs the definition of done) and asked instead of guessing. Fixed in 32f6746.
+- Codex's `workspace-write` sandbox makes `.git` read-only, so it can't commit. `--add-dir <repo>/.git` makes only that folder writable; with it, `contextual-next` branched and committed.
+- OpenCode read every feature README, the decisions and idea.md, against the read order.
+- Sync test: running in ~/contextual-trials/cc-browser after merging feat/foundation and hand-editing two foundation files, a file under add-items (planned) and lib/export-csv.js (no owner).
+
 ## Trial spend
 
 Claude Code reports a cost for each headless run; Codex runs on the ChatGPT plan and OpenCode on a free model, so they report none. Every run is counted here.
@@ -37,6 +51,9 @@ Claude Code reports a cost for each headless run; Codex runs on the ChatGPT plan
 | Run | Tool | Cost |
 |---|---|---|
 | Setup from the plan (cc-browser) | Claude Code | $0.72 |
+| Build foundation with Playwright | Claude Code | $1.23 |
+| Setup, then foundation | Codex | ChatGPT plan, no cost reported |
+| Setup, then foundation | OpenCode | free model |
 
 ## Where things are
 
