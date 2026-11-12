@@ -8,7 +8,7 @@
 
 During setup the file moves to `context/idea.md`, unchanged. After that the agent never edits it, so it always shows what the person first asked for.
 
-A complete example is `example/context/idea.md`.
+A complete example is `example/context/idea.md` in the Contextual repo: https://github.com/mikaelendale/contextual/blob/main/example/context/idea.md
 
 ## Format
 

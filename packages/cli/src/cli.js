@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs"
 import { basename } from "node:path"
 
 import { check } from "./check.js"
+import { fix } from "./fix.js"
 import { findRoot } from "./context.js"
 import { which } from "./which.js"
 
@@ -12,9 +13,10 @@ const HELP = `usecontextual ${version}
 
 Usage:
   usecontextual check [--branch <name>]   check the context in this repo
+  usecontextual check --fix               rebuild the feature index, store the idea.md hash, then check
   usecontextual which <path>              show which feature owns a file
 
-Not released yet: init, update, check --fix, check --staged.
+Not released yet: init, update, check --staged.
 Docs: ${DOCS}`
 
 function parseArgs(args) {
@@ -54,7 +56,7 @@ export function runCli(argv, { cwd, out, err }) {
     return 0
   }
   if (command === "init" || command === "update") return notReleased(command, err)
-  if (command === "check" && (flags.fix || flags.staged)) return notReleased(`check --${flags.fix ? "fix" : "staged"}`, err)
+  if (command === "check" && flags.staged) return notReleased("check --staged", err)
   if (command !== "check" && command !== "which") {
     err(`Unknown command "${command}". Run usecontextual --help.`)
     return 2
@@ -71,6 +73,7 @@ export function runCli(argv, { cwd, out, err }) {
       err("--branch needs a branch name.")
       return 2
     }
+    if (flags.fix) for (const change of fix({ root })) out(`fixed: ${change}`)
     const result = check({ root, branch: typeof flags.branch === "string" ? flags.branch : null })
     const errors = result.findings.filter((f) => f.level === "error")
     const warnings = result.findings.filter((f) => f.level === "warning")

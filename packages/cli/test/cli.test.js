@@ -15,7 +15,7 @@ test("with no arguments it prints the help and exits 0", () => {
   const result = run([])
   assert.equal(result.status, 0, result.stderr)
   assert.ok(result.stdout.startsWith(`usecontextual ${pkg.version}\n`), result.stdout)
-  assert.match(result.stdout, /Not released yet: init, update, check --fix, check --staged\./)
+  assert.match(result.stdout, /Not released yet: init, update, check --staged\./)
 })
 
 test("--version prints the version in package.json", () => {
@@ -26,7 +26,7 @@ test("commands that aren't released print \"not released yet\" and exit 2, in a 
   const empty = mkdtempSync(join(tmpdir(), "usecontextual-empty-"))
   try {
     for (const cwd of [empty, example]) {
-      for (const args of [["init"], ["update"], ["check", "--fix"], ["check", "--staged"]]) {
+      for (const args of [["init"], ["update"], ["check", "--staged"]]) {
         const result = run(args, cwd)
         assert.equal(result.status, 2, `${args.join(" ")}: ${result.stdout}${result.stderr}`)
         assert.ok(result.stderr.startsWith(`usecontextual ${args.join(" ")}: not released yet.`), result.stderr)

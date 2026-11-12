@@ -10,8 +10,9 @@ Contextual isn't released yet. Two commands work in this version:
 |---|---|
 | `usecontextual check [--branch <name>]` | Checks the context against the spec (section 6.1). Exit code 1 when there are errors |
 | `usecontextual which <path>` | Shows who owns a file: a feature, the `shared:` line, or no one (exit code 1) |
+| `usecontextual check --fix` | Rebuilds the feature index and stores the `idea.md` hash, then checks. Not in 0.0.1 |
 
-`init`, `update`, `check --fix` and `check --staged` print "not released yet" and exit. The design is in sections 6 and 7 of [the spec](https://github.com/mikaelendale/contextual/blob/main/docs/spec.md).
+`init`, `update` and `check --staged` print "not released yet" and exit. The design is in sections 6 and 7 of [the spec](https://github.com/mikaelendale/contextual/blob/main/docs/spec.md).
 
 ## Tests
 

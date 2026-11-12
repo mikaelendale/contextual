@@ -61,7 +61,7 @@ Contextual is built on two standards that the major coding agents share, so one 
 - **`AGENTS.md`** for the rules.
 - **`SKILL.md`** for the procedures.
 
-Verified on 10 November 2026 against each tool's official docs, and against its source code where the docs were silent (sources in section 11):
+Verified on 10 November 2026 against each tool's official docs, and against its source code where the docs were silent (sources in section 11). Checked again on 12 November 2026; the findings and links are in [harnesses.md](harnesses.md):
 
 | Harness | Level | Reads rules from | Reads project skills from | Explicit skill call |
 |---|---|---|---|---|
