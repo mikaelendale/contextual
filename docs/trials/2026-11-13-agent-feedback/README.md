@@ -14,7 +14,7 @@
      --happened "After running update from a newer copy of the CLI, …" --expected "check to warn when …" --suggestion "Compare …"
    ```
 
-   It printed a 1,745-character link with the whole report after `#report=`, and added: Contextual 0.2.0, linux, npm, `.agents` and `.claude`, `check` 0 errors and 2 warnings, features 1-5.
+   It printed a 1,365-character link with the whole report after `#report=`, and added: Contextual 0.2.0, linux, npm, `.agents` and `.claude`, `check` 0 errors and 2 warnings, features 1-5.
 4. The same fragment opened the form on a local build of the site, and every field was filled in:
 
    ![The filled form at 1440px](form-filled-1440.png)
