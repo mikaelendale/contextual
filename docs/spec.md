@@ -272,7 +272,18 @@ shared: drizzle/**, src/components/**
 
 The app shell, layouts, root config and test setup are not shared: they belong to **`foundation`**, a feature `contextual-setup` adds to every project as the first item of Phase 1. Without it, the first feature built puts most of its files on the shared list (it happened in testing: 10 of 13), and `which` stops telling the agent anything.
 
-Contextual's own files (`context/`, `AGENTS.md`, `CLAUDE.md`, the skill folders) need no owner. A file can't be covered by two features, or by a feature and the shared list; `check` reports either as an error. A changed file that has no owner at all gets a warning, "no feature owns this path" (section 6.2). `usecontextual which <path>` answers the question for one file.
+Contextual's own files (`context/`, `AGENTS.md`, `CLAUDE.md`, the skill folders) need no owner. A changed file that has no owner at all gets a warning, "no feature owns this path" (section 6.2). `usecontextual which <path>` answers the question for one file.
+
+**A new feature inside another feature's path.** A new feature often adds files under a path an older feature already covers: a page under a site that covers `site/**`, a command in a CLI that `foundation` covers. The most specific match owns the file, so the older feature never has to rewrite its `covers:` line:
+
+- An exact path beats any glob.
+- Otherwise the glob with more folders before its first wildcard wins: `site/app/feedback/**` (three) beats `site/**` (one).
+- The `shared:` line takes part the same way, so `site/components/ui/**` on it takes the site's UI building blocks away from `site/**`.
+- Two matches that are equally specific are an error, as is the same glob in two features. `check` names both, and one of them has to become more specific.
+
+A glob whose every file has gone to more specific owners counts as matching no files (section 6.1). `which` names the owner and the broader globs it beat.
+
+This applies from 0.2.0. Until then `check` reports a file matched by two features, or by a feature and the `shared:` line, as an error, however specific the globs.
 
 ---
 
@@ -371,7 +382,7 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 - `_index.md` matches the feature READMEs, including the one-line entries for finished phases.
 - Every feature in `build-plan.md` has a folder, and every folder is in the plan.
 - `covers:` globs match at least one file: an error for shipped features, a warning for features in progress (the work may not have created the files yet).
-- Every file has at most one owner: no file is covered by two features, or by a feature and the `shared:` line (section 3.8).
+- Every file has at most one owner. When globs from two features, or from a feature and the `shared:` line, match the same file, the most specific one owns it, and two equally specific matches are an error (section 3.8; from 0.2.0, and before that every such file is an error).
 - Every glob on the `shared:` line matches at least one file (warning).
 - No more than a third of the files that have an owner are on the `shared:` line (warning). More means the app shell or config is being parked there instead of in `foundation`.
 - When there are no files outside `context/` at all (a project before its first code, or `example/`), the three checks above are skipped with a warning that says so.
@@ -594,6 +605,7 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 - **13 November 2026, before publishing 0.1.0.**
   - The hook blocks a commit only when `check --staged` ran and found errors, which it signals with exit code 65. When the CLI can't run (offline, the registry down, the version not found, Node missing), the hook prints a note and the commit goes through (section 6.3).
+  - Who owns a file a new feature adds inside another feature's path: the most specific match, with ties an error (section 3.8). The CLI applies it from 0.2.0.
   - A missing branch status file's error names the fix, `check --fix` (section 6.2).
   - Until setup has run, the hook only warns, on every branch (sections 4.2, 6.2).
   - With a `package.json`, the context files and skills use `npx --no-install usecontextual`, so a fresh clone never downloads an unpinned copy (section 3.7).
