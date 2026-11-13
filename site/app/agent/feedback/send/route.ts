@@ -1,5 +1,5 @@
 import { getStore } from "@/lib/feedback/db.ts"
-import { addressOf, createLimiter, visitorKey } from "@/lib/feedback/rate-limit.ts"
+import { addressOf, createLimiter, visitorKey } from "@/lib/rate-limit.ts"
 import { handleSend } from "@/lib/feedback/send.ts"
 
 // One limiter per server process; it keeps keyed hashes, never addresses.

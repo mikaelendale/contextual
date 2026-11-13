@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · CI runs every site test; maintaining.md describes the database
+- Changed: CI's site step runs `node --test lib/*/*.test.ts`, so the visits tests run beside the feedback tests. `docs/maintaining.md` has a section on the site's database (migrations in order, reports kept at least 30 days, visits) and says the two variables are set on Vercel.
+- Tests: the site's tests (12 passed); the connection-string check.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · 0.1.0 published
 - Changed: `CHANGELOG.md` dates 0.1.0 (13 November 2026). The spec's status line says 0.1.0 is published and 0.2.0 is merged but not published.
 - Tests: from npm in an empty folder, `npx usecontextual@0.1.0` and `pnpm dlx usecontextual@0.1.0` print 0.1.0, and `init` then `check` work (0 errors, and the one warning expected before setup). The published package has the same 84 files as `docs/release/0.1.0-pack-dry-run.txt`. Bun isn't installed here, so `bunx` wasn't tried.

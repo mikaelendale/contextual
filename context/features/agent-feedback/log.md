@@ -1,6 +1,12 @@
 # Log — Agent feedback
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · Kept for at least 30 days; the list page shows visits
+- Changed: `docs/agent-feedback.md` says reports are kept for at least 30 days. The reports page shows the site's page visits above the list. `site/lib/feedback/` now uses the shared `site/lib/db.ts` and `site/lib/rate-limit.ts` (moved from here). agent-feedback covers only `0001_agent_feedback.sql` in `site/db/`, so the site owns the visits migration.
+- Tests: the site's tests (12 passed); `next build`; the list page against the database at 375px and 1440px.
+- Left open: nothing.
+- Deslop: pass (see the site's log entry of the same day: the same screens)
+
 ## 2026-11-13 · claude-code · Merged to main
 - Changed: status shipped; the plan ticks agent-feedback and marks Phase 2 done; `context/status/feat-agent-feedback.md` deleted; `context/status/main.md` updated.
 - Tests: none run (merge only).

@@ -7,7 +7,7 @@
 
 import { createHmac, randomBytes } from "node:crypto"
 
-import type { Limiter } from "./send.ts"
+export type Limiter = { allow(key: string): boolean }
 
 const PROCESS_SECRET = randomBytes(32)
 
@@ -21,7 +21,7 @@ export function addressOf(headers: Headers): string {
   return headers.get("x-forwarded-for")?.split(",")[0]?.trim() || headers.get("x-real-ip") || "unknown"
 }
 
-/** At most `max` reports from one visitor in `windowMs`. */
+/** At most `max` requests from one visitor in `windowMs`. */
 export function createLimiter({ max = 5, windowMs = 10 * 60 * 1000, now = Date.now }: { max?: number; windowMs?: number; now?: () => number } = {}): Limiter {
   const hits = new Map<string, number[]>()
   return {

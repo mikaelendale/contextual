@@ -10,6 +10,7 @@ import { listReports, type StoredReport } from "@/lib/feedback/db.ts"
 import { OWNER_COOKIE, isOwner } from "@/lib/feedback/owner.ts"
 import { CHOICES, LABELS } from "@/lib/feedback/report.ts"
 import { cn } from "@/lib/utils"
+import { visitTotals, type VisitTotals } from "@/lib/visits/db.ts"
 
 export const metadata: Metadata = {
   title: "Agent feedback reports",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 type Search = Record<string, string | string[] | undefined>
 const one = (value: string | string[] | undefined) => (typeof value === "string" ? value : undefined)
 
-/** The owner's list of reports. Everything on it comes from people's forms, so it's shown as plain text. */
+/** The owner's list of reports, and the home page's visits. Everything in a report comes from people's forms, so it's shown as plain text. */
 export default function ReportsPage({ searchParams }: { searchParams: Promise<Search> }) {
   return (
     <div className="min-h-svh bg-background">
@@ -49,16 +50,15 @@ async function Reports({ searchParams }: { searchParams: Promise<Search> }) {
   if (!isOwner(cookie)) return <SignIn wrong={one(params.wrong) === "1"} />
 
   const filters = { harness: one(params.harness), category: one(params.category), severity: one(params.severity) }
-  let reports: StoredReport[] | null = null
-  let failed = false
-  try {
-    reports = await listReports(filters)
-  } catch {
-    failed = true
-  }
+  const [listed, counted] = await Promise.allSettled([listReports(filters), visitTotals()])
+  const reports: StoredReport[] | null = listed.status === "fulfilled" ? listed.value : null
+  const failed = listed.status === "rejected"
 
   return (
     <>
+      {counted.status === "rejected" && <Panel>The visits couldn&rsquo;t be read from the database. Check DATABASE_URL, and that 0002_page_visits.sql has run.</Panel>}
+      {counted.status === "fulfilled" && counted.value && <Visits totals={counted.value} />}
+
       <form method="get" className={cn(PANEL, "mt-8 flex flex-wrap items-end gap-4 p-5")}>
         <Filter name="harness" label="Agent" value={filters.harness} options={CHOICES.harness} />
         <Filter name="category" label="Kind" value={filters.category} options={CHOICES.category} />
@@ -111,6 +111,39 @@ async function Reports({ searchParams }: { searchParams: Promise<Search> }) {
         </button>
       </form>
     </>
+  )
+}
+
+const whole = new Intl.NumberFormat("en-US")
+const compact = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 })
+const figure = (n: number) => (n < 10_000 ? whole.format(n) : compact.format(n))
+
+/** Visits to the home page: a browser counts once per 30-minute session. Days are UTC. */
+function Visits({ totals }: { totals: VisitTotals }) {
+  const tiles = [
+    { label: "Today", value: totals.today },
+    { label: "Last 7 days", value: totals.week },
+    { label: "Last 30 days", value: totals.month },
+    { label: "All time", value: totals.all },
+  ]
+  const since = totals.since ? new Date(`${totals.since}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }) : null
+  return (
+    <section aria-labelledby="visits-title" className={cn(PANEL, "mt-8 p-5 sm:p-6")}>
+      <h2 id="visits-title" className="text-[15px] font-medium">
+        Home page visits
+      </h2>
+      <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
+        {tiles.map((t) => (
+          <div key={t.label}>
+            <dt className="text-[13px] text-muted-foreground">{t.label}</dt>
+            <dd className="mt-1 text-[27px] leading-none font-semibold tracking-[-0.01em]">{figure(t.value)}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-5 text-[13px] text-muted-foreground">
+        {since ? `Counted since ${since}.` : "No visits counted yet."} A browser counts once per 30 minutes. Days are UTC.
+      </p>
+    </section>
   )
 }
 

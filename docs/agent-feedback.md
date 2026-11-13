@@ -26,7 +26,7 @@ From the agent, as you reviewed it:
 
 Added by the CLI: the Contextual version, the operating system (`linux`, `macos`, `windows`), the package manager, which agent folders exist (`.agents`, `.claude` and the like), the number of errors and warnings `check` reports, and the number of features as a bucket (`1-5`, `6-20`, `21+`).
 
-The server stores those with the date.
+The server stores those with the date, and keeps each report for at least 30 days.
 
 ## What is never collected
 

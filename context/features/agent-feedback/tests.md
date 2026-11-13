@@ -2,7 +2,7 @@
 
 ## Automated
 - The CLI: `packages/cli/test/feedback.test.js`. Only these: `cd packages/cli && node --test test/feedback.test.js`.
-- The site's server side: `site/lib/feedback/feedback.test.ts`, with `cd site && node --test lib/feedback/*.test.ts` (Node 22.18 or newer, which runs TypeScript directly).
+- The site's server side: `site/lib/feedback/feedback.test.ts`, with `cd site && node --test lib/*/*.test.ts` (Node 22.18 or newer, which runs TypeScript directly).
 
 ## How a person reaches it
 In a project with feedback on, the agent runs `usecontextual feedback …` before its final answer, and a form opens in the browser.

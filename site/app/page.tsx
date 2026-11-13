@@ -12,6 +12,7 @@ import { WorksWith } from "@/components/home/works-with"
 import { LiveDither } from "@/components/live-dither"
 import { Logo } from "@/components/logo"
 import { Sky } from "@/components/sky"
+import { VisitBeacon } from "@/components/visit-beacon"
 import { INSTALL, REPO } from "@/lib/links"
 import { cn } from "@/lib/utils"
 
@@ -159,6 +160,7 @@ export default function Home() {
       <footer className="pb-10 text-center text-[13px] text-faint sm:pb-28">
         © 2026 Contextual · Free and open source, MIT licensed
       </footer>
+      <VisitBeacon path="/" />
 
       {/* Quiet navigation under a soft blur, always in reach. */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 h-24 max-sm:hidden">

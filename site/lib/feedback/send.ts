@@ -4,6 +4,7 @@
  * be tested without a database or a network.
  */
 
+import type { Limiter } from "../rate-limit.ts"
 import { BODY_CAP, validateReport, type Report } from "./report.ts"
 
 export type Store = {
@@ -11,7 +12,6 @@ export type Store = {
   /** Reports stored in the last `minutes`, for the overall limit. */
   recentCount(minutes: number): Promise<number>
 }
-export type Limiter = { allow(key: string): boolean }
 
 /** A field people never see. A bot that fills it gets a polite answer and nothing is stored. */
 export const HONEYPOT = "website"

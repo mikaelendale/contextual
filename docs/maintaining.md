@@ -46,9 +46,18 @@ The live site, contextual.mikaelen.site, is a Vercel project. As of 13 November 
 
 1. In the Vercel project's settings, under Git, connect this repo (`mikaelendale/contextual`), with `main` as the production branch.
 2. Under Build and Deployment, set the Root Directory to `site`.
-3. Under Environment Variables, keep `GITHUB_TOKEN` optional, and for agent feedback (0.2.0) set `DATABASE_URL` and `FEEDBACK_REPORTS_SECRET` (see `site/README.md`).
+3. Under Environment Variables, `DATABASE_URL` and `FEEDBACK_REPORTS_SECRET` are already set for production and preview (see `site/README.md`); `GITHUB_TOKEN` stays optional.
 
 After step 1, every push to `main` deploys to production, and every other branch gets a preview.
+
+## The site's database
+
+Agent feedback and page visits live in a Neon project of their own, used by nothing else. Nothing about it is in this repo: the connection string is `DATABASE_URL`, set on Vercel as a secret for production and preview. The Neon console gives it again when needed.
+
+- The tables come from `site/db/migrations/`, run in order with `psql "$DATABASE_URL" -f <file>`. Each file is safe to run twice. A change to a table gets a new numbered file; never edit one that has run.
+- Reports are kept for at least 30 days. Nothing deletes them automatically.
+- Page visits are one row per page per day with a count, and nothing about visitors (see `site/README.md`).
+- `/agent/feedback/reports` opens with `FEEDBACK_REPORTS_SECRET` and shows the reports and the home page's visits.
 
 ## Releasing the npm package
 

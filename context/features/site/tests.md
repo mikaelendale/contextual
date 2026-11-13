@@ -1,7 +1,7 @@
 # Tests — Site
 
 ## Automated
-None.
+- Counting visits: `site/lib/visits/visits.test.ts`, with `cd site && node --test lib/*/*.test.ts` (Node 22.18 or newer, which runs TypeScript directly).
 
 ## How a person reaches it
 Open the site.
@@ -15,4 +15,4 @@ Open the site.
 The build passes, nothing scrolls sideways, the figures play, hold and replay, and the console is clean.
 
 ## Last result
-2026-11-13 · `npm run build` passed; screenshots at 390px and 1440px: no sideways scroll, no console errors.
+2026-11-13 · the site's tests (12 passed), `next build`, lint and the type check. Against the database in headless Chrome: the first visit counted, a reload and the feedback form didn't, and a return after 31 minutes did; the reports page showed the totals at 375px, 390px and 1440px.
