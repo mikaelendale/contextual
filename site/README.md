@@ -1,6 +1,6 @@
 # Contextual
 
-The teaser site for Contextual: an open source context structure that gives AI coding agents persistent memory of your project. It works with Claude Code and Codex.
+The website for Contextual: an open source context structure that gives AI coding agents persistent memory of your project. It works with Claude Code and Codex.
 
 Built with Next.js 16, Tailwind CSS 4, shadcn/ui and [Paper Shaders](https://shaders.paper.design).
 
@@ -18,7 +18,6 @@ Then open http://localhost:3000.
 | Variable | What it does |
 | --- | --- |
 | `SITE_URL` | The public address, `https://contextual.mikaelen.site`. It makes the canonical link and the share-card links absolute. Vercel fills this in on its own. |
-| `NEXT_PUBLIC_CHANNEL_URL` | Your channel link. When it's set, "Stay tuned to the channel" becomes a link and the header shows "Join the channel". |
 | `VISITS_NAMESPACE` | The name of the visit counter on [Abacus](https://jasoncameron.dev/abacus/). Required in production: use something hard to guess, because the counter itself is public. Without it, production shows no counter. Development uses its own counter. |
 
 On Vercel, set the project's Root Directory to `site`.

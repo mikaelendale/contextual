@@ -27,6 +27,7 @@ If you haven't this session, do the start-of-session read in `AGENTS.md` first. 
 - Work through the README's acceptance lines in order. Read the `stack/` and `design/` files that `build.md` links to before the code they cover.
 - Before editing any file, run `<cli> which <path>` and follow the rule in `AGENTS.md`.
 - Write a test for each acceptance line you can test in code, before or with the code. Follow `context/conventions.md`.
+- Use only the packages and tools in `context/stack/`. Adding one, even for a one-off `npx` command, needs a record in `context/decisions/` first.
 - When a product decision isn't clear, ask. Don't guess. Note the question under Open questions in `notes.md` and under "Blocked / needs a human" in the status file.
 - When you choose between real alternatives, record it in `context/decisions/` from [assets/decision.md](assets/decision.md). When a library surprised you, add it to `context/stack/<lib>.md` from [assets/stack-lib.md](assets/stack-lib.md).
 

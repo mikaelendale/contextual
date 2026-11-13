@@ -1,6 +1,6 @@
 ---
 name: contextual-setup
-description: Use when the person says "set up contextual", "set up the context", "fill in the context" or "plan this project", or right after `usecontextual init`. Writes the project's context in context/ for the first time, from contextual-plan.md when there is one, or from a few questions when the repo is empty.
+description: Use when the person says "set up contextual", "set up the context", "fill in the context" or "plan this project", or right after `usecontextual init`. Writes the project's context in context/ for the first time: from contextual-plan.md when there is one, from a few questions when the repo is empty, or from the existing code.
 license: MIT
 ---
 
@@ -17,7 +17,7 @@ Look at what's in the repo, ignoring `.git/`, `context/`, `AGENTS.md`, `CLAUDE.m
 - `context/idea.md` exists: setup already ran. Stop, and ask what the person wants changed.
 - `contextual-plan.md` is at the repo root: **path 1**. Go to step 3.
 - No plan file and nothing else in the repo: **path 2**. Go to step 2.
-- No plan file, but there is code: this is an existing project, and that path isn't available yet. Say so and stop. Don't invent a plan from the code.
+- No plan file, but there is code: **path 3**. Follow [references/existing-code.md](references/existing-code.md): scan, propose the features and their paths, wait for the person to confirm, then write. Change no code.
 
 ## 2. Path 2: ask, then write the plan
 
@@ -27,11 +27,12 @@ Look at what's in the repo, ignoring `.git/`, `context/`, `AGENTS.md`, `CLAUDE.m
 
 ## 3. Write the context from the plan
 
-Read `contextual-plan.md` in full. Then fill the files in the order given in [references/fill-from-plan.md](references/fill-from-plan.md), which says what goes where. Rules for every file:
+Read `contextual-plan.md` in full. Then fill the files in the order given in [references/fill-from-plan.md](references/fill-from-plan.md), which says what goes where. Always add a first feature the plan doesn't list, `foundation`: it owns the app shell, layouts and config. Rules for every file:
 
 - Keep every heading the template has, in order. Delete each `<!-- fill: … -->` comment once its content is written.
 - Write only what the plan says or what follows directly from it. When something isn't decided, write "Not decided yet" and add the question to "Blocked / needs a human" in `context/status/main.md`.
 - Never edit between `<!-- contextual:start -->` and `<!-- contextual:end -->` in `AGENTS.md`, and never edit `context/design/deslop.md` or `context/features/_index.md`.
+- Paths 1 and 2 write no `log.md` or other feature files: setup isn't work on a feature, and a planned feature has only its `README.md`. (Path 3 gives each feature it finds all five files.) The definition of done in `AGENTS.md` starts with the first feature.
 
 ## 4. Finish
 

@@ -1,0 +1,18 @@
+# Runs `usecontextual check` on every pull request, because git hooks don't
+# travel with a clone. Copy this file to .github/workflows/contextual.yml.
+name: Contextual
+on:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      # --branch names the pull request's branch, because CI checks out a detached HEAD.
+      # With usecontextual in package.json, install first and run `npx usecontextual check` instead,
+      # so CI uses the same pinned version as the hook.
+      - run: npx --yes usecontextual@0.1.0 check --branch "$GITHUB_HEAD_REF"

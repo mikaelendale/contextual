@@ -5,6 +5,9 @@
 - Validate every server action's input with zod, at the top of the action.
 - No default exports, except where Next.js requires them (pages, layouts, route handlers).
 
+## Packages and tools
+Use only the packages and tools listed in `stack/`. Adding another one, even a one-off `npx` command, needs a record in `decisions/` first.
+
 ## Naming and files
 - Files and folders in kebab-case (`create-board-dialog.tsx`). Components in PascalCase. Tables plural, in snake_case.
 - A feature's code lives in `src/features/<feature>/`: `schema.ts`, `actions.ts`, `queries.ts`, `components/`, with tests next to the code.

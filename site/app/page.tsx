@@ -1,11 +1,18 @@
 import { Fragment, type CSSProperties, type ComponentType, type ReactNode, type SVGProps } from "react"
-import { ArrowUpRight } from "@phosphor-icons/react/ssr"
+import { ArrowUpRight, GithubLogo } from "@phosphor-icons/react/ssr"
 
 import { ClaudeCodeMark, CodexMark } from "@/components/brand-marks"
+import { CopyCommand } from "@/components/copy-command"
+import { Checked } from "@/components/home/checked"
+import { RepoFolder } from "@/components/home/repo-folder"
+import { SectionTitle } from "@/components/home/section"
+import { ThreeSentences } from "@/components/home/three-sentences"
+import { WorksWith } from "@/components/home/works-with"
 import { LiveDither } from "@/components/live-dither"
 import { Logo } from "@/components/logo"
 import { VisitCounter } from "@/components/visit-counter"
 import { Sky } from "@/components/sky"
+import { INSTALL, REPO } from "@/lib/links"
 import { cn } from "@/lib/utils"
 
 /** A product named inline, with its real mark. */
@@ -26,9 +33,6 @@ function Named({
   )
 }
 
-/** Where people follow along. Set NEXT_PUBLIC_CHANNEL_URL to turn the call to action into a link. */
-const CHANNEL_URL = process.env.NEXT_PUBLIC_CHANNEL_URL ?? ""
-
 /** A headline line whose words arrive one by one, starting `base` ms after load. */
 function Words({ text, base, className }: { text: string; base: number; className?: string }) {
   const words = text.split(" ")
@@ -43,39 +47,6 @@ function Words({ text, base, className }: { text: string; base: number; classNam
         </Fragment>
       ))}
     </span>
-  )
-}
-
-function LiveDot() {
-  return (
-    <span aria-hidden="true" className="relative flex size-2.5">
-      <span className="live absolute inset-0 rounded-full bg-[#ff9b45]" />
-      <span className="relative size-2.5 rounded-full bg-brand" />
-    </span>
-  )
-}
-
-/** "Stay tuned": a button to the channel when it's set, a quiet status pill until then. */
-function ChannelCta() {
-  if (CHANNEL_URL) {
-    return (
-      <a
-        href={CHANNEL_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group/cta inline-flex h-12 items-center gap-2.5 rounded-full bg-linear-to-b from-[#2b2b31] to-foreground pr-5 pl-4 text-[15px] font-medium text-background shadow-[inset_0_1px_0_rgb(255_255_255/0.14),0_14px_30px_-14px_rgb(23_23_27/0.55)] transition-[filter] outline-none hover:brightness-125 focus-visible:ring-3 focus-visible:ring-ring"
-      >
-        <LiveDot />
-        Stay tuned to the channel
-        <ArrowUpRight weight="bold" className="size-4 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-      </a>
-    )
-  }
-  return (
-    <p className="inline-flex h-11 items-center gap-2.5 rounded-full border border-foreground/10 px-5 text-[15px] font-medium">
-      <LiveDot />
-      Stay tuned to the channel
-    </p>
   )
 }
 
@@ -107,18 +78,15 @@ export default function Home() {
 
       <header className="relative z-10 mx-auto flex h-18 w-full max-w-[1240px] items-center justify-between px-5 sm:px-8">
         <Logo tone="light" className="[text-shadow:0_0_10px_rgb(140_28_0/0.45)]" />
-        {CHANNEL_URL ? (
-          <a
-            href={CHANNEL_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-9 items-center rounded-full border border-white/55 bg-white/5 px-4 text-[14px] font-medium text-white backdrop-blur-sm transition-colors outline-none hover:bg-white/15 focus-visible:ring-3 focus-visible:ring-white/50"
-          >
-            Join the channel
-          </a>
-        ) : (
-          <span className="rise text-[14px] font-medium text-white [text-shadow:0_0_10px_rgb(140_28_0/0.55)] [--delay:200ms]">Coming soon</span>
-        )}
+        <a
+          href={REPO}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rise inline-flex h-9 items-center gap-2 rounded-full border border-white/55 bg-white/5 px-4 text-[14px] font-medium text-white backdrop-blur-sm transition-colors outline-none [--delay:200ms] hover:bg-white/15 focus-visible:ring-3 focus-visible:ring-white/50"
+        >
+          <GithubLogo weight="fill" className="size-4" />
+          GitHub
+        </a>
       </header>
 
       <main>
@@ -137,21 +105,28 @@ export default function Home() {
             and <Named Mark={CodexMark}>Codex</Named> persistent memory of your project.
             Less guessing, less prompting, and code that fits the first time.
           </p>
-          <div id="stay" className="blur-in pointer-events-auto mt-[clamp(1.5rem,4svh,2.25rem)] scroll-mt-28 [--delay:1150ms]">
-            <ChannelCta />
+          <div className="blur-in pointer-events-auto mt-[clamp(1.5rem,4svh,2.25rem)] [--delay:1150ms]">
+            <CopyCommand command={INSTALL} />
           </div>
-          <VisitCounter className="blur-in mt-4 [--delay:1300ms]" />
+          <a
+            href={REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="blur-in pointer-events-auto inline-flex items-center gap-1.5 text-[14.5px] font-medium text-foreground underline decoration-foreground/20 underline-offset-4 transition-colors outline-none [--delay:1250ms] hover:decoration-brand focus-visible:ring-3 focus-visible:ring-ring"
+          >
+            Read the docs on GitHub
+            <ArrowUpRight weight="bold" className="size-3.5" />
+          </a>
+          <VisitCounter className="blur-in mt-5 [--delay:1350ms]" />
         </section>
 
         <section id="how" className="mx-auto flex min-h-svh w-full max-w-[1240px] scroll-mt-0 flex-col justify-center pt-[8svh] pb-[11svh]">
           <div className="mx-auto max-w-[44rem] px-5 text-center sm:px-8">
-            <h2 className="font-serif text-[clamp(2.2rem,1.5rem+2.3vw,3.2rem)] leading-[1.06] font-light tracking-[-0.02em] text-balance">
-              Every session starts where <em className="text-brand">the last one ended.</em>
-            </h2>
+            <SectionTitle lead="Every session starts where" accent="the last one ended." />
             <p className="mx-auto mt-5 max-w-[40rem] text-[16px] leading-[1.65] text-pretty text-muted-foreground sm:text-[17px]">
-              Contextual is a set of plain markdown files that live in your repo. A
-              companion skill builds them from your codebase and keeps them current as
-              you work.
+              Contextual is a set of plain markdown files that live in your repo. Its
+              agent skills write them, from your plan or from the code you already have,
+              and keep them current as you work.
             </p>
           </div>
 
@@ -182,10 +157,15 @@ export default function Home() {
             ))}
           </ol>
         </section>
+
+        <ThreeSentences />
+        <RepoFolder />
+        <Checked />
+        <WorksWith />
       </main>
 
       <footer className="pb-10 text-center text-[13px] text-faint sm:pb-28">
-        © 2026 Contextual · Free and open source
+        © 2026 Contextual · Free and open source, MIT licensed
       </footer>
 
       {/* Quiet navigation under a soft blur, always in reach. */}
@@ -198,8 +178,14 @@ export default function Home() {
           <a href="#how" className="transition-colors hover:text-foreground">
             How it works
           </a>
-          <a href={CHANNEL_URL || "#stay"} className="transition-colors hover:text-foreground">
-            Stay tuned
+          <a href="#start" className="transition-colors hover:text-foreground">
+            Get started
+          </a>
+          <a href="#repo" className="transition-colors hover:text-foreground">
+            The folder
+          </a>
+          <a href={REPO} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+            GitHub
           </a>
         </nav>
       </div>

@@ -137,6 +137,7 @@ test("a status file over its line cap", () => {
 test("a branch with no status file", () => {
   const dir = copyExample()
   hasError(dir, /status\/feat-search\.md: is missing/, "feat/search")
+  hasError(dir, /needs its status file\. Run `npx --no-install usecontextual check --fix` to create it/, "feat/link-preview")
 })
 
 test("the default branch uses main.md", () => {
@@ -206,6 +207,12 @@ test("a deslop result with no reason, no fix named, or a form deslop.md doesn't 
   hasError(dir, /links\/log\.md: "Deslop: looks fine" isn't a deslop result/)
 })
 
+test("not UI may carry a short reason", () => {
+  const dir = copyExample()
+  edit(dir, "context/features/teams/log.md", (t) => t.replace("- Deslop: not UI.", "- Deslop: not UI (an email subject only)"))
+  assert.deepEqual(errorsIn(dir), [])
+})
+
 // --- ownership: covers and shared (spec 3.8)
 
 test("with code present, the example passes the ownership checks too", () => {
@@ -227,7 +234,7 @@ test("a file covered by two features", () => {
 test("a file covered by a feature and on the shared: line", () => {
   const dir = copyExample()
   addCode(dir)
-  edit(dir, "context/architecture.md", (t) => t.replace("shared: *,", "shared: *, src/features/links/**,"))
+  edit(dir, "context/architecture.md", (t) => t.replace("shared: src/components/**,", "shared: src/components/**, src/features/links/**,"))
   hasError(dir, /is covered by links and is also on the shared: line/)
 })
 
@@ -243,8 +250,17 @@ test("a shipped feature whose covers: matches nothing is an error; in progress, 
 test("a shared: glob that matches nothing is a warning", () => {
   const dir = copyExample()
   addCode(dir)
-  edit(dir, "context/architecture.md", (t) => t.replace("shared: *,", "shared: *, scripts/**,"))
+  edit(dir, "context/architecture.md", (t) => t.replace("shared: src/components/**,", "shared: src/components/**, scripts/**,"))
   assert.ok(warningsIn(dir).some((w) => /shared: scripts\/\*\* matches no files/.test(w.message)))
+})
+
+test("more than a third of owned files on the shared: line is a warning", () => {
+  const dir = copyExample()
+  addCode(dir)
+  assert.ok(!warningsIn(dir).some((w) => /more than a third/.test(w.message)), "the example itself shouldn't trip it")
+  for (let i = 0; i < 30; i++) write(dir, `src/components/app/piece-${i}.tsx`, "// stand-in\n")
+  assert.ok(warningsIn(dir).some((w) => /files with an owner are on the shared: line, more than a third/.test(w.message)), describe(warningsIn(dir)))
+  assert.deepEqual(errorsIn(dir), [])
 })
 
 // --- skills (spec 7.1)

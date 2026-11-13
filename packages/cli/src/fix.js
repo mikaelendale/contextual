@@ -1,17 +1,19 @@
 /*
  * `usecontextual check --fix`: repairs what is mechanical (spec section 6),
- * then `check` runs as usual. So far it rebuilds context/features/_index.md
- * and stores the idea.md hash once setup has written idea.md. Creating a
- * missing status file comes with `init`, which ships the templates.
+ * then `check` runs as usual: it rebuilds context/features/_index.md, stores
+ * the idea.md hash once setup has written idea.md, and creates a missing
+ * status file for the current branch from the template.
  */
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 
-import { buildIndex, hashText, readFeatures, readPlan, readText } from "./context.js"
+import { assetRoot } from "./assets.js"
+import { branchSlug, buildIndex, hashText, readFeatures, readPlan, readText, statusFileFor } from "./context.js"
+import { currentBranch } from "./files.js"
 
 /** @returns {string[]} one line per change made */
-export function fix({ root }) {
+export function fix({ root, branch = null }) {
   const changes = []
   const ctx = join(root, "context")
   const metaPath = join(ctx, ".meta.json")
@@ -21,7 +23,7 @@ export function fix({ root }) {
   } catch {
     // check reports a broken .meta.json; nothing here can repair it
   }
-  const cli = meta?.cli ?? "npx usecontextual"
+  const cli = meta?.cli ?? "npx --no-install usecontextual"
 
   const planPath = join(ctx, "build-plan.md")
   const indexPath = join(ctx, "features", "_index.md")
@@ -48,6 +50,19 @@ export function fix({ root }) {
       writeFileSync(metaPath, `${JSON.stringify(meta, null, 2)}\n`)
     }
     changes.push("stored the idea.md hash in context/.meta.json")
+  }
+
+  const resolvedBranch = branch ?? currentBranch(root)
+  if (meta && resolvedBranch) {
+    const file = statusFileFor(resolvedBranch, meta.defaultBranch ?? "main")
+    const path = join(ctx, "status", file)
+    if (!existsSync(path)) {
+      const template = readText(join(assetRoot(), "templates", "status-branch.md"))
+      const name = file.replace(/\.md$/, "")
+      mkdirSync(join(ctx, "status"), { recursive: true })
+      writeFileSync(path, template.replace(/^# Status — <!-- fill:[^>]*-->/, `# Status — ${name}`))
+      changes.push(`created context/status/${file} from the template${name === branchSlug(resolvedBranch) ? "" : " (the default branch uses main.md)"}`)
+    }
   }
 
   return changes

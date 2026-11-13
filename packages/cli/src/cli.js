@@ -1,8 +1,13 @@
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { basename } from "node:path"
 
 import { check } from "./check.js"
 import { fix } from "./fix.js"
+import { InitError, init } from "./init.js"
+import { checkStaged } from "./staged.js"
+import { UpdateError, update } from "./update.js"
+import { readText } from "./context.js"
+import { join } from "node:path"
 import { findRoot } from "./context.js"
 import { which } from "./which.js"
 
@@ -12,12 +17,19 @@ const DOCS = "https://github.com/mikaelendale/contextual"
 const HELP = `usecontextual ${version}
 
 Usage:
+  usecontextual init [--harness <list>] [--preset <name>] [--force] [--no-install]
+                                          add Contextual to this repo
   usecontextual check [--branch <name>]   check the context in this repo
-  usecontextual check --fix               rebuild the feature index, store the idea.md hash, then check
+  usecontextual check --fix               repair what's mechanical, then check
+  usecontextual check --staged            the pre-commit check: the staged code's logs and status file
   usecontextual which <path>              show which feature owns a file
+  usecontextual update                    refresh Contextual's own files to this version
 
-Not released yet: init, update, check --staged.
+  --harness   claude, codex, antigravity, opencode (comma-separated). Default: detected, or all
+  --preset    next, laravel-inertia-react
 Docs: ${DOCS}`
+
+const VALUE_FLAGS = new Set(["branch", "harness", "preset"])
 
 function parseArgs(args) {
   const flags = { _: [] }
@@ -26,7 +38,7 @@ function parseArgs(args) {
     if (arg.startsWith("--")) {
       const [key, inline] = arg.slice(2).split("=", 2)
       if (inline !== undefined) flags[key] = inline
-      else if (args[i + 1] !== undefined && !args[i + 1].startsWith("--") && key === "branch") flags[key] = args[++i]
+      else if (args[i + 1] !== undefined && !args[i + 1].startsWith("--") && VALUE_FLAGS.has(key)) flags[key] = args[++i]
       else flags[key] = true
     } else {
       flags._.push(arg)
@@ -36,11 +48,6 @@ function parseArgs(args) {
 }
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`
-
-function notReleased(what, err) {
-  err(`usecontextual ${what}: not released yet. See ${DOCS}`)
-  return 2
-}
 
 /** Runs the CLI and returns its exit code: 0 ok, 1 problems found, 2 usage errors and commands that aren't released yet. */
 export function runCli(argv, { cwd, out, err }) {
@@ -55,8 +62,8 @@ export function runCli(argv, { cwd, out, err }) {
     out(version)
     return 0
   }
-  if (command === "init" || command === "update") return notReleased(command, err)
-  if (command === "check" && flags.staged) return notReleased("check --staged", err)
+  if (command === "init") return runInit(flags, { cwd, out, err })
+  if (command === "update") return runUpdate({ cwd, out, err })
   if (command !== "check" && command !== "which") {
     err(`Unknown command "${command}". Run usecontextual --help.`)
     return 2
@@ -73,8 +80,19 @@ export function runCli(argv, { cwd, out, err }) {
       err("--branch needs a branch name.")
       return 2
     }
-    if (flags.fix) for (const change of fix({ root })) out(`fixed: ${change}`)
-    const result = check({ root, branch: typeof flags.branch === "string" ? flags.branch : null })
+    const branchFlag = typeof flags.branch === "string" ? flags.branch : null
+    if (flags.fix) for (const change of fix({ root, branch: branchFlag })) out(`fixed: ${change}`)
+    const result = check({ root, branch: branchFlag })
+    if (flags.staged) {
+      const meta = JSON.parse(readText(join(root, "context", ".meta.json")))
+      const defaultBranch = meta.defaultBranch ?? "main"
+      result.findings.push(...checkStaged({ root, branch: result.branch, defaultBranch, skillDirs: meta.skillDirs ?? [] }))
+      // The hook warns and never blocks on the default branch (spec 4.2), and on every
+      // branch until setup has run: before context/idea.md exists there's nothing to keep in step.
+      const setupDone = existsSync(join(root, "context", "idea.md"))
+      if (!setupDone) result.findings.push({ level: "warning", file: null, message: "setup hasn't run yet (no context/idea.md), so this check only warns. Tell your agent \"set up contextual\"" })
+      if (!setupDone || !result.branch || result.branch === defaultBranch) for (const f of result.findings) f.level = "warning"
+    }
     const errors = result.findings.filter((f) => f.level === "error")
     const warnings = result.findings.filter((f) => f.level === "warning")
     out(`usecontextual check · ${basename(root)}${result.branch ? ` · branch ${result.branch}` : ""}`)
@@ -116,4 +134,56 @@ export function runCli(argv, { cwd, out, err }) {
   }
   out("no feature owns this path")
   return 1
+}
+
+function runInit(flags, { cwd, out, err }) {
+  const harnesses = typeof flags.harness === "string" ? flags.harness.split(",").map((h) => h.trim()).filter(Boolean) : null
+  const preset = typeof flags.preset === "string" ? flags.preset : null
+  if (flags.harness === true || flags.preset === true) {
+    err("--harness and --preset need a value, for example --harness claude,codex or --preset next.")
+    return 2
+  }
+  let result
+  try {
+    result = init({ cwd, version, harnesses, preset, force: Boolean(flags.force), install: !flags["no-install"] })
+  } catch (e) {
+    if (e instanceof InitError || /unknown harness/.test(e.message)) {
+      err(e.message)
+      return 2
+    }
+    throw e
+  }
+  out(`usecontextual init · ${basename(result.top)}`)
+  for (const file of result.created) out(`  added    ${file}`)
+  for (const file of result.kept) out(`  kept     ${file} (already there)`)
+  out(`  cli      ${result.cli}`)
+  out(`  package  ${result.dependency}`)
+  out(hookReport(result.hook))
+  out("")
+  out('Next: tell your coding agent "set up contextual". It writes the context from contextual-plan.md, from a few questions, or from the code that is already here.')
+  return 0
+}
+
+function runUpdate({ cwd, out, err }) {
+  let result
+  try {
+    result = update({ cwd, version })
+  } catch (e) {
+    if (e instanceof UpdateError) {
+      err(e.message)
+      return 2
+    }
+    throw e
+  }
+  out(`usecontextual update · ${basename(result.root)} · ${version}`)
+  for (const change of result.changes) out(`  ${change}`)
+  out(hookReport(result.hook))
+  return 0
+}
+
+function hookReport(hook) {
+  if (hook.action === "print") {
+    return `  hook     a hook manager owns the hooks folder, so nothing was written. Add this line to its pre-commit hook:\n           ${hook.line}`
+  }
+  return `  hook     ${hook.action} ${hook.file}`
 }

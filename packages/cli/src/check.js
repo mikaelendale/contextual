@@ -60,7 +60,7 @@ function deslopProblem(result) {
   if (/^not verified\b/i.test(result)) {
     return /^not verified[:,]?\s+\S/i.test(result) ? null : `${shown} must give the reason: "Deslop: not verified <reason>"`
   }
-  if (/^not UI\.?$/i.test(result)) return null
+  if (/^not UI\b/i.test(result)) return null
   return `${shown} isn't a deslop result: use "pass (<how checked>)", "fixed <what>", "not verified <reason>" or "not UI"`
 }
 
@@ -96,7 +96,7 @@ export function check({ root, branch = null }) {
     error("context/.meta.json", `"lastSync" needs both "commit" and "date" (spec 3.7)`)
   }
   const caps = { ...DEFAULT_CAPS, ...(meta.caps ?? {}) }
-  const cli = meta.cli ?? "npx usecontextual"
+  const cli = meta.cli ?? "npx --no-install usecontextual"
   const defaultBranch = meta.defaultBranch ?? "main"
   const skillDirs = Array.isArray(meta.skillDirs) ? meta.skillDirs : []
 
@@ -221,7 +221,7 @@ export function check({ root, branch = null }) {
     warn(null, "couldn't tell the current branch, so its status file wasn't checked (pass --branch <name>)")
   } else {
     const file = statusFileFor(resolvedBranch, defaultBranch)
-    if (!existsSync(join(statusDir, file))) error(`context/status/${file}`, `is missing: the branch ${resolvedBranch} needs its status file`)
+    if (!existsSync(join(statusDir, file))) error(`context/status/${file}`, `is missing: the branch ${resolvedBranch} needs its status file. Run \`${cli} check --fix\` to create it`)
   }
 
   // --- every markdown file: links, leftover guidance, log entries
@@ -320,11 +320,21 @@ export function check({ root, branch = null }) {
     for (const glob of shared ?? []) {
       if (!projectFiles.some((p) => matches(p, glob))) warn("context/architecture.md", `shared: ${glob} matches no files`)
     }
+    let withOwner = 0
+    let onlyShared = 0
     for (const p of projectFiles) {
       const owners = features.filter((f) => f.covers.some((g) => matches(p, g))).map((f) => f.name)
       const isShared = (shared ?? []).some((g) => matches(p, g))
       if (owners.length > 1) error(p, `is covered by more than one feature: ${owners.join(", ")}`)
       else if (owners.length === 1 && isShared) error(p, `is covered by ${owners[0]} and is also on the shared: line`)
+      if (owners.length > 0 || isShared) withOwner++
+      if (owners.length === 0 && isShared) onlyShared++
+    }
+    if (onlyShared * 3 > withOwner) {
+      warn(
+        "context/architecture.md",
+        `${onlyShared} of the ${withOwner} files with an owner are on the shared: line, more than a third. Keep shared: for generated files and UI building blocks; the app shell, layout and config belong to the foundation feature`,
+      )
     }
   }
 

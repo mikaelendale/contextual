@@ -1,6 +1,6 @@
 # Contextual — product and build spec
 
-Status: step 1 built and approved (templates, `deslop.md`, plan-file format, example). Step 2 built and tried in Claude Code (the three agent skills, without setup path 3), waiting for review. From step 3, `check`, `which` and part of `check --fix` exist early, with tests. Steps 3–7 otherwise not started.
+Status: steps 1 to 5 built on the branch `build/v0.1` (13–14 November 2026), and 0.1.0 is ready to publish. Tried for real in Claude Code, Codex and OpenCode (`docs/trials/`). Not yet tried in Antigravity. Steps 6 and 7 (wider testing, launch) are next.
 Written: November 2026. Last updated: 12 November 2026 (deslop results, the agent skills, `check --fix`; harnesses checked again). Before that, 10 November 2026 (harness behaviour verified against official docs, npm name `usecontextual`, a marked block in `AGENTS.md`, hook rules, collapsed feature index and `which`, sync fallbacks, one public repo with the site in `site/`). Section 14 lists every change.
 Audience: whoever builds this (including a coding agent starting with no prior context).
 
@@ -67,8 +67,8 @@ Verified on 10 November 2026 against each tool's official docs, and against its 
 |---|---|---|---|---|
 | Claude Code | Fully supported, tested by us | `CLAUDE.md`, which imports `AGENTS.md`. It reads `AGENTS.md` directly only when there is no `CLAUDE.md` | `.claude/skills/` | `/contextual-setup` |
 | Codex | Fully supported, tested by us | `AGENTS.md`, from the repo root down to the working directory, 32 KiB combined | `.agents/skills/` | `$contextual-setup` |
-| Antigravity | Supported through the standards, lightly tested | `AGENTS.md` (combined with `GEMINI.md` when both exist) | `.agents/skills/` (the older `.agent/skills/` still works) | `/contextual-setup` |
-| OpenCode | Supported through the standards, lightly tested | `AGENTS.md` only. Version 2 never reads `CLAUDE.md` | `.agents/skills/`, `.claude/skills/`, `.opencode/skills/` | `@contextual-setup` |
+| Antigravity | Supported through the standards, not yet tested | `AGENTS.md` (combined with `GEMINI.md` when both exist) | `.agents/skills/` (the older `.agent/skills/` still works) | `/contextual-setup` |
+| OpenCode | Supported through the standards, tested once (setup and one feature) | `AGENTS.md` only. Version 2 never reads `CLAUDE.md` | `.agents/skills/`, `.claude/skills/`, `.opencode/skills/` | `@contextual-setup` |
 | Cursor, Copilot, others | Probably works, untested, no promises | `AGENTS.md` | varies | varies |
 
 What follows from the table:
@@ -218,7 +218,7 @@ A **planned** feature has only `README.md`. The other four files are created whe
 
 ### 3.6 `design/deslop.md`
 
-Shipped by default, identical in every project, never generated. It is a ban list plus a checklist the agent runs after any UI work. The first full version is `templates/repo/context/design/deslop.md`; it grows the starting list below into five groups (color and effects, layout, icons and images, words, controls and states) and an eight-step checklist.
+Shipped by default, identical in every project, never generated. It is a ban list plus a checklist the agent runs after any UI work. The first full version is `templates/repo/context/design/deslop.md`; it grows the starting list below into five groups (color and effects, layout, icons and images, words, controls and states) and a nine-step checklist, which includes 4.5:1 contrast for body text and 3:1 for field outlines and focus rings.
 
 Starting ban list:
 
@@ -253,7 +253,7 @@ An agent never writes `pass` for a screen it hasn't seen. `check` rejects any ot
 
 - The Contextual version and creation date.
 - The default branch's real name.
-- The exact command the context files show for the CLI: `npx usecontextual` where it is a dev dependency, or a pinned `npx --yes usecontextual@<version>` otherwise (section 6.3).
+- The exact command the context files show for the CLI: `npx --no-install usecontextual` where it is a dev dependency, so a fresh clone without `node_modules` fails instead of downloading an unpinned copy; or a pinned `npx --yes usecontextual@<version>` when there's no `package.json` (section 6.3).
 - Which skill folders were installed.
 - **The last sync: its commit hash and its date.** The date survives squash merges and rebases that remove the commit from history (section 7).
 - Hashes of `idea.md` and `deslop.md`, computed with line endings normalized to LF, so a Windows checkout with `core.autocrlf` does not look like an edit.
@@ -264,11 +264,13 @@ An agent never writes `pass` for a screen it hasn't seen. `check` rejects any ot
 Every file outside `context/` has exactly one owner:
 
 - **A feature**, through the `covers:` globs in its README.
-- **The shared list**, for code no single feature owns: generated migrations, UI primitives, the app shell. It is one line at the end of the Boundaries section of `context/architecture.md`, in the same glob syntax as `covers:`:
+- **The shared list**, only for generated files (such as migrations) and UI building blocks. It is one line at the end of the Boundaries section of `context/architecture.md`, in the same glob syntax as `covers:`:
 
 ```
-shared: drizzle/**, src/components/**, src/db/index.ts, src/app/app/layout.tsx
+shared: drizzle/**, src/components/**
 ```
+
+The app shell, layouts, root config and test setup are not shared: they belong to **`foundation`**, a feature `contextual-setup` adds to every project as the first item of Phase 1. Without it, the first feature built puts most of its files on the shared list (it happened in testing: 10 of 13), and `which` stops telling the agent anything.
 
 Contextual's own files (`context/`, `AGENTS.md`, `CLAUDE.md`, the skill folders) need no owner. A file can't be covered by two features, or by a feature and the shared list; `check` reports either as an error. A changed file that has no owner at all gets a warning, "no feature owns this path" (section 6.2). `usecontextual which <path>` answers the question for one file.
 
@@ -297,7 +299,7 @@ Target: the agent spends under roughly 3,000 tokens on context before starting w
 
 A task missing any of these is not done. This is an instruction in AGENTS.md, backed by a git pre-commit hook that runs `usecontextual check --staged` (section 6.2). Git does not care which agent is driving, so enforcement works in every harness, on every clone where the hook is installed.
 
-**On a feature branch the hook blocks; on the default branch it warns.** Tiny fixes (a typo, a one-line bug) can go straight on main, and people editing by hand on main are not stopped; `contextual-sync` catches the context up afterwards. On a feature branch, `git commit --no-verify` is the deliberate way past the hook.
+**On a feature branch the hook blocks; on the default branch it warns. Until setup has run (no `context/idea.md`), it only warns, on every branch.** Tiny fixes (a typo, a one-line bug) can go straight on main, and people editing by hand on main are not stopped; `contextual-sync` catches the context up afterwards. On a feature branch, `git commit --no-verify` is the deliberate way past the hook.
 
 ### 4.3 Keeping context small as the project grows
 
@@ -371,6 +373,7 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 - `covers:` globs match at least one file: an error for shipped features, a warning for features in progress (the work may not have created the files yet).
 - Every file has at most one owner: no file is covered by two features, or by a feature and the `shared:` line (section 3.8).
 - Every glob on the `shared:` line matches at least one file (warning).
+- No more than a third of the files that have an owner are on the `shared:` line (warning). More means the app shell or config is being parked there instead of in `foundation`.
 - When there are no files outside `context/` at all (a project before its first code, or `example/`), the three checks above are skipped with a warning that says so.
 - Links between context files resolve.
 - No file is over its size cap. For `AGENTS.md`, only the Contextual block counts.
@@ -394,6 +397,10 @@ A change to another feature's files counts too: that feature's `log.md` needs an
 Paths on the `shared:` line (section 3.8) are fine in a commit that also changes a feature. A commit that changes only shared code gets a warning, so `contextual-sync` can map it later.
 
 A changed file that no feature covers and that isn't on the `shared:` line gets a warning: "no feature owns this path."
+
+When the branch has no status file at all, the error says how to make one: `usecontextual check --fix` creates it from the template.
+
+Until setup has run (no `context/idea.md`), every finding is a warning, on every branch: there's no context yet to keep in step.
 
 A pre-commit hook cannot read the commit message, so there is no "skip" tag in messages. On a feature branch, `git commit --no-verify` is the way past the hook, on purpose.
 
@@ -429,13 +436,13 @@ Three skills in the standard `SKILL.md` format, installed into the repo by the p
 
 The skill detects which situation it is in:
 
-1. **Plan file present.** Reads `contextual-plan.md`, distributes it into `build-plan.md`, feature folders (README only), `stack/`, `design/principles.md`, `architecture.md`, `conventions.md`. Moves the plan file to `context/idea.md`.
+1. **Plan file present.** Reads `contextual-plan.md`, distributes it into `build-plan.md`, feature folders (README only), `stack/`, `design/principles.md`, `architecture.md`, `conventions.md`. Adds `foundation` as the first feature of Phase 1 (section 3.8). Moves the plan file to `context/idea.md`.
 2. **No plan file, empty repo.** Asks the same questions as the chat skill, writes the answers to `context/idea.md` in the plan-file format, then writes everything as in path 1.
 3. **Existing code.** Scans the repo (tree, manifests, README, routes, schema), proposes a feature list with the paths each covers, **waits for the person to confirm**, then writes the context. Features found in code are marked `shipped` with `build.md` filled in; anything it inferred but did not verify is marked as such.
 
 All three paths end by running `usecontextual check --fix` and writing the first `status/main.md`.
 
-Path 3 is the hardest to get right (feature boundaries are easy to get wrong) and should be built last.
+Path 3 is the hardest to get right (feature boundaries are easy to get wrong) and is built last. Its procedure is `skills/contextual-setup/references/existing-code.md`: features found in code get all five files and a "Found at setup" log entry; an acceptance line read in the code but not verified is ticked and ends with "(found in the code, not verified)"; `idea.md` is written from the README and the confirmed feature list.
 
 ### `contextual-next` — build the next feature
 
@@ -453,9 +460,10 @@ For when a human changed code by hand or the rule was skipped. Diff since the la
 
 **Finding "since the last sync".** `.meta.json` stores the commit hash and the date of the last sync.
 
-1. If that commit is still in the current branch's history, diff from it.
-2. If it is gone (a squash merge or a rebase removed it), diff from the last commit before the stored date: `git rev-list -1 --before=<date> HEAD`.
-3. If that fails too (no date stored, or no commit before it), rescan: compare every in-progress and shipped feature's `covers:` paths with its `build.md`, and update whatever no longer matches.
+1. If no sync has run yet, diff from the commit that set Contextual up (the one that added `context/.meta.json`), so the first sync sees content changes too, not only added and removed files.
+2. If that commit is still in the current branch's history, diff from it.
+3. If it is gone (a squash merge or a rebase removed it), diff from the last commit before the stored date: `git rev-list -1 --before=<date> HEAD`.
+4. If that fails too (no date stored, or no commit before it), rescan: compare every in-progress and shipped feature's `covers:` paths with its `build.md`, and update whatever no longer matches.
 
 At the end, sync stores the new commit hash and date.
 
@@ -495,9 +503,9 @@ contextual/
 
 1. **Templates and example.** Everything else depends on these. Includes `deslop.md` and the plan-file format. *Done 10 November 2026.*
 2. **Agent skills**: `contextual-setup` paths 1 and 2, `contextual-next`, `contextual-sync`.
-3. **Package**: `init`, `check`, `update`, `which`, harness detection, and the git hook. *Started early: `check`, `which` and part of `check --fix` (rebuilding the index, storing the `idea.md` hash; the skills need both), tested against `example/`. Not built: `--staged`, and `--fix` creating a missing status file, which comes with `init` and its templates.*
-4. **Chat skill** and the copy-paste prompt.
-5. **`contextual-setup` path 3** (existing codebases).
+3. **Package**: `init`, `check`, `update`, `which`, harness detection, and the git hook. *Built 13 November 2026, with presets.*
+4. **Chat skill** and the copy-paste prompt. *Built 13 November 2026.*
+5. **`contextual-setup` path 3** (existing codebases). *Built 13 November 2026; tried on mdn/todo-react.*
 6. **Testing** (section 10).
 7. **Docs and launch.**
 
@@ -583,6 +591,20 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 ## 14. Revision history
 
+- **14 November 2026, before publishing 0.1.0.**
+  - A missing branch status file's error names the fix, `check --fix` (section 6.2).
+  - Until setup has run, the hook only warns, on every branch (sections 4.2, 6.2).
+  - With a `package.json`, the context files and skills use `npx --no-install usecontextual`, so a fresh clone never downloads an unpinned copy (section 3.7).
+- **13–14 November 2026, overnight build (branch `build/v0.1`).**
+  - The CLI's `init`, `update`, `check --staged` and the pre-commit hook (section 6). Presets for Next.js and for Laravel with Inertia and React.
+  - `contextual-plan`: the chat skill and the copy-paste prompt. `contextual-setup` path 3.
+  - Trials in Claude Code, Codex and OpenCode, including full runs from a packed 0.1.0 (`docs/trials/`). The harness table in section 2 now says what was tested.
+  - Small rule changes from the trials: the definition of done applies to tasks on a feature; `not UI` may carry a reason; a plan may have one sentence under a phase heading.
+- **13 November 2026.**
+  - `deslop.md`: a ninth checklist line, 3:1 contrast for field outlines and focus rings.
+  - Every project gets a first feature, `foundation`, for the app shell, layouts and config; `shared:` is only for generated files and UI building blocks, and `check` warns when more than a third of owned files are on it (sections 3.8, 6.1, 7). The example has a `foundation` feature.
+  - `conventions.md` has a fixed rule: no package or tool outside the stack, not even a one-off `npx` command, without a `decisions/` record.
+  - The first sync diffs from the setup commit (section 7).
 - **12 November 2026.**
   - Deslop results: `pass (<how it was checked>)`, `fixed <what>`, `not verified <reason>`, `not UI`. `check` validates them (sections 3.6, 6.1).
   - Step 2 built: `contextual-setup` paths 1 and 2, `contextual-next` and `contextual-sync`, each a short `SKILL.md` with `references/` and `assets/` (section 7.1). Tried for real in Claude Code.

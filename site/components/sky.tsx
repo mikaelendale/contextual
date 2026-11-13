@@ -4,6 +4,7 @@ import { useEffect, useRef, type CSSProperties } from "react"
 import { LiveDither } from "@/components/live-dither"
 
 import { cn } from "@/lib/utils"
+import { Spark } from "@/components/spark"
 
 /*
  * The hero sky: a rendered cloudscape turned into soft, live film grain by
@@ -45,18 +46,6 @@ const vars = (v: Record<string, string | number>) => v as CSSProperties
 
 const LABEL =
   "pointer-events-none absolute text-[12.5px] font-medium whitespace-nowrap text-white opacity-0 transition-opacity duration-300 [text-shadow:0_0_5px_rgb(150_35_0/0.9),0_0_14px_rgb(150_35_0/0.7)] group-hover:opacity-100"
-
-function Spark({ className }: { className?: string }) {
-  // A four-point star with soft, slightly concave sides.
-  return (
-    <svg viewBox="-50 -50 100 100" aria-hidden="true" className={className}>
-      <path
-        d="M0 -50C4 -14 14 -4 50 0C14 4 4 14 0 50C-4 14 -14 4 -50 0C-14 -4 -4 -14 0 -50Z"
-        fill="currentColor"
-      />
-    </svg>
-  )
-}
 
 export function Sky({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null)

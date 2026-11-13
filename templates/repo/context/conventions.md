@@ -3,6 +3,9 @@
 ## Code
 <!-- fill: language settings, the lint and format commands, and the few style rules that matter in this repo. -->
 
+## Packages and tools
+Use only the packages and tools listed in `stack/`. Adding another one, even a one-off `npx` command, needs a record in `decisions/` first.
+
 ## Naming and files
 <!-- fill: where new code goes, and how files, components, functions and tables are named. -->
 

@@ -1,6 +1,7 @@
 # Build plan
 
 ## Phase 1 — Accounts  [done]
+- [x] features/foundation
 - [x] features/auth
 - [x] features/teams
 

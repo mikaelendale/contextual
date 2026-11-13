@@ -47,14 +47,15 @@ Read this before any UI work. When the work is done, run the checklist at the bo
 4. Every list, table and async action has an empty, a loading and an error state, and you have seen each one on screen.
 5. Every control works with the keyboard and shows a visible focus ring.
 6. Body text has a contrast ratio of at least 4.5:1 against its background.
-7. At 375px wide nothing overflows, overlaps or scrolls sideways.
-8. Every heading, button and message says something specific to this product.
+7. Field outlines and focus rings have a contrast ratio of at least 3:1 against the colors next to them.
+8. At 375px wide nothing overflows, overlaps or scrolls sideways.
+9. Every heading, button and message says something specific to this product.
 
 Record the result in the log entry as one of these:
 
 - `Deslop: pass (<how you checked>)`: every item passed. Say how you saw the screens: a screenshot path, or the tool you used, such as `Playwright screenshots at 375px and 1280px`.
 - `Deslop: fixed <what>`: you found problems and fixed them.
 - `Deslop: not verified <reason>`: you couldn't render the UI, so you couldn't run the checklist. Say why. The next session that can render it runs the checklist.
-- `Deslop: not UI`: the task didn't touch the UI.
+- `Deslop: not UI`: the task didn't touch the UI. A short reason after it is fine.
 
 Never write `pass` for a screen you haven't seen. Anything you couldn't fix goes under Open questions in the feature's `notes.md`.

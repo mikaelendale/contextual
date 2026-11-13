@@ -29,11 +29,15 @@ test("which covers features in collapsed phases and planned features", () => {
   assert.equal(owner("src/features/search/search-box.tsx"), "search")
 })
 
-test("which reports shared code", () => {
-  assert.equal(owner("package.json"), "shared")
+test("which reports shared code: UI building blocks and generated files", () => {
   assert.equal(owner("drizzle/0004_boards.sql"), "shared")
   assert.equal(owner("src/components/ui/button.tsx"), "shared")
-  assert.equal(owner("src/app/app/layout.tsx"), "shared")
+})
+
+test("the app shell, layout and config belong to foundation", () => {
+  assert.equal(owner("package.json"), "foundation")
+  assert.equal(owner("src/app/app/layout.tsx"), "foundation")
+  assert.equal(owner("src/db/index.ts"), "foundation")
 })
 
 test("which reports paths no one owns", () => {

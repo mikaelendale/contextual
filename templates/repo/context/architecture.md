@@ -16,5 +16,5 @@
 <!-- fill: a table: Service | Used for | Called from. -->
 
 ## Boundaries
-<!-- fill: rules about what may import or call what, for example "a feature never imports another feature's internals". End the section with one line, "shared: <comma-separated globs>", listing the code no single feature owns (generated migrations, UI primitives, the app shell). `usecontextual which` and `check` read that line. -->
+<!-- fill: rules about what may import or call what, for example "a feature never imports another feature's internals". End the section with one line, "shared: <comma-separated globs>", listing only generated files (such as migrations) and UI building blocks. The app shell, layout and config belong to the foundation feature. `usecontextual which` and `check` read that line. -->
 shared:
