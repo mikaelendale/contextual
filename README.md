@@ -63,7 +63,7 @@ Each harness ran setup from a plan file and then built one feature, on 13 Novemb
 
 | Folder | What it is |
 |---|---|
-| [`docs/`](docs/) | [The spec](docs/spec.md), [the plan-file format](docs/plan-file.md), [the skills](docs/skills/), [where each harness reads skills](docs/harnesses.md), [trials](docs/trials/) and [the rules for this repo](docs/maintaining.md) |
+| [`docs/`](docs/) | [The plan-file format](docs/plan-file.md), [the skills](docs/skills/), [where each harness reads skills](docs/harnesses.md), [trials](docs/trials/) and [the rules for this repo](docs/maintaining.md) |
 | [`packages/cli/`](packages/cli/) | The `usecontextual` npm package: `init`, `check`, `which`, `update` |
 | [`skills/`](skills/) | The four skills |
 | [`templates/`](templates/) | Every blank context file, plus `deslop.md` |
@@ -73,7 +73,7 @@ Each harness ran setup from a plan file and then built one feature, on 13 Novemb
 
 The website, [contextual.mikaelen.site](https://contextual.mikaelen.site), is maintained in a separate repository.
 
-[CHANGELOG](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · Start with [the spec](docs/spec.md).
+[CHANGELOG](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
 
 ## License
 

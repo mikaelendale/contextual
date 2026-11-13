@@ -1,6 +1,6 @@
 # Where each harness reads skills and rules
 
-Checked on 12 November 2026 against each harness's official docs (links at the end). These change often: check again before every release, and update this file and section 2 of [the spec](spec.md).
+Checked on 12 November 2026 against each harness's official docs (links at the end). These change often: check again before every release, and update this file and the README's "Tested with" table.
 
 Versions installed on the machine the skills were tested on: Claude Code 2.1.322, Codex CLI 0.167.2, OpenCode 2.2.7, Antigravity CLI 1.5.6.
 

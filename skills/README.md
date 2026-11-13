@@ -18,5 +18,5 @@ contextual-next/
   assets/           the templates the skill creates files from
 ```
 
-- `SKILL.md` follows section 7.1 of [the spec](../docs/spec.md): frontmatter on line 1 with `name`, `description` and `license` only, and a description that starts with the trigger phrases.
+- `SKILL.md` has frontmatter on line 1 with `name`, `description` and `license` only, and a description that starts with the trigger phrases.
 - Every file in `assets/` is an exact copy of a template: `assets/feature-<file>` comes from `templates/feature/<file>`, and any other asset from `templates/<file>`. `contextual-setup/references/plan-file.md` is a copy of `docs/plan-file.md`. Edit the original and copy it over; the tests in `packages/cli/test/skills.test.js` catch drift.

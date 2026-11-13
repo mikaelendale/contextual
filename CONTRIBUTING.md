@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping. Contextual is a folder of plain markdown files that coding agents read, a small CLI that checks it, and four agent skills. [The spec](docs/spec.md) describes all of it; the decisions in its section 13 are settled, so please don't reopen them without new evidence.
+Thanks for helping. Contextual is a folder of plain markdown files that coding agents read, a small CLI that checks it, and four agent skills. The README and the files in `docs/` describe how it works.
 
 ## Good ways to help
 

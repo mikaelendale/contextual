@@ -10,7 +10,7 @@
 - `site/lib/feedback/` · the fields, server validation, the database calls; the connection (`site/lib/db.ts`) and the rate limit (`site/lib/rate-limit.ts`) are shared with the site
 - `site/db/migrations/0001_agent_feedback.sql` · the table
 - `docs/agent-feedback.md` · what is collected, what never is, how to turn it off
-- Also touched: `packages/cli/src/cli.js`, `init.js`, `update.js` and `context.js` (foundation, init, update), the `.meta.json` template (templates), `.github/` (foundation: the connection-string check), `README.md`, `CHANGELOG.md`, `docs/spec.md` (foundation)
+- Also touched: `packages/cli/src/cli.js`, `init.js`, `update.js` and `context.js` (foundation, init, update), the `.meta.json` template (templates), `.github/` (foundation: the connection-string check), `README.md`, `CHANGELOG.md` (foundation)
 
 ## Data
 - `context/.meta.json` in a project: `"feedback": "on"` or `"off"`.

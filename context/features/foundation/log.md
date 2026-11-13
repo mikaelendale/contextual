@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · The spec is no longer in this repo
+- Changed: `docs/spec.md` deleted at the owner's request: the plan behind the product isn't public. The README, CONTRIBUTING.md, `skills/README.md`, `docs/maintaining.md` and `docs/harnesses.md` no longer link to it. Code comments still name spec sections.
+- Tests: `npm test` in `packages/cli`; `check` 0 errors.
+- Left open: the spec is still in this repo's git history.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · README says 0.2.0
 - Changed: the README's status line named 0.1.0 as the current release; it says 0.2.0 now.
 - Tests: none needed (one line of the README).

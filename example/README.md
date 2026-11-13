@@ -29,7 +29,7 @@ A real repo also has the skills in `.agents/skills/` and `.claude/skills/`, and 
 
 ## The start-of-session read
 
-What an agent reads on this branch before starting work (section 4.1 of the spec):
+What an agent reads on this branch before starting work:
 
 | File | Lines | Tokens (about) |
 |---|---|---|

@@ -5,7 +5,6 @@
 - `.gitattributes`, `.gitignore` · LF line endings; ignored files
 - `.github/workflows/ci.yml` · the CLI's tests and `check` on `example/`, for every push and pull request
 - `.github/ISSUE_TEMPLATE/` · the bug report and harness report forms
-- `docs/spec.md` · the product and build spec
 - `docs/harnesses.md` · where each harness reads rules and skills
 - `docs/maintaining.md` · the rules for changing this repo, and how to run trials
 - `docs/trials/` · real runs in real harnesses

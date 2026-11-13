@@ -1,7 +1,7 @@
 # Foundation
 status: shipped
 phase: 1
-covers: *, .github/**, docs/spec.md, docs/harnesses.md, docs/maintaining.md, docs/trials/**, docs/release/**, skills/README.md, packages/cli/*, packages/cli/bin/**, packages/cli/scripts/**, packages/cli/src/cli.js, packages/cli/src/context.js, packages/cli/src/files.js, packages/cli/src/git.js, packages/cli/src/glob.js, packages/cli/src/assets.js, packages/cli/test/helpers.js, packages/cli/test/cli.test.js, packages/cli/test/skills.test.js
+covers: *, .github/**, docs/harnesses.md, docs/maintaining.md, docs/trials/**, docs/release/**, skills/README.md, packages/cli/*, packages/cli/bin/**, packages/cli/scripts/**, packages/cli/src/cli.js, packages/cli/src/context.js, packages/cli/src/files.js, packages/cli/src/git.js, packages/cli/src/glob.js, packages/cli/src/assets.js, packages/cli/test/helpers.js, packages/cli/test/cli.test.js, packages/cli/test/skills.test.js
 depends-on: none
 
 ## What it does

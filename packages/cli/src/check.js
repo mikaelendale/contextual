@@ -1,7 +1,6 @@
 /*
- * `usecontextual check`: validates a project's context against the spec
- * (docs/spec.md, section 6.1). It only reads; it never changes a file.
- * Not built yet: --fix and --staged (spec 6.2).
+ * `usecontextual check`: validates a project's context. It only reads; it
+ * never changes a file. `--fix` is in fix.js and `--staged` in staged.js.
  */
 
 import { existsSync, readdirSync, statSync } from "node:fs"

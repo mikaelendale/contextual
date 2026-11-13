@@ -1,6 +1,6 @@
 # Working on this repo
 
-Rules for changing Contextual itself. The rules Contextual gives to other projects are in [the spec](spec.md).
+Rules for changing Contextual itself.
 
 ## Before every commit
 
@@ -18,7 +18,7 @@ Rules for changing Contextual itself. The rules Contextual gives to other projec
 
 ## How the CLI behaves at the edges
 
-Settled while building 0.1.0. Keep them unless the spec changes.
+Settled while building 0.1.0.
 
 - `init` outside a git repo refuses and says to run `git init`. It doesn't run it.
 - `init --force` never overwrites a file. It only lets `init` add its files next to an existing `context/` folder that isn't Contextual's.
