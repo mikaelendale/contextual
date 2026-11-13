@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · The agent feedback trial, and the first reports
+- Changed: `docs/trials/2026-11-13-agent-feedback/` (the trial, two screenshots, the first reports) and a row in `docs/trials/README.md`. `.meta.json` now records `"feedback": "off"` for this repo.
+- Tests: the trial itself; `npm test` 133 passed.
+- Left open: sending the first reports once the database is connected.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · CI: the connection-string check and the site tests; docs for 0.2.0; version 0.2.0
 - Changed: `.github/scripts/no-connection-strings.mjs` and a `repo` job in CI that runs it and `site/`'s feedback tests; the README's three lines on agent feedback; spec 6.5, 6.1, 3.7 and the revision history; CHANGELOG 0.2.0; `packages/cli/package.json` at 0.2.0.
 - Tests: the check passes on the repo and fails on a planted connection string and `.env.local`; `npm test` 133 passed.

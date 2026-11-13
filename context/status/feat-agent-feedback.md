@@ -7,7 +7,8 @@ agent-feedback: connecting Neon, then the first reports through the form.
 ## Last session
 - The CLI: `feedback`, `feedback on|off`, init's question, update, the most-specific owner, `which --unowned`.
 - The site: the form, Send, the list page, the migration; CI's connection-string check; docs, spec 6.5, CHANGELOG 0.2.0.
-- A real trial: a copy of the Pantry repo pinned 0.0.1, so the block's command failed; the report about it filled the form.
+- A real trial: a copy of the Pantry repo pinned 0.0.1, so the block's command failed; the report about it filled the form. Recorded in `docs/trials/2026-11-13-agent-feedback/`, with four more first reports.
+- A preview deployment is up; `FEEDBACK_REPORTS_SECRET` is set on Vercel.
 
 ## In progress
 Neon: `site/db/migrations/0001_agent_feedback.sql` isn't run anywhere yet.
