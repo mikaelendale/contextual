@@ -1,7 +1,7 @@
 # Check
 status: shipped
 phase: 1
-covers: packages/cli/src/check.js, packages/cli/src/fix.js, packages/cli/src/plan.js, packages/cli/src/which.js, packages/cli/test/check.test.js, packages/cli/test/fix.test.js, packages/cli/test/plan.test.js, packages/cli/test/which.test.js
+covers: packages/cli/src/check.js, packages/cli/src/fix.js, packages/cli/src/plan.js, packages/cli/src/which.js, packages/cli/src/owners.js, packages/cli/test/owners.test.js, packages/cli/test/check.test.js, packages/cli/test/fix.test.js, packages/cli/test/plan.test.js, packages/cli/test/which.test.js
 depends-on: foundation
 
 ## What it does
@@ -12,3 +12,4 @@ depends-on: foundation
 - [x] `check --fix` rebuilds the feature index, stores the `idea.md` hash and creates a missing status file
 - [x] A file covered by two features is an error
 - [x] `which <path>` names the feature that covers a path, `shared`, or no one, with exit code 1
+- [x] The most specific match owns a file, and `which --unowned` lists the code no one owns

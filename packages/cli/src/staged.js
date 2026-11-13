@@ -10,7 +10,7 @@ import { join, relative } from "node:path"
 
 import { readFeatures, readShared, readText, statusFileFor } from "./context.js"
 import { repoTop, stagedFiles } from "./git.js"
-import { matches } from "./glob.js"
+import { SHARED, ownerOf } from "./owners.js"
 
 function cliCommand(root) {
   try {
@@ -45,10 +45,12 @@ export function checkStaged({ root, branch, defaultBranch, skillDirs }) {
   const touched = new Map()
   let sharedCount = 0
   for (const p of code) {
-    const owners = features.filter((f) => f.covers.some((g) => matches(p, g)))
+    // The most specific match owns the path (spec 3.8). On a tie, every tied feature counts as touched.
+    const { owner, tied } = ownerOf(p, features, shared)
+    const owners = tied.length ? tied.filter((n) => n !== SHARED) : owner && owner !== SHARED ? [owner] : []
     if (owners.length > 0) {
-      for (const f of owners) touched.set(f.name, [...(touched.get(f.name) ?? []), p])
-    } else if (shared.some((g) => matches(p, g))) {
+      for (const name of owners) touched.set(name, [...(touched.get(name) ?? []), p])
+    } else if (owner === SHARED || tied.includes(SHARED)) {
       sharedCount++
     } else {
       note(p, "no feature owns this path. Add it to a feature's covers: or to the shared: line in context/architecture.md")

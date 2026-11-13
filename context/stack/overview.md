@@ -10,4 +10,6 @@
 
 **Site.** Next.js 16 with React 19 and Tailwind CSS 4, using shadcn/ui pieces, Phosphor icons and Paper Shaders for the live dither. It was the teaser site, moved into this repo as `site/`.
 
+**Site database.** Neon Postgres, for agent feedback's reports and nothing else, reached with Neon's serverless driver over HTTP from Vercel's functions. The connection string lives only in the environment; CI fails if one is committed.
+
 **CI.** GitHub Actions runs the CLI's tests on Node 20, 22, 24 and 26, and `check` on `example/`, for every push and pull request.

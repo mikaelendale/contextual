@@ -7,8 +7,8 @@
 - `site/components/ui/` · shadcn/ui building blocks
 - `site/lib/` · `github.ts` (the repo's numbers), `links.ts`, `utils.ts`
 - `site/public/dither/` · greyscale images the dither turns into the sky, the cards and the plates
-- `site/AGENTS.md` · Next.js's notes for agents
-- `site/package.json`, `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `components.json`, `README.md` · config and docs
+- `site/AGENTS.md` · Next.js's notes for agents, and `site/CLAUDE.md` · `@AGENTS.md`, so Claude Code reads them
+- `site/package.json`, `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `components.json`, `README.md` · config and docs; the feedback pages under `site/app/agent/` and `site/lib/feedback/` belong to agent-feedback
 
 ## Data
 None stored. The GitHub numbers are cached for an hour (`use cache`, `cacheLife("hours")`).

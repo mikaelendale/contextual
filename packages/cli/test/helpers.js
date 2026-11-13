@@ -7,6 +7,11 @@ import { fileURLToPath } from "node:url"
 import { check } from "../src/check.js"
 import { readFeatures, readShared, readText } from "../src/context.js"
 
+// Outside a git repo the CLI falls back to CI's branch variables. The tests' temp copies aren't git repos,
+// so clear them: a test should see the same branch on a laptop and in CI.
+delete process.env.GITHUB_HEAD_REF
+delete process.env.GITHUB_REF_NAME
+
 const here = dirname(fileURLToPath(import.meta.url))
 export const repoRoot = join(here, "..", "..", "..")
 export const example = join(repoRoot, "example")

@@ -34,6 +34,10 @@ Want to plan first? Paste [the planning prompt](skills/contextual-plan/prompt.md
 
 Any time, for free: `npx usecontextual check` validates the context, and `npx usecontextual which <path>` says which feature owns a file.
 
+**Agent feedback, if you want it.** Say yes when `init` asks, or run `npx usecontextual feedback on`, and your agent can prepare one report about problems with Contextual itself, as a form you review before anything is sent.
+Nothing about your project is collected: no code, names or paths, and no IP address. Closing the form sends nothing.
+`npx usecontextual feedback off` turns it off. [What is and isn't collected](docs/agent-feedback.md).
+
 ## Tested with
 
 Each harness ran setup from a plan file and then built one feature, on 13 November 2026. Details and logs: [docs/trials](docs/trials/).

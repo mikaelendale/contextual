@@ -25,6 +25,8 @@ import {
   statusFileFor,
 } from "./context.js"
 import { currentBranch, listFiles } from "./files.js"
+import { SHARED, isCodeFile, ownersOf } from "./owners.js"
+import { FEEDBACK_START, feedbackIsOn } from "./feedback.js"
 import { matches } from "./glob.js"
 
 const DEFAULT_CAPS = { agentsBlockLines: 60, statusLines: 40, featureReadmeLines: 60, startTokens: 3000 }
@@ -114,6 +116,10 @@ export function check({ root, branch = null }) {
       const n = lineCount(block)
       if (n > caps.agentsBlockLines) error("AGENTS.md", `the Contextual block is ${n} lines; the cap is ${caps.agentsBlockLines}`)
     }
+    // The agent feedback block follows the owner's choice in .meta.json (spec 6.5).
+    const hasFeedback = text.includes(FEEDBACK_START)
+    if (feedbackIsOn(meta) && !hasFeedback) warn("AGENTS.md", `agent feedback is on in .meta.json, but the feedback block is missing. \`${cli} feedback on\` adds it`)
+    if (!feedbackIsOn(meta) && hasFeedback) warn("AGENTS.md", `has the agent feedback block, but feedback is off in .meta.json. \`${cli} feedback off\` removes it`)
   }
   const claudePath = join(root, "CLAUDE.md")
   if (!existsSync(claudePath)) {
@@ -296,7 +302,7 @@ export function check({ root, branch = null }) {
     for (const d of present.slice(1)) compareTrees(join(root, present[0]), join(root, d), present[0], d, error)
   }
 
-  // --- who owns each file (spec 3.8)
+  // --- who owns each file (spec 3.8): the most specific match; equally specific matches are an error
   const architecturePath = join(ctx, "architecture.md")
   const shared = existsSync(architecturePath) ? readShared(readText(architecturePath)) : null
   if (existsSync(architecturePath) && shared === null) {
@@ -305,36 +311,51 @@ export function check({ root, branch = null }) {
   const ownFile = (p) =>
     p.startsWith("context/") || p === "AGENTS.md" || p === "CLAUDE.md" || skillDirs.some((d) => p.startsWith(`${d.replace(/\/$/, "")}/`))
   const projectFiles = listFiles(root).filter((p) => !ownFile(p))
-  const codeFiles = projectFiles.filter((p) => p.includes("/") || !/^(LICENSE.*|[^/]+\.(md|txt))$/i.test(p))
-  if (codeFiles.length === 0) {
+  const codeFiles = new Set(projectFiles.filter(isCodeFile))
+  if (codeFiles.size === 0) {
     warn(null, "found no code outside context/, so the covers: and shared: paths weren't checked")
   } else {
+    const owners = ownersOf(projectFiles, features, shared ?? [])
+    // A glob counts only for the files it actually owns: one whose every file went to a more specific glob owns nothing.
+    const holds = (name, glob) => projectFiles.some((p) => matches(p, glob) && (owners.get(p).owner === name || owners.get(p).tied.includes(name)))
+    const matchesAny = (glob) => projectFiles.some((p) => matches(p, glob))
     for (const f of features) {
       if (f.status !== "shipped" && f.status !== "in-progress") continue
       for (const glob of f.covers) {
-        if (projectFiles.some((p) => matches(p, glob))) continue
+        if (holds(f.name, glob)) continue
         const report = f.status === "shipped" ? error : warn
-        report(`context/features/${f.name}/README.md`, `covers ${glob}, which matches no files`)
+        report(
+          `context/features/${f.name}/README.md`,
+          matchesAny(glob) ? `covers ${glob}, but every file it matches belongs to a more specific glob` : `covers ${glob}, which matches no files`,
+        )
       }
     }
     for (const glob of shared ?? []) {
-      if (!projectFiles.some((p) => matches(p, glob))) warn("context/architecture.md", `shared: ${glob} matches no files`)
+      if (holds(SHARED, glob)) continue
+      warn("context/architecture.md", matchesAny(glob) ? `shared: ${glob} matches only files that more specific globs own` : `shared: ${glob} matches no files`)
     }
     let withOwner = 0
     let onlyShared = 0
+    let unowned = 0
     for (const p of projectFiles) {
-      const owners = features.filter((f) => f.covers.some((g) => matches(p, g))).map((f) => f.name)
-      const isShared = (shared ?? []).some((g) => matches(p, g))
-      if (owners.length > 1) error(p, `is covered by more than one feature: ${owners.join(", ")}`)
-      else if (owners.length === 1 && isShared) error(p, `is covered by ${owners[0]} and is also on the shared: line`)
-      if (owners.length > 0 || isShared) withOwner++
-      if (owners.length === 0 && isShared) onlyShared++
+      const { owner, tied } = owners.get(p)
+      if (tied.length) {
+        const named = tied.filter((n) => n !== SHARED)
+        if (tied.includes(SHARED)) error(p, `is covered by ${named.join(", ")} and is also on the shared: line, equally specifically. Make one of the globs more specific`)
+        else error(p, `is covered by more than one feature: ${named.join(", ")}, equally specifically. Make one of the globs more specific`)
+      }
+      if (owner || tied.length) withOwner++
+      if (owner === SHARED) onlyShared++
+      if (!owner && !tied.length && codeFiles.has(p)) unowned++
     }
     if (onlyShared * 3 > withOwner) {
       warn(
         "context/architecture.md",
         `${onlyShared} of the ${withOwner} files with an owner are on the shared: line, more than a third. Keep shared: for generated files and UI building blocks; the app shell, layout and config belong to the foundation feature`,
       )
+    }
+    if (setupDone && unowned > 0) {
+      warn(null, `${unowned} ${unowned === 1 ? "file has" : "files have"} no owner. \`${cli} which --unowned\` lists them`)
     }
   }
 

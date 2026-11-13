@@ -28,6 +28,7 @@ The sample plan is a household shopping list, "Pantry": plain HTML, CSS and Java
 | Plan in chat: the skill | Claude Code | "help me plan an app" | A valid plan file. [Plan](2026-11-13-contextual-plan/skill-in-claude-code/) | n/a |
 | Setup from the prompt's plan | OpenCode | "set up contextual" | Accepted it unchanged as `idea.md` | 0 errors |
 | Setup on existing code | Claude Code | "set up contextual", then confirmation | On [mdn/todo-react](https://github.com/mdn/todo-react): proposed `foundation` plus three features, waited, then wrote them as shipped with unverified lines marked. [Proposal, answer, context](2026-11-13-path3-todo-react/) | 0 errors, 0 warnings |
+| Agent feedback, for real | Claude Code | `update` to 0.2.0 on a copy of Pantry, `feedback on`, then the block's own command | Hit a real `check` miss (the installed CLI was older than the context), built a 1,365-character link, and the form showed every field. [The trial and the first reports](2026-11-13-agent-feedback/) | 0 errors, 2 warnings |
 | Setup on this repo | Claude Code | `init`, then "set up contextual", then the owner's changes | Proposed `foundation` plus 12 features covering every file, waited, then wrote them with the owner's changes. [What got in the way](2026-11-13-self-setup/) | 0 errors, 0 warnings |
 | Full run from zero | Claude Code and Codex | `init` from a packed 0.1.0, setup, next, a hand edit, sync | See [full-runs.md](full-runs.md) | |
 

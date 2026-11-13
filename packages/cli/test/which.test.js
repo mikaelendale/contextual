@@ -10,7 +10,8 @@ import { bin, example } from "./helpers.js"
 const owner = (path) => {
   const r = which({ root: example, path })
   if (r.contextual) return "contextual"
-  if (r.owners.length) return r.owners.map((f) => f.name).join(",")
+  if (r.tied.length) return r.tied.join(",")
+  if (r.owner) return r.owner.name
   return r.shared ? "shared" : "none"
 }
 

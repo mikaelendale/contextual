@@ -22,6 +22,7 @@ Write one message with:
 - **One feature per thing a person can do**, in kebab-case: what it does in one sentence, its `covers:` globs, its status (`shipped` if it works, `in-progress` if it's half built), and what each part of that rests on (a passing test, or only reading the code).
 - **The `shared:` line**: generated files and UI building blocks only.
 - **Every file with no owner** under that proposal. Aim for none.
+- **Any `AGENTS.md` below the root**, such as one a framework writes into a subfolder. It stays as it is, and a feature covers it like any other file. Claude Code reads it only through a `CLAUDE.md` next to it holding the line `@AGENTS.md`: offer to add one.
 
 Every code file gets exactly one owner: a feature, `foundation`, or the shared line. Then ask: "Does this split match how you think about the project? Tell me what to rename, merge or split, or say go ahead." Write nothing until the person confirms.
 
@@ -39,4 +40,4 @@ Follow the fill order in `fill-from-plan.md`, describing what exists rather than
   - `log.md`: one entry, `## <today> · <agent> · Found at setup`, listing what you read, with `Deslop: not verified (existing UI, not reviewed at setup)`, or `Deslop: not UI`.
 - **`status/main.md`**: what's built, what's half done, and the questions you raised.
 
-Then finish as in step 4 of SKILL.md. `check` reports a shipped feature whose `covers:` match no files as an error, so fix the globs until it passes.
+Then finish as in step 4 of SKILL.md. `check` reports a shipped feature whose `covers:` match no files as an error, so fix the globs until it passes. Run `<cli> which --unowned` as well: it lists the code files no feature owns, and should list none.

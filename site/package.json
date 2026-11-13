@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
+    "@neondatabase/serverless": "1.2.0",
     "@paper-design/shaders": "^0.0.82",
     "@paper-design/shaders-react": "^0.0.82",
     "@phosphor-icons/react": "^2.1.10",

@@ -255,6 +255,7 @@ An agent never writes `pass` for a screen it hasn't seen. `check` rejects any ot
 - The default branch's real name.
 - The exact command the context files show for the CLI: `npx --no-install usecontextual` where it is a dev dependency, so a fresh clone without `node_modules` fails instead of downloading an unpinned copy; or a pinned `npx --yes usecontextual@<version>` when there's no `package.json` (section 6.3).
 - Which skill folders were installed.
+- Whether agent feedback is on (section 6.5).
 - **The last sync: its commit hash and its date.** The date survives squash merges and rebases that remove the commit from history (section 7).
 - Hashes of `idea.md` and `deslop.md`, computed with line endings normalized to LF, so a Windows checkout with `core.autocrlf` does not look like an edit.
 - The size caps and the token budget (section 4.3).
@@ -373,7 +374,8 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 | `npx usecontextual init` | Adds the `AGENTS.md` block and the `CLAUDE.md` import (section 3.1), the `context/` skeleton, `deslop.md`, and the agent skills. Detects which harness folders exist (or takes a flag) and places the skills accordingly; when none are found it installs both `.agents/skills/` and `.claude/skills/`. Adds itself as a pinned dev dependency and installs the git pre-commit hook (6.3). `--preset <name>` fills `stack/`, `architecture.md` and `conventions.md` from a preset (`next`, `laravel-inertia-react`). Refuses to overwrite existing context without a flag. |
 | `npx usecontextual check` | Validates the context (6.1). `--fix` repairs what is mechanical: rebuilds `_index.md`, creates a missing status file for the current branch, stores the `idea.md` hash once setup has written it. `--staged` adds the commit rule the hook uses (6.2). `--branch <name>` names the branch when git can't (CI often checks out a detached HEAD). |
 | `npx usecontextual update` | Refreshes the fixed parts (the `AGENTS.md` block, `deslop.md`, both skill copies, the hook line) to the latest version without touching project content. |
-| `npx usecontextual which <path>` | Prints the path's owner (section 3.8): the feature folder whose `covers:` globs match it, or `shared`. Otherwise prints "no feature owns this path" and exits with code 1. |
+| `npx usecontextual which <path>` | Prints the path's owner (section 3.8): the feature folder whose `covers:` globs match it, or `shared`. Otherwise prints "no feature owns this path" and exits with code 1. `which --unowned` lists every code file no one owns. |
+| `npx usecontextual feedback` | Agent feedback (6.5): turns the agent's flags into a prefilled review form and opens it; `feedback on` and `feedback off` add and remove its block in `AGENTS.md`. |
 
 ### 6.1 What `check` validates
 
@@ -384,6 +386,7 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 - `covers:` globs match at least one file: an error for shipped features, a warning for features in progress (the work may not have created the files yet).
 - Every file has at most one owner. When globs from two features, or from a feature and the `shared:` line, match the same file, the most specific one owns it, and two equally specific matches are an error (section 3.8; from 0.2.0, and before that every such file is an error).
 - Every glob on the `shared:` line matches at least one file (warning).
+- Once setup has run, every code file has an owner (warning, with the count; `which --unowned` lists them).
 - No more than a third of the files that have an owner are on the `shared:` line (warning). More means the app shell or config is being parked there instead of in `foundation`.
 - When there are no files outside `context/` at all (a project before its first code, or `example/`), the three checks above are skipped with a warning that says so.
 - Links between context files resolve.
@@ -393,6 +396,7 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 - No template guidance (`<!-- fill: … -->` comments) is left in a file after setup (warning only).
 - Every `Deslop:` line in a feature's `log.md` is one of the four results in section 3.6, and a `pass` says how it was checked.
 - `idea.md` and `deslop.md` are unmodified (hash check; warning only).
+- The agent feedback block in `AGENTS.md` matches `feedback` in `.meta.json` (warning).
 
 Exit code is 1 on errors (65 with `--staged`, section 6.3). It runs in the git pre-commit hook that `init` installs, and can also run in CI.
 
@@ -429,6 +433,19 @@ A pre-commit hook cannot read the commit message, so there is no "skip" tag in m
 ### 6.4 The package name
 
 The package is `usecontextual`. The name `contextual` on npm belongs to an unrelated React package from 2022, and the `@contextual` scope belongs to someone else as well. The README and the site warn that `npx contextual` runs a different package. Skills and templates only ever print the command stored in `.meta.json`.
+
+---
+
+### 6.5 Agent feedback
+
+Coding agents report problems with Contextual itself, for a person to review and send. It follows Next.js's `experimental.agentFeedback`, and `docs/agent-feedback.md` is the user's page.
+
+- **The block.** A second managed block in `AGENTS.md`, between `<!-- contextual-feedback:start -->` and `<!-- contextual-feedback:end -->`, after the Contextual block. The agent keeps anonymized notes of meaningful or recurring problems with Contextual while it works, without stopping, and before its final answer runs `usecontextual feedback` at most once per session. The block limits only what gets reported, never how the agent works or verifies its work.
+- **In scope:** rules that conflict, unclear skill steps, `check` false alarms and misses, hook friction, template gaps, token cost, preferences about the structure. Out of scope: anything about the user's project or code. Never: code, file contents, project or repo names, secrets, or paths outside Contextual's own files.
+- **The command.** `usecontextual feedback` takes the agent's fields as flags (harness, model, skill, category, severity, what happened, what it expected, a suggested change, the Contextual file) and adds its own: the version, the OS, the package manager, the harness folders present, `check`'s error and warning counts, and the number of features as a bucket. It takes code, links, absolute paths, secrets and the project's names out of the text, names a Contextual file by its generic path, caps each text at 600 characters, and trims the longest further when the link would pass 4,000 characters, saying so. It opens the link in the default browser, or prints it. It never sends anything.
+- **The link** carries the report in its fragment, `#report=<base64url JSON>`, never the query string, so the draft reaches no server or log until Send.
+- **The site.** `/agent/feedback` reads the fragment into an editable form, shows exactly what will be sent, and stores nothing on opening. Send validates and caps every field on the server, drops honeypot and flood submissions, stores no IP address, and writes one row. The owner reads the reports at `/agent/feedback/reports`, behind a secret. The database URL comes only from an environment variable.
+- **On and off.** `init` asks once, and with nobody to answer it stays off. `feedback on` and `feedback off` add and remove the block and change nothing else in `AGENTS.md`; the choice is `"feedback"` in `.meta.json`, which `update` follows. It never runs in CI, and when it's off the command opens nothing.
 
 ---
 
@@ -602,6 +619,11 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 ---
 
 ## 14. Revision history
+
+- **13 November 2026, 0.2.0 (not published).**
+  - Agent feedback (section 6.5).
+  - The most specific match owns a file, in `check`, `which` and the hook (section 3.8). `which --unowned`, and a `check` warning that counts unowned code.
+  - Setup's path 3 lists nested `AGENTS.md` files and offers a `CLAUDE.md` next to each.
 
 - **13 November 2026, before publishing 0.1.0.**
   - The hook blocks a commit only when `check --staged` ran and found errors, which it signals with exit code 65. When the CLI can't run (offline, the registry down, the version not found, Node missing), the hook prints a note and the commit goes through (section 6.3).

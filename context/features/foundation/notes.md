@@ -1,6 +1,7 @@
 # Notes — Foundation
 
 ## Gotchas
+- 2026-11-13 · Outside a git repo the CLI takes the branch from `GITHUB_HEAD_REF` or `GITHUB_REF_NAME`, so tests on temp copies saw CI's branch · the test helpers clear both.
 - 2026-11-13 · Node 20's test runner doesn't expand a quoted glob, so `npm test` failed there · keep `test/*.test.js` unquoted in the test script, so the shell expands it.
 - 2026-11-13 · CI's actions are pinned to commit SHAs · update them by SHA, with the version in a comment.
 
