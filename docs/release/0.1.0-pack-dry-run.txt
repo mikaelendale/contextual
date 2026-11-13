@@ -5,7 +5,7 @@ npm notice
 📦  usecontextual@0.1.0
 Tarball Contents
 1.1kB LICENSE
-3.0kB README.md
+3.1kB README.md
 1.9kB assets/presets/laravel-inertia-react/context/architecture.md
 1.5kB assets/presets/laravel-inertia-react/context/conventions.md
 661B assets/presets/laravel-inertia-react/context/stack/_index.md
@@ -73,16 +73,16 @@ Tarball Contents
 449B assets/templates/stack-lib.md
 611B assets/templates/status-branch.md
 240B bin/usecontextual.js
-693B package.json
+689B package.json
 1.2kB src/assets.js
 18.6kB src/check.js
-7.5kB src/cli.js
+7.7kB src/cli.js
 6.9kB src/context.js
 1.5kB src/files.js
 2.9kB src/fix.js
 2.0kB src/git.js
 1.2kB src/glob.js
-2.9kB src/hook.js
+3.7kB src/hook.js
 8.8kB src/init.js
 3.4kB src/plan.js
 3.5kB src/staged.js
@@ -92,10 +92,10 @@ Tarball Details
 name: usecontextual
 version: 0.1.0
 filename: usecontextual-0.1.0.tgz
-package size: 47.8 kB
-unpacked size: 146.9 kB
-shasum: 3c9a424d20360386ccafc16ec10b6934fdb72270
-integrity: sha512-uS5EXecbFubAD[...]MefGN6uk/UdOg==
+package size: 48.3 kB
+unpacked size: 148.0 kB
+shasum: bb52c31be88024e32b9e403c08552fd9b8473bf9
+integrity: sha512-77boVhNCtbBeZ[...]KKSyBQmJUnyig==
 total files: 84
 npm notice
 usecontextual-0.1.0.tgz
