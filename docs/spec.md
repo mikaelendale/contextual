@@ -1,6 +1,6 @@
 # Contextual — product and build spec
 
-Status: steps 1 to 5 built on the branch `build/v0.1` (13–14 November 2026), and 0.1.0 is ready to publish. Tried for real in Claude Code, Codex and OpenCode (`docs/trials/`). Not yet tried in Antigravity. Steps 6 and 7 (wider testing, launch) are next.
+Status: steps 1 to 5 built and merged (13 November 2026), and 0.1.0 is ready to publish. Tried for real in Claude Code, Codex and OpenCode (`docs/trials/`). Not yet tried in Antigravity. Steps 6 and 7 (wider testing, launch) are next.
 Written: November 2026. Last updated: 12 November 2026 (deslop results, the agent skills, `check --fix`; harnesses checked again). Before that, 10 November 2026 (harness behaviour verified against official docs, npm name `usecontextual`, a marked block in `AGENTS.md`, hook rules, collapsed feature index and `which`, sync fallbacks, one public repo with the site in `site/`). Section 14 lists every change.
 Audience: whoever builds this (including a coding agent starting with no prior context).
 
@@ -475,7 +475,7 @@ A git pre-commit hook runs `usecontextual check --staged` (section 6.2). It bloc
 
 ## 8. The Contextual repo (what we build)
 
-One public repo, `mikaelendale/contextual`, with fresh history and the MIT license. The teaser site moves into it as `site/`; the site's earlier history stays in the private repo `mikaelendale/contextual-teaser`, so opening the source does not publish it.
+One public repo, `mikaelendale/contextual`, with fresh history and the MIT license. The teaser site moves into it as `site/`; the site's earlier history stays in a private repo, so opening the source does not publish it.
 
 ```
 contextual/
@@ -591,11 +591,11 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 ## 14. Revision history
 
-- **14 November 2026, before publishing 0.1.0.**
+- **13 November 2026, before publishing 0.1.0.**
   - A missing branch status file's error names the fix, `check --fix` (section 6.2).
   - Until setup has run, the hook only warns, on every branch (sections 4.2, 6.2).
   - With a `package.json`, the context files and skills use `npx --no-install usecontextual`, so a fresh clone never downloads an unpinned copy (section 3.7).
-- **13–14 November 2026, overnight build (branch `build/v0.1`).**
+- **13 November 2026, overnight build (branch `build/v0.1`, merged in #1).**
   - The CLI's `init`, `update`, `check --staged` and the pre-commit hook (section 6). Presets for Next.js and for Laravel with Inertia and React.
   - `contextual-plan`: the chat skill and the copy-paste prompt. `contextual-setup` path 3.
   - Trials in Claude Code, Codex and OpenCode, including full runs from a packed 0.1.0 (`docs/trials/`). The harness table in section 2 now says what was tested.
