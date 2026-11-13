@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · README says 0.2.0
+- Changed: the README's status line named 0.1.0 as the current release; it says 0.2.0 now.
+- Tests: none needed (one line of the README).
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · 0.2.0 published
 - Changed: `CHANGELOG.md` dates 0.2.0 (13 November 2026); the spec's status line and revision history say it's published.
 - Tests: from npm in an empty folder: `npx usecontextual@0.2.0` and `pnpm dlx usecontextual@0.2.0` print 0.2.0; `init` adds 0.2.0 as a dev dependency and leaves feedback off with no terminal; `check` gives 0 errors; `which --unowned`, `feedback on` and `feedback off` work; `feedback --print` builds the link to contextual.mikaelen.site with the report in the fragment. npm lists 87 files, as saved. Bun isn't installed here.
