@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · Tests that pass the same way in CI
+- Changed: `packages/cli/test/helpers.js` clears `GITHUB_HEAD_REF` and `GITHUB_REF_NAME`: outside a git repo the CLI falls back to them, so CI on a feature branch made `--fix` tests on temp copies create that branch's status file. CI runs the site's tests as `lib/feedback/*.test.ts`, which Node 24 accepts.
+- Tests: `npm test` with CI's variables set: 133 passed on Node 26 and Node 20; the site's 7 passed.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · The agent feedback trial, and the first reports
 - Changed: `docs/trials/2026-11-13-agent-feedback/` (the trial, two screenshots, the first reports) and a row in `docs/trials/README.md`. `.meta.json` now records `"feedback": "off"` for this repo.
 - Tests: the trial itself; `npm test` 133 passed.

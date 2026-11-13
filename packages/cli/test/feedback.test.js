@@ -246,7 +246,12 @@ test("on Linux it hands the link to xdg-open, the desktop's way of opening the d
   const run = spawnSync(process.execPath, [bin, "feedback", ...FIELDS, "--happened", "x", "--expected", "y"], {
     cwd: dir,
     encoding: "utf8",
-    env: { ...process.env, PATH: `${binDir}:${process.env.PATH}`, DISPLAY: ":0", CI: "" },
+    // Not in CI: drop every variable that says so, or the command rightly refuses to run.
+    env: {
+      ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !["CI", "CONTINUOUS_INTEGRATION", "GITHUB_ACTIONS", "GITLAB_CI", "BUILDKITE", "CIRCLECI", "TF_BUILD", "JENKINS_URL"].includes(k))),
+      PATH: `${binDir}:${process.env.PATH}`,
+      DISPLAY: ":0",
+    },
   })
   assert.equal(run.status, 0, run.stderr)
   const opened = readFileSync(join(dir, ".git", "opened.txt"), "utf8")

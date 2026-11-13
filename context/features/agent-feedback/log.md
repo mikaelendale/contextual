@@ -1,6 +1,12 @@
 # Log — Agent feedback
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · The xdg-open test clears every CI variable
+- Changed: `packages/cli/test/feedback.test.js`: GitHub Actions sets `GITHUB_ACTIONS`, so the command rightly refused to run in that test.
+- Tests: `npm test` with CI's variables set: 133 passed.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · The site: the form, Send, the list page, the table; the docs
 - Changed: `site/app/agent/feedback/` (the form reads the fragment with `useSyncExternalStore`; Send at `send/route.ts`; the owner's list at `reports/`), `site/lib/feedback/` (report rules, Send, the per-visitor limit with keyed hashes, Neon, the owner cookie), `site/db/migrations/0001_agent_feedback.sql`, `docs/agent-feedback.md`.
 - Tests: `cd site && node --test lib/feedback/`: 7 passed. `npm test` in `packages/cli`: 133 passed. `npx next build` passed: the form is static, the list a partial prerender, Send dynamic. A real trial in a copy of the Pantry repo produced a 1,745-character link, and the form showed every field.

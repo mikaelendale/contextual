@@ -52,4 +52,4 @@ jobs:
       # The feedback form's server side: validation, Send, the limits. Node runs the TypeScript directly.
       - name: Site tests
         working-directory: site
-        run: node --test lib/feedback/
+        run: node --test lib/feedback/*.test.ts

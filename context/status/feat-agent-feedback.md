@@ -9,6 +9,7 @@ agent-feedback: connecting Neon, then the first reports through the form.
 - The site: the form, Send, the list page, the migration; CI's connection-string check; docs, spec 6.5, CHANGELOG 0.2.0.
 - A real trial: a copy of the Pantry repo pinned 0.0.1, so the block's command failed; the report about it filled the form. Recorded in `docs/trials/2026-11-13-agent-feedback/`, with four more first reports.
 - A preview deployment is up; `FEEDBACK_REPORTS_SECRET` is set on Vercel.
+- CI failed on this branch only: tests on temp copies read CI's branch variables, and Node 24 can't take a folder for `--test`. Both fixed.
 
 ## In progress
 Neon: `site/db/migrations/0001_agent_feedback.sql` isn't run anywhere yet.

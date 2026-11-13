@@ -1,5 +1,5 @@
 // The server side of agent feedback: validation, Send, the limits, and the owner's cookie.
-// Run with: cd site && node --test lib/feedback/
+// Run with: cd site && node --test lib/feedback/*.test.ts
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
