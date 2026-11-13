@@ -1,0 +1,75 @@
+name: Harness report
+description: How Contextual's skills worked in a coding agent (Claude Code, Codex, OpenCode, Antigravity or another), good or bad.
+title: "Harness report: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this after running Contextual in a coding agent, whether it went well or not. Runs in agents the README doesn't list as tested, such as Antigravity, help the most.
+        Leave out tokens, keys and anything private from logs.
+  - type: dropdown
+    id: harness
+    attributes:
+      label: Harness
+      options:
+        - Claude Code
+        - Codex
+        - OpenCode
+        - Antigravity
+        - Other (say which below)
+    validations:
+      required: true
+  - type: input
+    id: harness-version
+    attributes:
+      label: Harness version and model
+      placeholder: Codex CLI 0.167.2, gpt-6.1-sol
+    validations:
+      required: true
+  - type: input
+    id: cli-version
+    attributes:
+      label: usecontextual version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: skills
+    attributes:
+      label: Which skills ran
+      multiple: true
+      options:
+        - contextual-setup
+        - contextual-next
+        - contextual-sync
+        - contextual-plan
+        - None, just AGENTS.md
+    validations:
+      required: true
+  - type: dropdown
+    id: started
+    attributes:
+      label: How the skill was started
+      options:
+        - In plain words ("set up contextual", "build the next feature")
+        - By name (/contextual-next, $contextual-next, @contextual-next)
+        - Both
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Did the agent find the skill? Did it follow the steps? Where did it stop, ask, guess or go wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: Output of `npx usecontextual check` after the run
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: How the harness was set up
+      description: Its sandbox or permission settings, and where the skills were installed (`.agents/skills`, `.claude/skills` or somewhere else).

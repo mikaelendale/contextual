@@ -68,7 +68,7 @@ Each harness ran setup from a plan file and then built one feature, on 13 Novemb
 | [`example/`](example/) | A finished context folder for a small app, Linkboard, to imitate |
 | [`site/`](site/) | The website, contextual.mikaelen.site |
 
-[CHANGELOG](CHANGELOG.md) · Start with [the spec](docs/spec.md).
+[CHANGELOG](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · Start with [the spec](docs/spec.md).
 
 ## License
 

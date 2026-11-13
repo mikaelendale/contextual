@@ -1,0 +1,52 @@
+name: Bug report
+description: The CLI, a skill, a template or the website doesn't do what the docs say.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. If it's a security problem, please don't use this form: see [SECURITY.md](https://github.com/mikaelendale/contextual/blob/main/SECURITY.md).
+        If the problem is how a coding agent followed a skill, the [harness report](https://github.com/mikaelendale/contextual/issues/new?template=harness_report.yml) fits better.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. git init
+        2. npx usecontextual init
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: usecontextual version
+      description: The output of `npx usecontextual --version`.
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Node.js version, package manager and OS
+      placeholder: Node 24.11, pnpm 10, macOS 26
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: Output of `npx usecontextual check`
+      description: If it's about the context folder or the hook.
+      render: text
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Screenshots, the file involved, or what you already tried. Leave out tokens, keys and private paths.
