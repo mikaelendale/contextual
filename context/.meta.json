@@ -1,0 +1,15 @@
+{
+  "contextual": "0.1.0",
+  "created": "2026-11-13",
+  "defaultBranch": "main",
+  "cli": "npx --yes usecontextual@0.1.0",
+  "skillDirs": [".agents/skills", ".claude/skills"],
+  "lastSync": { "commit": null, "date": null },
+  "hashes": { "idea": "sha256:9e4479fbc3215672fa090597be21fac7c0cfc91dfac835f8d2602af4e0b8906e", "deslop": "sha256:cfdc297acf463afd035ad52d23424ffe8b82464093ffb65b076d83fd2e8c5996" },
+  "caps": {
+    "agentsBlockLines": 60,
+    "statusLines": 40,
+    "featureReadmeLines": 60,
+    "startTokens": 3000
+  }
+}
