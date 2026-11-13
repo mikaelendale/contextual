@@ -6,4 +6,4 @@ Phase 1 — What's built: done · foundation, templates, init, update, check, co
 ## Phase 2 — Agent feedback (0.2.0)
 | Feature | Status | What it does |
 |---|---|---|
-| [agent-feedback](agent-feedback/README.md) | planned | Coding agents send feedback about Contextual, with a command in the CLI and a page on the site. |
+| [agent-feedback](agent-feedback/README.md) | in-progress | Coding agents report problems with Contextual itself, for a person to review and send. |

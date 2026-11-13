@@ -10,7 +10,8 @@ import { UpdateError, update } from "./update.js"
 import { readText } from "./context.js"
 import { join } from "node:path"
 import { findRoot } from "./context.js"
-import { which } from "./which.js"
+import { SHARED } from "./owners.js"
+import { unowned, which } from "./which.js"
 
 const { version } = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"))
 const DOCS = "https://github.com/mikaelendale/contextual"
@@ -24,6 +25,7 @@ Usage:
   usecontextual check --fix               repair what's mechanical, then check
   usecontextual check --staged            the pre-commit check: the staged code's logs and status file
   usecontextual which <path>              show which feature owns a file
+  usecontextual which --unowned           list the code files no feature owns
   usecontextual update                    refresh Contextual's own files to this version
 
   --harness   claude, codex, antigravity, opencode (comma-separated). Default: detected, or all
@@ -107,9 +109,19 @@ export function runCli(argv, { cwd, out, err }) {
     return flags.staged ? STAGED_ERRORS_EXIT : 1
   }
 
+  if (flags.unowned) {
+    const paths = unowned({ root })
+    if (paths.length === 0) {
+      out("Every code file has an owner.")
+      return 0
+    }
+    for (const p of paths) out(p)
+    out(`${paths.length} ${paths.length === 1 ? "file has" : "files have"} no owner. Add each to a feature's covers: or to the shared: line in context/architecture.md.`)
+    return 1
+  }
   const target = flags._[0]
   if (!target) {
-    err("Usage: usecontextual which <path>")
+    err("Usage: usecontextual which <path>, or usecontextual which --unowned")
     return 2
   }
   const result = which({ root, path: target, cwd })
@@ -121,19 +133,21 @@ export function runCli(argv, { cwd, out, err }) {
     out(`${result.path} is one of Contextual's own files; it needs no owner.`)
     return 0
   }
-  if (result.owners.length > 1) {
-    for (const f of result.owners) out(`${f.name}  context/features/${f.name}/README.md  (${f.status})`)
-    out("More than one feature covers this path. `usecontextual check` reports it as an error.")
+  const nameOf = (owner) => (owner === SHARED ? "the shared: line" : owner)
+  const beat = result.beaten.length ? `  more specific than ${result.beaten.map((b) => `${b.glob} (${nameOf(b.owner)})`).join(", ")}` : null
+  if (result.tied.length) {
+    out(`${result.tied.map(nameOf).join(" and ")} match this path equally specifically. \`usecontextual check\` reports it as an error; make one of the globs more specific.`)
     return 2
   }
-  if (result.owners.length === 1) {
-    const f = result.owners[0]
+  if (result.owner) {
+    const f = result.owner
     out(`${f.name}  context/features/${f.name}/README.md  (${f.status})`)
-    if (result.shared) out("It's also on the shared: line, which `usecontextual check` reports as an error.")
+    if (beat) out(beat)
     return 0
   }
   if (result.shared) {
     out("shared  (the shared: line in context/architecture.md)")
+    if (beat) out(beat)
     return 0
   }
   out("no feature owns this path")

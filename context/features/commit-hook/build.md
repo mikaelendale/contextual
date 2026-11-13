@@ -1,7 +1,7 @@
 # Build — Commit hook
 
 ## Files
-- `packages/cli/src/staged.js` · the `--staged` rule (spec 6.2)
+- `packages/cli/src/staged.js` · the `--staged` rule (spec 6.2), by the most specific owner (spec 3.8)
 - `packages/cli/src/hook.js` · the hook line, exit code 65, and where the line goes: a plain repo, a worktree, husky, other hook managers
 - `packages/cli/test/staged.test.js` · the rule's tests
 - `packages/cli/test/hook.test.js` · real commits through the hook
