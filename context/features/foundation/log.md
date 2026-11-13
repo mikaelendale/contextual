@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · 0.2.0 ready to publish
+- Changed: `docs/release/0.2.0-pack-dry-run.txt`, the files 0.2.0 publishes: 87, 57.3 kB. Against 0.1.0 it adds `src/feedback.js`, `src/owners.js` and the feedback block's template, and nothing else.
+- Tests: `npm test` in `packages/cli`: 133 passed.
+- Left open: publishing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · CI runs every site test; maintaining.md describes the database
 - Changed: CI's site step runs `node --test lib/*/*.test.ts`, so the visits tests run beside the feedback tests. `docs/maintaining.md` has a section on the site's database (migrations in order, reports kept at least 30 days, visits) and says the two variables are set on Vercel.
 - Tests: the site's tests (12 passed); the connection-string check.

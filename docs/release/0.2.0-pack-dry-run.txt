@@ -1,0 +1,106 @@
+
+> usecontextual@0.2.0 prepack
+> node scripts/bundle-assets.mjs
+
+bundled templates, skills and presets into assets/
+npm notice
+npm notice 📦  usecontextual@0.2.0
+npm notice Tarball Contents
+npm notice 1.1kB LICENSE
+npm notice 3.1kB README.md
+npm notice 1.9kB assets/presets/laravel-inertia-react/context/architecture.md
+npm notice 1.5kB assets/presets/laravel-inertia-react/context/conventions.md
+npm notice 661B assets/presets/laravel-inertia-react/context/stack/_index.md
+npm notice 709B assets/presets/laravel-inertia-react/context/stack/deploy.md
+npm notice 934B assets/presets/laravel-inertia-react/context/stack/inertia.md
+npm notice 956B assets/presets/laravel-inertia-react/context/stack/laravel.md
+npm notice 763B assets/presets/laravel-inertia-react/context/stack/overview.md
+npm notice 1.1kB assets/presets/laravel-inertia-react/context/stack/requirements.md
+npm notice 1.6kB assets/presets/next/context/architecture.md
+npm notice 1.4kB assets/presets/next/context/conventions.md
+npm notice 553B assets/presets/next/context/stack/_index.md
+npm notice 697B assets/presets/next/context/stack/deploy.md
+npm notice 1.0kB assets/presets/next/context/stack/nextjs.md
+npm notice 901B assets/presets/next/context/stack/overview.md
+npm notice 984B assets/presets/next/context/stack/requirements.md
+npm notice 421B assets/skills/contextual-next/assets/decision.md
+npm notice 598B assets/skills/contextual-next/assets/feature-build.md
+npm notice 452B assets/skills/contextual-next/assets/feature-log.md
+npm notice 402B assets/skills/contextual-next/assets/feature-notes.md
+npm notice 653B assets/skills/contextual-next/assets/feature-tests.md
+npm notice 449B assets/skills/contextual-next/assets/stack-lib.md
+npm notice 611B assets/skills/contextual-next/assets/status-branch.md
+npm notice 2.4kB assets/skills/contextual-next/references/feature-files.md
+npm notice 1.4kB assets/skills/contextual-next/references/verify.md
+npm notice 3.4kB assets/skills/contextual-next/SKILL.md
+npm notice 872B assets/skills/contextual-setup/assets/contextual-plan.md
+npm notice 421B assets/skills/contextual-setup/assets/decision.md
+npm notice 630B assets/skills/contextual-setup/assets/feature-README.md
+npm notice 449B assets/skills/contextual-setup/assets/stack-lib.md
+npm notice 3.7kB assets/skills/contextual-setup/references/existing-code.md
+npm notice 6.6kB assets/skills/contextual-setup/references/fill-from-plan.md
+npm notice 4.4kB assets/skills/contextual-setup/references/plan-file.md
+npm notice 1.6kB assets/skills/contextual-setup/references/questions.md
+npm notice 4.0kB assets/skills/contextual-setup/SKILL.md
+npm notice 452B assets/skills/contextual-sync/assets/feature-log.md
+npm notice 611B assets/skills/contextual-sync/assets/status-branch.md
+npm notice 1.3kB assets/skills/contextual-sync/references/merge.md
+npm notice 1.3kB assets/skills/contextual-sync/references/since-last-sync.md
+npm notice 2.8kB assets/skills/contextual-sync/SKILL.md
+npm notice 1.1kB assets/templates/agent-feedback-block.md
+npm notice 872B assets/templates/contextual-plan.md
+npm notice 421B assets/templates/decision.md
+npm notice 598B assets/templates/feature/build.md
+npm notice 452B assets/templates/feature/log.md
+npm notice 402B assets/templates/feature/notes.md
+npm notice 630B assets/templates/feature/README.md
+npm notice 653B assets/templates/feature/tests.md
+npm notice 3.0kB assets/templates/README.md
+npm notice 2.7kB assets/templates/repo/AGENTS.md
+npm notice 11B assets/templates/repo/CLAUDE.md
+npm notice 443B assets/templates/repo/context/.meta.json
+npm notice 973B assets/templates/repo/context/architecture.md
+npm notice 347B assets/templates/repo/context/build-plan.md
+npm notice 862B assets/templates/repo/context/conventions.md
+npm notice 220B assets/templates/repo/context/decisions/README.md
+npm notice 190B assets/templates/repo/context/design/components.md
+npm notice 3.5kB assets/templates/repo/context/design/deslop.md
+npm notice 195B assets/templates/repo/context/design/layouts.md
+npm notice 943B assets/templates/repo/context/design/principles.md
+npm notice 180B assets/templates/repo/context/features/_index.md
+npm notice 173B assets/templates/repo/context/stack/_index.md
+npm notice 369B assets/templates/repo/context/stack/deploy.md
+npm notice 174B assets/templates/repo/context/stack/overview.md
+npm notice 444B assets/templates/repo/context/stack/requirements.md
+npm notice 473B assets/templates/repo/context/status/main.md
+npm notice 449B assets/templates/stack-lib.md
+npm notice 611B assets/templates/status-branch.md
+npm notice 240B bin/usecontextual.js
+npm notice 689B package.json
+npm notice 1.2kB src/assets.js
+npm notice 20.1kB src/check.js
+npm notice 12.7kB src/cli.js
+npm notice 6.9kB src/context.js
+npm notice 14.2kB src/feedback.js
+npm notice 1.5kB src/files.js
+npm notice 2.9kB src/fix.js
+npm notice 2.0kB src/git.js
+npm notice 1.2kB src/glob.js
+npm notice 3.7kB src/hook.js
+npm notice 9.5kB src/init.js
+npm notice 2.7kB src/owners.js
+npm notice 3.4kB src/plan.js
+npm notice 3.7kB src/staged.js
+npm notice 5.3kB src/update.js
+npm notice 2.7kB src/which.js
+npm notice Tarball Details
+npm notice name: usecontextual
+npm notice version: 0.2.0
+npm notice filename: usecontextual-0.2.0.tgz
+npm notice package size: 57.3 kB
+npm notice unpacked size: 175.7 kB
+npm notice shasum: f1f5a86210364d5870e4600d465565ade3f698c3
+npm notice integrity: sha512-Jx7TCN6YesTuu[...]pcb2I1A/Mj5ug==
+npm notice total files: 87
+npm notice
+usecontextual-0.2.0.tgz
