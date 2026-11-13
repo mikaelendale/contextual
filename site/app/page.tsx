@@ -1,8 +1,9 @@
 import { Fragment, type CSSProperties, type ComponentType, type ReactNode, type SVGProps } from "react"
-import { ArrowUpRight, GithubLogo } from "@phosphor-icons/react/ssr"
+import { ArrowUpRight } from "@phosphor-icons/react/ssr"
 
-import { ClaudeCodeMark, CodexMark } from "@/components/brand-marks"
+import { AntigravityMark, ClaudeCodeMark, CodexMark, OpenCodeMark } from "@/components/brand-marks"
 import { CopyCommand } from "@/components/copy-command"
+import { GitHubButton } from "@/components/github-button"
 import { Checked } from "@/components/home/checked"
 import { RepoFolder } from "@/components/home/repo-folder"
 import { SectionTitle } from "@/components/home/section"
@@ -10,7 +11,6 @@ import { ThreeSentences } from "@/components/home/three-sentences"
 import { WorksWith } from "@/components/home/works-with"
 import { LiveDither } from "@/components/live-dither"
 import { Logo } from "@/components/logo"
-import { VisitCounter } from "@/components/visit-counter"
 import { Sky } from "@/components/sky"
 import { INSTALL, REPO } from "@/lib/links"
 import { cn } from "@/lib/utils"
@@ -78,15 +78,7 @@ export default function Home() {
 
       <header className="relative z-10 mx-auto flex h-18 w-full max-w-[1240px] items-center justify-between px-5 sm:px-8">
         <Logo tone="light" className="[text-shadow:0_0_10px_rgb(140_28_0/0.45)]" />
-        <a
-          href={REPO}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rise inline-flex h-9 items-center gap-2 rounded-full border border-white/55 bg-white/5 px-4 text-[14px] font-medium text-white backdrop-blur-sm transition-colors outline-none [--delay:200ms] hover:bg-white/15 focus-visible:ring-3 focus-visible:ring-white/50"
-        >
-          <GithubLogo weight="fill" className="size-4" />
-          GitHub
-        </a>
+        <GitHubButton className="rise [--delay:200ms]" />
       </header>
 
       <main>
@@ -101,9 +93,10 @@ export default function Home() {
             Contextual is an open source context structure that gives{" "}
             <Named Mark={ClaudeCodeMark} tint="text-[#d97757]">
               Claude Code
-            </Named>{" "}
-            and <Named Mark={CodexMark}>Codex</Named> persistent memory of your project.
-            Less guessing, less prompting, and code that fits the first time.
+            </Named>
+            , <Named Mark={CodexMark}>Codex</Named>, <Named Mark={OpenCodeMark}>OpenCode</Named> and{" "}
+            <Named Mark={AntigravityMark}>Antigravity</Named> persistent memory of your project. Less guessing, less
+            prompting, and code that fits the first time.
           </p>
           <div className="blur-in pointer-events-auto mt-[clamp(1.5rem,4svh,2.25rem)] [--delay:1150ms]">
             <CopyCommand command={INSTALL} />
@@ -117,10 +110,9 @@ export default function Home() {
             Read the docs on GitHub
             <ArrowUpRight weight="bold" className="size-3.5" />
           </a>
-          <VisitCounter className="blur-in mt-5 [--delay:1350ms]" />
         </section>
 
-        <section id="how" className="mx-auto flex min-h-svh w-full max-w-[1240px] scroll-mt-0 flex-col justify-center pt-[8svh] pb-[11svh]">
+        <section id="how" className="mx-auto w-full max-w-[1240px] scroll-mt-6 py-[clamp(4.5rem,9vw,8rem)]">
           <div className="mx-auto max-w-[44rem] px-5 text-center sm:px-8">
             <SectionTitle lead="Every session starts where" accent="the last one ended." />
             <p className="mx-auto mt-5 max-w-[40rem] text-[16px] leading-[1.65] text-pretty text-muted-foreground sm:text-[17px]">
@@ -134,7 +126,7 @@ export default function Home() {
           <ol className="mt-12 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:scroll-px-8 sm:px-8 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-10 [&::-webkit-scrollbar]:hidden">
             {STEPS.map((step, i) => (
               <li key={step.title} className="w-[84%] shrink-0 snap-start sm:w-[58%] lg:w-auto">
-                <div className="relative aspect-[16/11] max-h-[max(8rem,calc(100svh-32rem))] w-full overflow-hidden rounded-[22px] bg-linear-to-b from-[#db3300] to-[#ff9b45] shadow-[0_28px_50px_-30px_rgb(219_51_0/0.55)] ring-1 ring-black/5">
+                <div className="relative aspect-[16/11] w-full overflow-hidden rounded-[22px] bg-linear-to-b from-[#db3300] to-[#ff9b45] shadow-[0_28px_50px_-30px_rgb(219_51_0/0.55)] ring-1 ring-black/5">
                   <LiveDither
                     className="absolute inset-0"
                     image={step.image}

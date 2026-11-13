@@ -25,6 +25,7 @@ The overnight build of 13–14 November 2026, on the branch `build/v0.1`. Read t
 | 7 | Docs: quickstart, a page per skill, the tested-harness table, CHANGELOG | Done (8cd1146). The README's Claude Code explicit-call cell needs stage 6 to confirm it |
 | 8 | Prepare 0.1.0: version, `npm pack --dry-run`, file list. Don't publish | Done: 84 files (docs/release/0.1.0-pack-dry-run.txt). Not published |
 | 9 | `docs/overnight-report.md` | Done. Branch pushed, draft PR open |
+| Site | After the night, on Mikael's notes: the folder as a diagram with the init command, "Done means checked" as a five-step agent window built from the add-items trial, no full-screen sections, OpenCode and Antigravity marks in the hero, the visit counter removed, GitHub numbers on the GitHub button | Done on this branch; not deployed. Screenshots: `~/contextual-trials/site-shots/v5/` |
 
 ## Done so far
 
