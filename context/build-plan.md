@@ -14,5 +14,5 @@
 - [x] features/example
 - [x] features/site
 
-## Phase 2 — Agent feedback (0.2.0)  [in progress]
-- [ ] features/agent-feedback ← current
+## Phase 2 — Agent feedback (0.2.0)  [done]
+- [x] features/agent-feedback

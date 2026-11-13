@@ -1,5 +1,5 @@
 # Agent feedback
-status: in-progress
+status: shipped
 phase: 2
 covers: packages/cli/src/feedback.js, packages/cli/test/feedback.test.js, templates/agent-feedback-block.md, site/app/agent/**, site/lib/feedback/**, site/db/**, docs/agent-feedback.md
 depends-on: foundation, check, site
@@ -19,7 +19,7 @@ Coding agents report problems with Contextual itself, for a person to review and
 - [x] It removes code, absolute paths, URLs, secrets and the project's names from the text, names a Contextual file only by its generic path, and says what it removed
 - [x] It sends nothing itself, and does nothing in CI or when feedback is off
 - [x] /agent/feedback reads the fragment into an editable form, shows exactly what will be sent with a short privacy note, and saves nothing until Send
-- [ ] On Send, the server validates and caps every field, drops honeypot and flood submissions, stores no IP address, and writes one row to Neon
-- [ ] A list page behind a secret shows the reports, with filters for harness, category and severity, and escapes all text
+- [x] On Send, the server validates and caps every field, drops honeypot and flood submissions, stores no IP address, and writes one row to Neon
+- [x] A list page behind a secret shows the reports, with filters for harness, category and severity, and escapes all text
 - [x] The database URL comes only from an environment variable, and CI fails if a connection string is ever committed
 - [x] A docs page says what is collected, what never is, and how to turn it off, and the README says it in three lines

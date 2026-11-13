@@ -2,7 +2,7 @@
 Updated: 2026-11-13 · by: claude-code
 
 ## Current phase
-Phase 1 is done and released as 0.1.0 (13 November 2026). Phase 2, agent feedback, is merged (#8) as 0.2.0 and not published yet.
+Phases 1 and 2 are done. Phase 1 is released as 0.1.0 (13 November 2026); Phase 2, agent feedback, is merged (#8) as 0.2.0 and not published yet. The site has its own Neon database, and the first five reports are in it.
 
 ## Recently merged
 - 2026-11-13 · agent-feedback · the `feedback` command and its block, the site's form, Send and the owner's list (#8)
@@ -17,4 +17,4 @@ Phase 1 is done and released as 0.1.0 (13 November 2026). Phase 2, agent feedbac
 - Later work is in GitHub issues #2 to #7.
 
 ## Next
-Finish agent-feedback: send the first reports through the form, check the owner's list against the database, and tick its last two acceptance boxes.
+Publishing 0.2.0, when the owner decides. Page visits for the site are on `feat/page-visits`.

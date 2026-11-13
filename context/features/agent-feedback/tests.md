@@ -17,4 +17,4 @@ In a project with feedback on, the agent runs `usecontextual feedback …` befor
 The link carries everything in its fragment; the form shows it; one row appears after Send and none after closing the tab.
 
 ## Last result
-2026-11-13 · `npm test` (133 passed), `node --test lib/feedback/` in `site/` (7 passed), `next build`, and the form at 1440px, 390px and 375px. Not yet with a database.
+2026-11-13 · With the Neon database: the five first reports went through the form (`next start`, headless Chrome) and each became one row; the list page showed them after signing in, filtered by kind, kept `<path>` and `<command>` as text, and ignored an unknown filter value. Before that: `npm test` (133 passed), the site's tests, `next build`, and the form at 1440px, 390px and 375px.

@@ -1,6 +1,18 @@
 # Log — Agent feedback
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · Merged to main
+- Changed: status shipped; the plan ticks agent-feedback and marks Phase 2 done; `context/status/feat-agent-feedback.md` deleted; `context/status/main.md` updated.
+- Tests: none run (merge only).
+- Left open: publishing 0.2.0.
+- Deslop: not UI.
+
+## 2026-11-13 · claude-code · Send and the list page with the database, and the first reports
+- Changed: a Neon project of its own for the site (not shared with any other app), with `0001_agent_feedback.sql` run on it. `DATABASE_URL` is set on Vercel for production and preview, as a secret. The last two acceptance boxes are ticked.
+- Tests: the five first reports (the trial's and four from building 0.2.0) went through the form against the database and became five rows, with exactly the reviewed fields. On the list page: the wrong secret is refused, the right one shows all five, a kind filter shows two, an unknown filter value is ignored, and `<path>` shows as text.
+- Left open: the reports' texts show `[feature]` where they named Contextual's own commands (`check`, `update`, `init`), because this repo has features with those names; the CLI could keep its own command names.
+- Deslop: pass (headless Chrome screenshots of the list page at 375px and 1440px: signed out, a wrong secret, the list, a focused filter, an empty filter, loading with scripts off, no database, and a failing database; taken on the page-visits branch, which adds a visits panel above the list)
+
 ## 2026-11-13 · claude-code · The xdg-open test clears every CI variable
 - Changed: `packages/cli/test/feedback.test.js`: GitHub Actions sets `GITHUB_ACTIONS`, so the command rightly refused to run in that test.
 - Tests: `npm test` with CI's variables set: 133 passed.
