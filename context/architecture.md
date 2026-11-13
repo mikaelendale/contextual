@@ -38,4 +38,4 @@ The CLI has no database; its data is a project's files: `context/.meta.json` (ve
 - A skill's `assets/` and references are copies of `templates/` and `docs/plan-file.md`; never edit a copy.
 - The CLI reads templates and skills only through `src/assets.js`.
 - A file belongs to one feature (spec 3.8). From 0.2.0 the most specific match owns a file another feature's glob also matches; until then, two matches are an error.
-shared:
+shared: site/lib/db.ts, site/lib/rate-limit.ts

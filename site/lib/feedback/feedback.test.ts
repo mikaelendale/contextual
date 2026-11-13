@@ -1,10 +1,10 @@
 // The server side of agent feedback: validation, Send, the limits, and the owner's cookie.
-// Run with: cd site && node --test lib/feedback/*.test.ts
+// Run with: cd site && node --test lib/*/*.test.ts
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
 import { isOwner, ownerToken } from "./owner.ts"
-import { createLimiter, visitorKey } from "./rate-limit.ts"
+import { createLimiter, visitorKey } from "../rate-limit.ts"
 import { BODY_CAP, TEXT_CAP, readFragment, validateReport, type Report } from "./report.ts"
 import { HONEYPOT, OVERALL, handleSend, type Store } from "./send.ts"
 

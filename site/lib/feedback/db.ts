@@ -1,19 +1,12 @@
 /*
- * Agent feedback in Neon. The connection string comes only from the
- * DATABASE_URL environment variable; nothing about the database is in the
- * repo. The table is created by site/db/migrations/0001_agent_feedback.sql.
- * Every query is parameterized by the driver's tagged template.
+ * Agent feedback in the site's database (see ../db.ts). The table is created
+ * by site/db/migrations/0001_agent_feedback.sql. Every query is parameterized
+ * by the driver's tagged template.
  */
 
-import { neon } from "@neondatabase/serverless"
-
+import { database } from "../db.ts"
 import { CHOICES, type Report } from "./report.ts"
 import type { Store } from "./send.ts"
-
-const database = () => {
-  const url = process.env.DATABASE_URL
-  return url ? neon(url) : null
-}
 
 /** The store the Send route writes to, or null when DATABASE_URL isn't set. */
 export function getStore(): Store | null {

@@ -6,8 +6,8 @@
 - `templates/agent-feedback-block.md` · the feedback block's text
 - `site/app/agent/feedback/page.tsx` · the review form: reads the fragment, shows what will be sent
 - `site/app/agent/feedback/send/route.ts` · the Send endpoint: validates, rate-limits, writes one row
-- `site/app/agent/feedback/reports/page.tsx` · the owner's list, behind a secret, with filters
-- `site/lib/feedback/` · the fields, server validation, the database call, the rate limit
+- `site/app/agent/feedback/reports/page.tsx` · the owner's list, behind a secret, with filters; the site's page visits sit above it
+- `site/lib/feedback/` · the fields, server validation, the database calls; the connection (`site/lib/db.ts`) and the rate limit (`site/lib/rate-limit.ts`) are shared with the site
 - `site/db/migrations/0001_agent_feedback.sql` · the table
 - `docs/agent-feedback.md` · what is collected, what never is, how to turn it off
 - Also touched: `packages/cli/src/cli.js`, `init.js`, `update.js` and `context.js` (foundation, init, update), the `.meta.json` template (templates), `.github/` (foundation: the connection-string check), `README.md`, `CHANGELOG.md`, `docs/spec.md` (foundation)

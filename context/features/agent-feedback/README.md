@@ -1,7 +1,7 @@
 # Agent feedback
 status: shipped
 phase: 2
-covers: packages/cli/src/feedback.js, packages/cli/test/feedback.test.js, templates/agent-feedback-block.md, site/app/agent/**, site/lib/feedback/**, site/db/**, docs/agent-feedback.md
+covers: packages/cli/src/feedback.js, packages/cli/test/feedback.test.js, templates/agent-feedback-block.md, site/app/agent/**, site/lib/feedback/**, site/db/migrations/0001_agent_feedback.sql, docs/agent-feedback.md
 depends-on: foundation, check, site
 
 ## What it does
