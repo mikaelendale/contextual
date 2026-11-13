@@ -2,7 +2,7 @@
 
 The `usecontextual` npm package. Versions follow semver; while the version is 0.x, a minor version can change behavior.
 
-## 0.2.0 (not published)
+## 0.2.0 (13 November 2026)
 
 - Agent feedback: when the owner turns it on, the agent notes problems with Contextual itself while it works, and before its final answer `usecontextual feedback` opens one prefilled form for the person to review and send. The report travels in the link's fragment, so nothing reaches a server until Send. `init` asks once (off when nobody can answer); `feedback on` and `feedback off` add and remove its block in `AGENTS.md`; `update` keeps it in step with `.meta.json`; it never runs in CI. See `docs/agent-feedback.md`.
 - The most specific match owns a file: an exact path beats any glob, otherwise the glob with more folders before its first wildcard, and the `shared:` line takes part. A new feature can add files inside another feature's folder; equally specific matches are still an error. `check`, `which` and the hook all follow it.

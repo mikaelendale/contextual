@@ -2,7 +2,7 @@
 Updated: 2026-11-13 · by: claude-code
 
 ## Current phase
-Phases 1 and 2 are done. Phase 1 is released as 0.1.0 (13 November 2026); Phase 2, agent feedback, is merged (#8) as 0.2.0. The website moved to a separate, private repository on 13 November 2026, so this repo has no UI now.
+Phases 1 and 2 are done. Both are released: 0.1.0 and 0.2.0 (agent feedback), on 13 November 2026. The website moved to a separate, private repository on 13 November 2026, so this repo has no UI now.
 
 ## Recently merged
 - 2026-11-13 · site · moved to a private repository; page visits in the database went with it (#9)
@@ -12,9 +12,8 @@ Phases 1 and 2 are done. Phase 1 is released as 0.1.0 (13 November 2026); Phase 
 - 2026-11-13 · commit-hook · the hook blocks only when `check --staged` ran and found errors
 
 ## Blocked / needs a human
-- Publishing 0.2.0.
 - The live site deploys from the private site repo; its new version is committed there and not pushed yet.
 - Later work is in GitHub issues #2 to #7.
 
 ## Next
-Publishing 0.2.0. Then an Antigravity trial once its CLI is signed in.
+An Antigravity trial once its CLI is signed in, then the untested items in the features' notes.

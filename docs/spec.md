@@ -1,6 +1,6 @@
 # Contextual — product and build spec
 
-Status: steps 1 to 5 built and merged, and 0.1.0 published on 13 November 2026. 0.2.0 (agent feedback, section 6.5) is merged and not yet published. Tried for real in Claude Code, Codex and OpenCode (`docs/trials/`). Not yet tried in Antigravity. Steps 6 and 7 (wider testing, launch) are next.
+Status: steps 1 to 5 built and merged. 0.1.0 and 0.2.0 (agent feedback, section 6.5) published on 13 November 2026. Tried for real in Claude Code, Codex and OpenCode (`docs/trials/`). Not yet tried in Antigravity. Steps 6 and 7 (wider testing, launch) are next.
 Written: November 2026. Last updated: 12 November 2026 (deslop results, the agent skills, `check --fix`; harnesses checked again). Before that, 10 November 2026 (harness behaviour verified against official docs, npm name `usecontextual`, a marked block in `AGENTS.md`, hook rules, collapsed feature index and `which`, sync fallbacks, one public repo with the site in `site/`). Section 14 lists every change.
 Audience: whoever builds this (including a coding agent starting with no prior context).
 
@@ -621,7 +621,7 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 - **13 November 2026, the website leaves this repo.** `site/` moved to a private repo, so the site's code isn't open source (section 8). The CLI's feedback link still points at contextual.mikaelen.site.
 
-- **13 November 2026, 0.2.0 (not published).**
+- **13 November 2026, 0.2.0 (published that day).**
   - Agent feedback (section 6.5).
   - The most specific match owns a file, in `check`, `which` and the hook (section 3.8). `which --unowned`, and a `check` warning that counts unowned code.
   - Setup's path 3 lists nested `AGENTS.md` files and offers a `CLAUDE.md` next to each.
