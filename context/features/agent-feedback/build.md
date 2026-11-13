@@ -3,7 +3,7 @@
 ## Files
 - `packages/cli/src/feedback.js` · the `feedback` command: flags, the automatic fields, cleaning the text, building the link, opening the browser; `feedback on` and `off`
 - `packages/cli/test/feedback.test.js` · its tests
-- `templates/repo/AGENTS-feedback.md` · the feedback block's text
+- `templates/agent-feedback-block.md` · the feedback block's text
 - `site/app/agent/feedback/page.tsx` · the review form: reads the fragment, shows what will be sent
 - `site/app/agent/feedback/send/route.ts` · the Send endpoint: validates, rate-limits, writes one row
 - `site/app/agent/feedback/reports/page.tsx` · the owner's list, behind a secret, with filters

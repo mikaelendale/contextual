@@ -12,6 +12,7 @@ import { dirname, join } from "node:path"
 import { assetRoot, INSTALLED_SKILLS, PRESETS } from "./assets.js"
 import { BLOCK_END, BLOCK_START, hashText, readText } from "./context.js"
 import { defaultBranch, repoTop } from "./git.js"
+import { feedbackBlock, withFeedbackBlock } from "./feedback.js"
 import { hookLine, installHook } from "./hook.js"
 
 const LOCKFILES = [
@@ -77,10 +78,11 @@ export function templateBlock(assets, cli) {
 }
 
 /**
- * @param {{ cwd: string, version: string, harnesses?: string[] | null, preset?: string | null, force?: boolean, install?: boolean, today?: string }} options
+ * @param {{ cwd: string, version: string, harnesses?: string[] | null, preset?: string | null, force?: boolean, install?: boolean, feedback?: boolean | null, ask?: (() => boolean | null) | null, today?: string }} options
+ *   `feedback`: turn agent feedback on or off; when null, `ask()` decides (asked once), and with no answer it stays off.
  * @returns {{ top: string, cli: string, skillDirs: string[], created: string[], kept: string[], dependency: string, hook: object, packageManager: string | null }}
  */
-export function init({ cwd, version, harnesses = null, preset = null, force = false, install = true, today = new Date().toISOString().slice(0, 10) }) {
+export function init({ cwd, version, harnesses = null, preset = null, force = false, install = true, feedback = null, ask = null, today = new Date().toISOString().slice(0, 10) }) {
   const top = repoTop(cwd)
   if (!top) throw new InitError("This isn't a git repository. Run `git init` first, then `init` again.")
   if (existsSync(join(top, "context", ".meta.json"))) {
@@ -97,8 +99,11 @@ export function init({ cwd, version, harnesses = null, preset = null, force = fa
   const cli = pm ? "npx --no-install usecontextual" : `npx --yes usecontextual@${version}`
   const skillDirs = harnesses ? skillDirsFor(harnesses) : detectSkillDirs(top)
   const deslop = readText(join(assets, "templates", "repo", "context", "design", "deslop.md"))
+  // Agent feedback: the flag decides, or a one-time question; nobody to answer means off.
+  const feedbackOn = feedback ?? (ask ? ask() === true : false)
   const values = {
     cli,
+    feedback: feedbackOn ? "on" : "off",
     date: today,
     contextual_version: version,
     default_branch: defaultBranch(top),
@@ -153,6 +158,11 @@ export function init({ cwd, version, harnesses = null, preset = null, force = fa
     kept.push("CLAUDE.md")
   }
 
+  if (feedbackOn) {
+    writeFileSync(agentsPath, withFeedbackBlock(readFileSync(agentsPath, "utf8"), feedbackBlock(assets, cli)))
+    created.push("AGENTS.md: the agent feedback block")
+  }
+
   installSkills(top, assets, skillDirs)
   for (const dir of skillDirs) created.push(`${dir}/ (${INSTALLED_SKILLS.join(", ")})`)
 
@@ -180,7 +190,7 @@ export function init({ cwd, version, harnesses = null, preset = null, force = fa
   }
 
   const hook = installHook({ top, line: hookLine({ hasPackageJson: Boolean(pm), version }) })
-  return { top, cli, skillDirs, created, kept, dependency, hook, packageManager: pm }
+  return { top, cli, skillDirs, created, kept, dependency, hook, packageManager: pm, feedback: feedbackOn }
 }
 
 export class InitError extends Error {}

@@ -11,6 +11,7 @@ import { join } from "node:path"
 
 import { assetRoot, INSTALLED_SKILLS } from "./assets.js"
 import { BLOCK_END, BLOCK_START, buildIndex, findRoot, hashText, readFeatures, readPlan, readText } from "./context.js"
+import { feedbackBlock, feedbackIsOn, withFeedbackBlock, withFeedbackState } from "./feedback.js"
 import { hookLine, installHook } from "./hook.js"
 import { installSkills, templateBlock } from "./init.js"
 
@@ -48,6 +49,14 @@ export function update({ cwd, version }) {
     }
   }
 
+  // The agent feedback block follows the choice in .meta.json: there and current when on, gone when off.
+  const agentsNow = readFileSync(agentsPath, "utf8")
+  const agentsNext = withFeedbackBlock(agentsNow, feedbackIsOn(meta) ? feedbackBlock(assets, cli) : null)
+  if (agentsNext !== agentsNow) {
+    writeFileSync(agentsPath, agentsNext)
+    changes.push(feedbackIsOn(meta) ? "AGENTS.md: refreshed the agent feedback block" : "AGENTS.md: removed the agent feedback block (feedback is off)")
+  }
+
   const claudePath = join(root, "CLAUDE.md")
   const claude = existsSync(claudePath) ? readFileSync(claudePath, "utf8") : null
   if (claude === null || !/^@AGENTS\.md[ \t]*$/m.test(claude)) {
@@ -66,6 +75,7 @@ export function update({ cwd, version }) {
   let after = before.replace(/("deslop"\s*:\s*)(null|"[^"]*")/, `$1"${hashText(deslop)}"`)
   after = after.replace(/("contextual"\s*:\s*)"[^"]*"/, `$1"${version}"`)
   after = after.replace(/("cli"\s*:\s*)"[^"]*"/, `$1${JSON.stringify(cli)}`)
+  if (!/"feedback"\s*:/.test(after)) after = withFeedbackState(after, "off")
   if (after !== before) {
     writeFileSync(metaPath, after)
     changes.push("context/.meta.json: version and deslop.md hash")

@@ -26,6 +26,7 @@ import {
 } from "./context.js"
 import { currentBranch, listFiles } from "./files.js"
 import { SHARED, isCodeFile, ownersOf } from "./owners.js"
+import { FEEDBACK_START, feedbackIsOn } from "./feedback.js"
 import { matches } from "./glob.js"
 
 const DEFAULT_CAPS = { agentsBlockLines: 60, statusLines: 40, featureReadmeLines: 60, startTokens: 3000 }
@@ -115,6 +116,10 @@ export function check({ root, branch = null }) {
       const n = lineCount(block)
       if (n > caps.agentsBlockLines) error("AGENTS.md", `the Contextual block is ${n} lines; the cap is ${caps.agentsBlockLines}`)
     }
+    // The agent feedback block follows the owner's choice in .meta.json (spec 6.5).
+    const hasFeedback = text.includes(FEEDBACK_START)
+    if (feedbackIsOn(meta) && !hasFeedback) warn("AGENTS.md", `agent feedback is on in .meta.json, but the feedback block is missing. \`${cli} feedback on\` adds it`)
+    if (!feedbackIsOn(meta) && hasFeedback) warn("AGENTS.md", `has the agent feedback block, but feedback is off in .meta.json. \`${cli} feedback off\` removes it`)
   }
   const claudePath = join(root, "CLAUDE.md")
   if (!existsSync(claudePath)) {

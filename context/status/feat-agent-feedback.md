@@ -2,20 +2,20 @@
 Updated: 2026-11-13 · by: claude-code
 
 ## Current focus
-agent-feedback, after the most-specific-owner rule it needs.
+agent-feedback: the site's form, Send, the table and the list page.
 
 ## Last session
-- `check`, `which` and `check --staged` resolve owners by the most specific match (spec 3.8); `which --unowned` lists code no one owns (issue #4).
-- Setup's path 3 mentions nested `AGENTS.md` files (issue #6); `site/` has a `CLAUDE.md`.
+- The most-specific-owner rule, `which --unowned` (issue #4), nested `AGENTS.md` in setup (issue #6).
+- `usecontextual feedback`, `feedback on|off`, init's question, update keeping the block in step. 133 tests pass.
 
 ## In progress
-The feedback command (`packages/cli/src/feedback.js`), then the site's form.
+The site: `site/app/agent/feedback/`, `site/lib/feedback/`, `site/db/migrations/`.
 
 ## Blocked / needs a human
-Nothing.
+- Running the migration on Neon needs a Neon login on this machine.
 
 ## Next
-1. `usecontextual feedback`: flags, automatic fields, cleaning, the link, opening the browser; `on` and `off`.
-2. `init` asks once; `update` keeps the block in step.
-3. The site: the form, Send, the table, the list page.
-4. Docs, CHANGELOG, a real trial.
+1. The form at `/agent/feedback`: reads the fragment, shows what will be sent.
+2. `POST /agent/feedback/send`: validation, caps, honeypot, rate limit, one row.
+3. The list page behind a secret, with filters.
+4. CI's check against committed connection strings; docs; CHANGELOG; a real trial.

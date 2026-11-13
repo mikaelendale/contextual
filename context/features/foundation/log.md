@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · The feedback command and init --feedback in the CLI
+- Changed: `packages/cli/src/cli.js`: `feedback`, `feedback on|off`, `init --feedback on|off`, init's one-time question at a terminal, and the help lines.
+- Tests: `npm test` in `packages/cli`: 133 passed on Node 26, and 132 on Node 20 before the opener test was added.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · which's new output and --unowned in the CLI
 - Changed: `packages/cli/src/cli.js` prints the globs a `which` answer beat, handles ties, and adds `which --unowned` to the help.
 - Tests: `npm test` in `packages/cli`: 120 passed, including 8 new in `owners.test.js`.

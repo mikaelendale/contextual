@@ -3,6 +3,7 @@
   "created": "{{date}}",
   "defaultBranch": "{{default_branch}}",
   "cli": "{{cli}}",
+  "feedback": "{{feedback}}",
   "skillDirs": [".agents/skills", ".claude/skills"],
   "lastSync": { "commit": null, "date": null },
   "hashes": { "idea": null, "deslop": "{{deslop_hash}}" },
