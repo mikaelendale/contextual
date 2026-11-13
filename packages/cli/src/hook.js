@@ -12,15 +12,28 @@ import { hooksDir, hooksPathSetting } from "./git.js"
 export const HOOK_MARK = "# usecontextual"
 
 /**
- * The line the hook runs. With a package.json it calls the local pinned copy,
- * and says so (without blocking) when that copy isn't installed yet. Without
- * one it calls a pinned npx, never a bare name.
+ * What `check --staged` exits with when it ran and found errors. npm, npx and
+ * Node exit with 1 when they fail, and the shell with 126 or 127 when a command
+ * can't start, so this code is how the hook tells "the check failed" from "the
+ * check couldn't run".
+ */
+export const STAGED_ERRORS_EXIT = 65
+
+/**
+ * The line the hook runs. It blocks the commit only when `check --staged` ran
+ * and found errors. When the CLI can't run (not installed, offline, the
+ * registry down, the version not found, Node missing), it prints a note and
+ * the commit goes through. The `||` keeps it working in a hook file that sets
+ * `set -e`. With a package.json it calls the local pinned copy; without one, a
+ * pinned npx, never a bare name.
  */
 export function hookLine({ hasPackageJson, version }) {
+  const guarded = (cli) =>
+    `usecontextual_exit=0; ${cli} check --staged || usecontextual_exit=$?; if [ "$usecontextual_exit" -eq ${STAGED_ERRORS_EXIT} ]; then exit 1; elif [ "$usecontextual_exit" -ne 0 ]; then echo "usecontextual couldn't run (exit $usecontextual_exit), so the context check was skipped."; fi`
   if (hasPackageJson) {
-    return `if [ -x node_modules/.bin/usecontextual ]; then node_modules/.bin/usecontextual check --staged || exit 1; else echo "usecontextual isn't installed here, so the context check was skipped. Run your package manager's install."; fi ${HOOK_MARK}`
+    return `if [ -x node_modules/.bin/usecontextual ]; then ${guarded("node_modules/.bin/usecontextual")}; else echo "usecontextual isn't installed here, so the context check was skipped. Run your package manager's install."; fi ${HOOK_MARK}`
   }
-  return `npx --yes usecontextual@${version} check --staged || exit 1 ${HOOK_MARK}`
+  return `${guarded(`npx --yes usecontextual@${version}`)} ${HOOK_MARK}`
 }
 
 /** Puts `line` into `file`, replacing an earlier marked line. Returns "created", "appended", "updated" or "unchanged". */

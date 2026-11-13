@@ -7,6 +7,7 @@ import { test } from "node:test"
 
 import { check } from "../src/check.js"
 import { hashText, readText } from "../src/context.js"
+import { hookLine } from "../src/hook.js"
 import { bin, describe, gitIn, repoRoot, tempRepo, write } from "./helpers.js"
 
 const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"))
@@ -33,7 +34,9 @@ test("init in an empty repo lays down everything, and check passes with 0 errors
   assert.ok(!/\{\{/.test(readText(join(dir, "AGENTS.md")) + readText(join(dir, "context/.meta.json"))), "a placeholder was left unfilled")
   assert.deepEqual(errors(dir), [], describe(errors(dir)))
   const hook = join(dir, ".git", "hooks", "pre-commit")
-  assert.match(readText(hook), new RegExp(`npx --yes usecontextual@${pkg.version.replaceAll(".", "\\.")} check --staged \\|\\| exit 1 # usecontextual`))
+  // A pinned npx, never a bare name; it blocks only when the check itself found errors.
+  assert.ok(readText(hook).includes(hookLine({ hasPackageJson: false, version: pkg.version })))
+  assert.match(readText(hook), new RegExp(`npx --yes usecontextual@${pkg.version.replaceAll(".", "\\.")} check --staged \\|\\| usecontextual_exit=`))
   assert.ok(statSync(hook).mode & 0o100, "the hook must be executable")
   assert.match(result.stdout, /set up contextual/)
 })
@@ -49,7 +52,7 @@ test("with a package.json, init pins itself as a dev dependency and the hook cal
   assert.equal(meta(dir).cli, "npx --no-install usecontextual", "a fresh clone without node_modules must not download a copy")
   assert.match(readText(join(dir, "AGENTS.md")), /Run `npx --no-install usecontextual which <path>`/)
   assert.match(readText(join(dir, "context/features/_index.md")), /`npx --no-install usecontextual check --fix`/)
-  assert.match(readText(join(dir, ".git/hooks/pre-commit")), /node_modules\/\.bin\/usecontextual check --staged \|\| exit 1/)
+  assert.ok(readText(join(dir, ".git/hooks/pre-commit")).includes(hookLine({ hasPackageJson: true, version: pkg.version })))
 })
 
 test("init keeps an existing AGENTS.md and CLAUDE.md, adding the block and the import once", () => {

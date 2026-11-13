@@ -23,7 +23,7 @@ Then tell your coding agent "set up contextual".
 | `init` | Adds the `AGENTS.md` block (after any existing content), the `CLAUDE.md` import, the `context/` skeleton, the agent skills and the pre-commit hook. Pins itself as an exact dev dependency when there's a `package.json`. Never overwrites a file |
 | `check` | Validates the context. Exit code 1 when there are errors |
 | `check --fix` | Rebuilds the feature index, stores the `idea.md` hash, creates a missing status file, then checks |
-| `check --staged` | What the pre-commit hook runs: staged feature code needs its log entry and the branch's status file. Errors on feature branches, warnings on the default branch |
+| `check --staged` | What the pre-commit hook runs: staged feature code needs its log entry and the branch's status file. Errors on feature branches, warnings on the default branch. Exit code 65 when there are errors, so the hook can tell them from a CLI that couldn't run |
 | `check --branch <name>` | Names the branch when git can't, as in CI's detached HEAD |
 | `which <path>` | Who owns a file: a feature, the `shared:` line, or no one (exit code 1) |
 | `update` | Refreshes only Contextual's fixed parts: the `AGENTS.md` block, the `CLAUDE.md` import, `deslop.md`, the skills, the hook line |

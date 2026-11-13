@@ -3,6 +3,7 @@ import { basename } from "node:path"
 
 import { check } from "./check.js"
 import { fix } from "./fix.js"
+import { STAGED_ERRORS_EXIT } from "./hook.js"
 import { InitError, init } from "./init.js"
 import { checkStaged } from "./staged.js"
 import { UpdateError, update } from "./update.js"
@@ -100,7 +101,10 @@ export function runCli(argv, { cwd, out, err }) {
       out(`  ${f.level.padEnd(7)}  ${f.file ? `${f.file}: ` : ""}${f.message}`)
     }
     out(`${plural(errors.length, "error")}, ${plural(warnings.length, "warning")}`)
-    return errors.length > 0 ? 1 : 0
+    // With --staged the hook reads the exit code: STAGED_ERRORS_EXIT means "block", anything else that
+    // isn't 0 means the CLI couldn't run (spec 6.3).
+    if (errors.length === 0) return 0
+    return flags.staged ? STAGED_ERRORS_EXIT : 1
   }
 
   const target = flags._[0]

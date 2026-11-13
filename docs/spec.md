@@ -383,7 +383,7 @@ Deterministic, no AI. Works the same for new and existing projects. It runs insi
 - Every `Deslop:` line in a feature's `log.md` is one of the four results in section 3.6, and a `pass` says how it was checked.
 - `idea.md` and `deslop.md` are unmodified (hash check; warning only).
 
-Exit code is non-zero on errors. It runs in the git pre-commit hook that `init` installs, and can also run in CI.
+Exit code is 1 on errors (65 with `--staged`, section 6.3). It runs in the git pre-commit hook that `init` installs, and can also run in CI.
 
 ### 6.2 The `--staged` rule
 
@@ -409,6 +409,7 @@ A pre-commit hook cannot read the commit message, so there is no "skip" tag in m
 - **The hook calls a local, pinned copy.** `init` adds `usecontextual` as a dev dependency at an exact version, using the repo's package manager (found from its lockfile: pnpm, yarn, bun, otherwise npm). The hook runs that copy, `node_modules/.bin/usecontextual check --staged`: no npx, no network.
 - **Fallback for repos with no `package.json`** (a Laravel or Python project without Node tooling): the hook calls a pinned `npx --yes usecontextual@<exact version> check --staged`.
 - **Never a bare name.** `npx` skips its install prompt when no one is at the terminal, as in a git hook, so a bare `npx <name>` installs and runs whatever that name points to at the time.
+- **It blocks only on the check's own errors.** `check --staged` exits 65 when it ran and found errors, and only that blocks a commit. When the CLI can't run at all (not installed yet, offline, the registry down, the pinned version not found, Node missing), npm, Node and the shell exit with other codes; the hook prints "usecontextual couldn't run (exit N), so the context check was skipped." and the commit goes through. A missing tool never stops someone from committing. The line catches the failure with `||`, so it also works in a hook file that uses `set -e`.
 - **Where it goes.** `init` asks git: `git rev-parse --git-path hooks`. That gives the right folder in a plain repo, in a worktree (the shared hooks folder), and when `core.hooksPath` is set.
 - **Hook managers.** When `core.hooksPath` is set (husky, lefthook, simple-git-hooks), `init` does not write into that folder; husky, for one, regenerates its `_` folder. It adds the command to the manager's own pre-commit file (`.husky/pre-commit`), or, for a manager it doesn't know, prints the line to add.
 - **An existing `pre-commit` hook** is kept. `init` appends one marked line so `update` can find it later.
@@ -592,6 +593,7 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 ## 14. Revision history
 
 - **13 November 2026, before publishing 0.1.0.**
+  - The hook blocks a commit only when `check --staged` ran and found errors, which it signals with exit code 65. When the CLI can't run (offline, the registry down, the version not found, Node missing), the hook prints a note and the commit goes through (section 6.3).
   - A missing branch status file's error names the fix, `check --fix` (section 6.2).
   - Until setup has run, the hook only warns, on every branch (sections 4.2, 6.2).
   - With a `package.json`, the context files and skills use `npx --no-install usecontextual`, so a fresh clone never downloads an unpinned copy (section 3.7).

@@ -22,7 +22,7 @@ Settled while building 0.1.0. Keep them unless the spec changes.
 
 - `init` outside a git repo refuses and says to run `git init`. It doesn't run it.
 - `init --force` never overwrites a file. It only lets `init` add its files next to an existing `context/` folder that isn't Contextual's.
-- The hook never stops a commit just because the CLI isn't installed yet (a fresh clone with no `node_modules`): it prints a note and lets the commit through.
+- The hook blocks a commit only when `check --staged` ran and found errors; it exits 65 for that. If the CLI can't run at all (not installed yet, offline, npm down, the pinned version not found, Node missing), the hook prints a note and lets the commit through.
 - Until setup has run (no `context/idea.md`), the hook only warns, on every branch.
 - On the default branch, `check --staged` turns every finding into a warning, full-check errors included, so a broken context file never stops a hand edit on main (spec 4.2).
 - A plan file may have one sentence under a phase heading; setup ignores it.
