@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · CI: the connection-string check and the site tests; docs for 0.2.0; version 0.2.0
+- Changed: `.github/scripts/no-connection-strings.mjs` and a `repo` job in CI that runs it and `site/`'s feedback tests; the README's three lines on agent feedback; spec 6.5, 6.1, 3.7 and the revision history; CHANGELOG 0.2.0; `packages/cli/package.json` at 0.2.0.
+- Tests: the check passes on the repo and fails on a planted connection string and `.env.local`; `npm test` 133 passed.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · The feedback command and init --feedback in the CLI
 - Changed: `packages/cli/src/cli.js`: `feedback`, `feedback on|off`, `init --feedback on|off`, init's one-time question at a terminal, and the help lines.
 - Tests: `npm test` in `packages/cli`: 133 passed on Node 26, and 132 on Node 20 before the opener test was added.

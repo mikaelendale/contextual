@@ -11,7 +11,7 @@ One repo holds the whole product. The CLI in `packages/cli` is a set of plain mo
 | Templates and presets | `templates/`, `presets/` | The blank context files, and ready-made stacks |
 | Hook docs | `hooks/` | How the pre-commit hook works, and a CI job for projects |
 | Example | `example/` | Linkboard's finished context folder |
-| Site | `site/` | The website |
+| Site | `site/` | The website, and agent feedback's form, Send endpoint and list of reports |
 | Docs | `docs/` | The spec, harness notes, maintainers' rules, trials and release lists |
 
 ## How a request flows
@@ -23,7 +23,7 @@ One repo holds the whole product. The CLI in `packages/cli` is a set of plain mo
 5. `src/hook.js` adds the marked line to the pre-commit hook.
 
 ## Data
-No database. The CLI's data is a project's files: `context/.meta.json` (version, default branch, the `cli` command, skill folders, last sync, hashes, caps) and the markdown in `context/`. The site keeps nothing; its GitHub numbers are cached by Next.js for an hour.
+The CLI has no database; its data is a project's files: `context/.meta.json` (version, default branch, the `cli` command, skill folders, last sync, hashes, caps) and the markdown in `context/`. The site's one table is `agent_feedback` in Neon (`site/db/migrations/0001_agent_feedback.sql`), owned by agent-feedback: one row per report a person sent, with no IP address. The GitHub numbers are cached by Next.js for an hour.
 
 ## Outside services
 | Service | Used for | Called from |
@@ -31,6 +31,7 @@ No database. The CLI's data is a project's files: `context/.meta.json` (version,
 | npm registry | Publishing the package; `npx` downloading it in projects without a `package.json` | The owner's terminal; projects' hooks |
 | GitHub API | The stars and other numbers on the site's GitHub button | `site/lib/github.ts`, on the server |
 | Vercel | Hosting the site | |
+| Neon | Storing agent feedback reports | `site/lib/feedback/db.ts`, on the server |
 
 ## Boundaries
 - The CLI never imports from `site/`, and the site never imports the CLI.

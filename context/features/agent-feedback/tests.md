@@ -17,4 +17,4 @@ In a project with feedback on, the agent runs `usecontextual feedback …` befor
 The link carries everything in its fragment; the form shows it; one row appears after Send and none after closing the tab.
 
 ## Last result
-2026-11-13 · `npm test` · 133 passed, 13 in `feedback.test.js`. The site isn't built yet.
+2026-11-13 · `npm test` (133 passed), `node --test lib/feedback/` in `site/` (7 passed), `next build`, and the form at 1440px, 390px and 375px. Not yet with a database.

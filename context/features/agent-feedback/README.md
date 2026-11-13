@@ -18,8 +18,8 @@ Coding agents report problems with Contextual itself, for a person to review and
 - [x] Each text field is capped at 600 characters; when the link is still too long, the longest field is trimmed and the output says so
 - [x] It removes code, absolute paths, URLs, secrets and the project's names from the text, names a Contextual file only by its generic path, and says what it removed
 - [x] It sends nothing itself, and does nothing in CI or when feedback is off
-- [ ] /agent/feedback reads the fragment into an editable form, shows exactly what will be sent with a short privacy note, and saves nothing until Send
+- [x] /agent/feedback reads the fragment into an editable form, shows exactly what will be sent with a short privacy note, and saves nothing until Send
 - [ ] On Send, the server validates and caps every field, drops honeypot and flood submissions, stores no IP address, and writes one row to Neon
 - [ ] A list page behind a secret shows the reports, with filters for harness, category and severity, and escapes all text
-- [ ] The database URL comes only from an environment variable, and CI fails if a connection string is ever committed
-- [ ] A docs page says what is collected, what never is, and how to turn it off, and the README says it in three lines
+- [x] The database URL comes only from an environment variable, and CI fails if a connection string is ever committed
+- [x] A docs page says what is collected, what never is, and how to turn it off, and the README says it in three lines

@@ -14,6 +14,8 @@ The site. Calm and centred, with lots of space and one strong picture per sectio
 | `brand-ink` | `#c43c00` | Small orange text, 4.8:1 |
 | `brand-deep` | `#db3300` | The deep end of gradients |
 | `brand-soft` | `#ffe7d6` | Soft fills behind a highlighted row |
+| `danger` | `#b42318` | Error messages, 6.0:1 on the background |
+| Field border | `#86868e` | Outlines of inputs, selects and text areas, 3.6:1 on white; `brand-ink` when focused, 5.3:1 |
 | Dither ramp | `#c43000` → `#ff6a14` → `#fff4ea` | The grain on the sky, the cards and the plates |
 
 Fills are gradients, not flat colors.

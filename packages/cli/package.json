@@ -1,6 +1,6 @@
 {
   "name": "usecontextual",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The Contextual CLI: adds, checks and updates the plain-markdown context that coding agents read.",
   "type": "module",
   "bin": {

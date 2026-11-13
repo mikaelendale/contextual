@@ -7,5 +7,6 @@
 | Package | npm, `usecontextual` | npm is the only registry |
 | Skills, templates, presets, docs | Markdown | `skills/`, `templates/`, `presets/`, `docs/` |
 | Site | Next.js 16, React 19, Tailwind CSS 4, shadcn/ui, Phosphor icons, Paper Shaders | `site/`, with its own `AGENTS.md` |
+| Site database | Neon Postgres, through `@neondatabase/serverless` | Agent feedback only; [why](../decisions/2026-11-13-neon-serverless-driver.md) |
 | CI | GitHub Actions | `.github/workflows/ci.yml` |
 | Site hosting | Vercel | Root Directory `site` |

@@ -18,6 +18,8 @@ Then open http://localhost:3000.
 | Variable | What it does |
 | --- | --- |
 | `SITE_URL` | The public address, `https://contextual.mikaelen.site`. It makes the canonical link and the share-card links absolute. Vercel fills this in on its own. |
+| `DATABASE_URL` | The Neon connection string for agent feedback. Create the table once with `psql "$DATABASE_URL" -f db/migrations/0001_agent_feedback.sql`. Never commit it: CI fails if a connection string is in the repo. |
+| `FEEDBACK_REPORTS_SECRET` | A long random secret that opens `/agent/feedback/reports`, the list of reports. Without it, nobody can open the list. |
 | `GITHUB_TOKEN` | Optional. The GitHub button's star count and repo numbers come from GitHub's public API, asked by our server about once an hour. That fits well inside GitHub's limit without a token; set one (no scopes needed) only if the numbers stop showing. |
 
 On Vercel, set the project's Root Directory to `site`.

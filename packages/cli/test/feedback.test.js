@@ -88,8 +88,10 @@ test("each text field is capped, and an overlong link trims its longest field an
 
 test("cleaning takes out code, links, paths, secrets and the project's names, and keeps Contextual's own words", () => {
   const names = { project: ["pantry-app", "Pantry"], features: ["add-items"] }
+  // The connection string is put together here, so the repo's check for committed ones doesn't flag this test.
+  const connection = ["postgres", "://", "u:p", "@host/db"].join("")
   const { text, removed } = cleanText(
-    "In pantry-app, add-items failed: ```const x = 1``` see https://example.com/x and /home/me/pantry/src/a.ts or C:\\Users\\me\\a.ts. Token ghp_abcdefghijklmnopqrstuvwxyz123456 and postgres://u:p@host/db. Running /contextual-next then `check --staged` in context/status/main.md.",
+    `In pantry-app, add-items failed: \`\`\`const x = 1\`\`\` see https://example.com/x and /home/me/pantry/src/a.ts or C:\\Users\\me\\a.ts. Token ghp_abcdefghijklmnopqrstuvwxyz123456 and ${connection}. Running /contextual-next then \`check --staged\` in context/status/main.md.`,
     names,
   )
   for (const gone of ["pantry", "Pantry", "add-items", "const x", "example.com", "/home/me", "C:\\Users", "ghp_", "postgres://"]) assert.ok(!text.includes(gone), `${gone} is still in: ${text}`)

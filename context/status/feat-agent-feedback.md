@@ -2,20 +2,21 @@
 Updated: 2026-11-13 · by: claude-code
 
 ## Current focus
-agent-feedback: the site's form, Send, the table and the list page.
+agent-feedback: connecting Neon, then the first reports through the form.
 
 ## Last session
-- The most-specific-owner rule, `which --unowned` (issue #4), nested `AGENTS.md` in setup (issue #6).
-- `usecontextual feedback`, `feedback on|off`, init's question, update keeping the block in step. 133 tests pass.
+- The CLI: `feedback`, `feedback on|off`, init's question, update, the most-specific owner, `which --unowned`.
+- The site: the form, Send, the list page, the migration; CI's connection-string check; docs, spec 6.5, CHANGELOG 0.2.0.
+- A real trial: a copy of the Pantry repo pinned 0.0.1, so the block's command failed; the report about it filled the form.
 
 ## In progress
-The site: `site/app/agent/feedback/`, `site/lib/feedback/`, `site/db/migrations/`.
+Neon: `site/db/migrations/0001_agent_feedback.sql` isn't run anywhere yet.
 
 ## Blocked / needs a human
-- Running the migration on Neon needs a Neon login on this machine.
+- A Neon database for the reports, and `DATABASE_URL` and `FEEDBACK_REPORTS_SECRET` on Vercel.
+- How long reports are kept.
 
 ## Next
-1. The form at `/agent/feedback`: reads the fragment, shows what will be sent.
-2. `POST /agent/feedback/send`: validation, caps, honeypot, rate limit, one row.
-3. The list page behind a secret, with filters.
-4. CI's check against committed connection strings; docs; CHANGELOG; a real trial.
+1. Run the migration, set the two variables, deploy a preview.
+2. Send the first reports through the preview's form; look at the list page.
+3. Tick the last two acceptance lines and record the deslop result for the list page.
