@@ -40,6 +40,16 @@ The trials in [trials/](trials/) were run this way. Run them the same way when a
 - Antigravity: its CLI needs a sign-in in a browser, so it hasn't been tried yet.
 - Write the results in `docs/trials/`: what was asked, what the agent did, and the `check` result. Leave out local paths, costs and account details.
 
+## Where the site deploys from
+
+The live site, contextual.mikaelen.site, is a Vercel project. As of 13 November 2026 that project is still connected to the old private teaser repo (branch `main`, the repo root), so nothing in this repo's `site/` is live yet. It should deploy from this repo instead:
+
+1. In the Vercel project's settings, under Git, connect this repo (`mikaelendale/contextual`), with `main` as the production branch.
+2. Under Build and Deployment, set the Root Directory to `site`.
+3. Under Environment Variables, keep `GITHUB_TOKEN` optional, and for agent feedback (0.2.0) set `DATABASE_URL` and `FEEDBACK_REPORTS_SECRET` (see `site/README.md`).
+
+After step 1, every push to `main` deploys to production, and every other branch gets a preview.
+
 ## Releasing the npm package
 
 - npm is the only registry. There's no GitHub Packages copy.
