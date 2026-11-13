@@ -1,6 +1,6 @@
 # Contextual
 
-The website for Contextual: an open source context structure that gives AI coding agents persistent memory of your project. It works with Claude Code and Codex.
+The website for Contextual: an open source context structure that gives AI coding agents persistent memory of your project. It works with Claude Code, Codex, OpenCode and Antigravity.
 
 Built with Next.js 16, Tailwind CSS 4, shadcn/ui and [Paper Shaders](https://shaders.paper.design).
 
@@ -18,7 +18,7 @@ Then open http://localhost:3000.
 | Variable | What it does |
 | --- | --- |
 | `SITE_URL` | The public address, `https://contextual.mikaelen.site`. It makes the canonical link and the share-card links absolute. Vercel fills this in on its own. |
-| `VISITS_NAMESPACE` | The name of the visit counter on [Abacus](https://jasoncameron.dev/abacus/). Required in production: use something hard to guess, because the counter itself is public. Without it, production shows no counter. Development uses its own counter. |
+| `GITHUB_TOKEN` | Optional. The GitHub button's star count and repo numbers come from GitHub's public API, asked by our server about once an hour. That fits well inside GitHub's limit without a token; set one (no scopes needed) only if the numbers stop showing. |
 
 On Vercel, set the project's Root Directory to `site`.
 
@@ -33,4 +33,4 @@ On Vercel, set the project's Root Directory to `site`.
 | `app/opengraph-image.png`, `app/twitter-image.png` | The share card (1200×630) |
 | `app/icon.tsx`, `app/apple-icon.tsx` | The browser and home screen icons |
 
-Product marks: the Claude Code mark is from [simple-icons](https://simpleicons.org) (CC0), and the Codex mark is from [Lobe Icons](https://github.com/lobehub/lobe-icons) (MIT). Both marks belong to their owners.
+Product marks: the Claude Code mark is from [simple-icons](https://simpleicons.org) (CC0), and the Codex, OpenCode and Antigravity marks are from [Lobe Icons](https://github.com/lobehub/lobe-icons) (MIT). The marks belong to their owners.

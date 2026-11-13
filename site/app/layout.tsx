@@ -16,7 +16,7 @@ const newsreader = Newsreader({
 });
 
 const description =
-  "An open source context structure that gives AI coding agents persistent memory of your project. Free, MIT licensed, for Claude Code, Codex and other agents that read AGENTS.md.";
+  "An open source context structure that gives AI coding agents persistent memory of your project. Free, MIT licensed, for Claude Code, Codex, OpenCode, Antigravity and other agents that read AGENTS.md.";
 
 const title = "Contextual: explain your project once"
 
@@ -35,6 +35,8 @@ export const metadata: Metadata = {
     "Contextual",
     "Claude Code",
     "Codex",
+    "OpenCode",
+    "Antigravity",
     "AI coding agents",
     "project memory",
     "context engineering",

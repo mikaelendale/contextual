@@ -1,17 +1,17 @@
 import type { ComponentType, SVGProps } from "react"
 import { ArrowUpRight } from "@phosphor-icons/react/ssr"
 
-import { ClaudeCodeMark, CodexMark } from "@/components/brand-marks"
-import { CopyCommand } from "@/components/copy-command"
+import { AntigravityMark, ClaudeCodeMark, CodexMark, OpenCodeMark } from "@/components/brand-marks"
+import { InstallModule } from "@/components/install-module"
 import { Lede, Section, SectionTitle } from "@/components/home/section"
-import { INSTALL, NPM, REPO } from "@/lib/links"
+import { NPM, REPO } from "@/lib/links"
 
 /** Only what was really run: setup from a plan, then one feature (docs/trials in the repo). */
 const AGENTS: { name: string; Mark?: ComponentType<SVGProps<SVGSVGElement>>; tint?: string; call: string; tested: string }[] = [
   { name: "Claude Code", Mark: ClaudeCodeMark, tint: "text-[#d97757]", call: "/contextual-next", tested: "Tested" },
   { name: "Codex", Mark: CodexMark, call: "$contextual-next", tested: "Tested" },
-  { name: "OpenCode", call: "@contextual-next", tested: "Tested" },
-  { name: "Antigravity", call: "/contextual-next", tested: "Not tested yet" },
+  { name: "OpenCode", Mark: OpenCodeMark, call: "@contextual-next", tested: "Tested" },
+  { name: "Antigravity", Mark: AntigravityMark, call: "/contextual-next", tested: "Not tested yet" },
 ]
 
 const LINK =
@@ -19,7 +19,7 @@ const LINK =
 
 export function WorksWith() {
   return (
-    <Section id="get" className="items-center text-center">
+    <Section id="get" className="flex flex-col items-center text-center">
       <SectionTitle lead="Works with the agents" accent="you already use." />
       <Lede className="mx-auto">
         Contextual is built on the two standards coding agents share: AGENTS.md for the rules, and agent skills for
@@ -39,9 +39,9 @@ export function WorksWith() {
         ))}
       </ul>
 
-      <div className="mt-16 flex flex-col items-center">
-        <CopyCommand command={INSTALL} />
-        <p className="mt-1 text-[14px] text-muted-foreground">In a git repo, with Node.js 20 or newer. Free and open source, MIT licensed.</p>
+      <div className="mt-16 flex w-full flex-col items-center">
+        <InstallModule className="w-full max-w-[36rem]" />
+        <p className="mt-4 text-[14px] text-muted-foreground">In a git repo, with Node.js 20 or newer. Free and open source, MIT licensed.</p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
           <a href={REPO} target="_blank" rel="noopener noreferrer" className={LINK}>
             Read the docs on GitHub

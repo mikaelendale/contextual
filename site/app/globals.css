@@ -337,6 +337,35 @@
   animation-delay: var(--delay, 0ms);
 }
 
+/* A quiet "working" mark in the figures: three dots that breathe in turn. */
+@keyframes busy {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@utility busy-dot {
+  animation: busy 1.1s ease-in-out infinite;
+}
+
+/* A screenshot was taken: one soft flash over the screen. */
+@keyframes shot-flash {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@utility shot-flash {
+  animation: shot-flash 420ms ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rise,
   .appear,
@@ -350,11 +379,16 @@
   .drift-near,
   .drift-far,
   .live,
-  .sky-layer {
+  .sky-layer,
+  .busy-dot {
     animation: none;
   }
   .sky-layer {
     translate: none;
     transition: none;
+  }
+  .shot-flash {
+    animation: none;
+    opacity: 0;
   }
 }

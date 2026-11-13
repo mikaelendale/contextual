@@ -2,10 +2,10 @@ import type { ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
 
-/** One screen tall, content centered: every section of the page uses this frame. */
+/** Every section after the hero: the same gap above and below, whatever the window's height. */
 export function Section({ id, className, children }: { id: string; className?: string; children: ReactNode }) {
   return (
-    <section id={id} className={cn("mx-auto flex min-h-svh w-full max-w-[1240px] scroll-mt-0 flex-col justify-center px-5 py-[10svh] sm:px-8", className)}>
+    <section id={id} className={cn("mx-auto w-full max-w-[1240px] scroll-mt-6 px-5 py-[clamp(4.5rem,9vw,8rem)] sm:px-8", className)}>
       {children}
     </section>
   )
@@ -22,7 +22,7 @@ export function SectionTitle({ lead, accent, className }: { lead: string; accent
 
 /** Supporting copy under a heading: short and grey. */
 export function Lede({ className, children }: { className?: string; children: ReactNode }) {
-  return <p className={cn("mt-5 max-w-[34rem] text-[16px] leading-[1.65] text-pretty text-muted-foreground sm:text-[17px]", className)}>{children}</p>
+  return <p className={cn("mt-5 max-w-[36rem] text-[16px] leading-[1.65] text-pretty text-muted-foreground sm:text-[17px]", className)}>{children}</p>
 }
 
 /** A command or file name inside copy. The site has no monospace, so it's the body font, a little heavier. */
