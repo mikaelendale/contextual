@@ -1,5 +1,7 @@
 # Layouts
 
+> The website these notes describe moved to a separate, private repository on 13 November 2026. This repo has no UI now; the notes stay as a record.
+
 ## The home page
 The site's only page. Example: `/`.
 1. The hero, one screen tall: the dithered sky with its constellation, the header (logo, GitHub button), the headline, one sentence naming the supported agents, the install command and a link to the docs.

@@ -1,10 +1,12 @@
 # Site
-status: shipped
+status: deprecated
 phase: 1
 covers: site/**
 depends-on: foundation
 
 ## What it does
+Moved out of this repo on 13 November 2026: the site's code is in a separate, private repository, so it isn't open source. What follows describes it as it was here.
+
 The website, contextual.mikaelen.site: the hero with the install command, how it works, the folder diagram, the "Done means checked" run, the agents it works with, and the install module. It's a Next.js app with its own `AGENTS.md`; the GitHub button shows the repo's numbers, read on the server about once an hour. It counts visits to the home page, once per browser per 30 minutes, as one number per day with nothing about the visitor, and the owner sees them on the reports page.
 
 ## Acceptance

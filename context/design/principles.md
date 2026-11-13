@@ -1,5 +1,7 @@
 # Design principles
 
+> The website these notes describe moved to a separate, private repository on 13 November 2026. This repo has no UI now; the notes stay as a record.
+
 ## Look and feel
 The site. Calm and centred, with lots of space and one strong picture per section: a hot orange sky in live, visible 2px grain. These values were read from the site at setup (`site/app/globals.css`) and can be changed.
 

@@ -70,7 +70,8 @@ Each harness ran setup from a plan file and then built one feature, on 13 Novemb
 | [`presets/`](presets/) | Ready-made stacks: Next.js, and Laravel with Inertia and React |
 | [`hooks/`](hooks/) | The pre-commit hook, and a CI job that runs the same check |
 | [`example/`](example/) | A finished context folder for a small app, Linkboard, to imitate |
-| [`site/`](site/) | The website, contextual.mikaelen.site |
+
+The website, [contextual.mikaelen.site](https://contextual.mikaelen.site), is maintained in a separate repository.
 
 [CHANGELOG](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · Start with [the spec](docs/spec.md).
 

@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · The website leaves this repo
+- Changed: README, SECURITY.md, AGENTS.md's notes, `docs/maintaining.md`, `docs/spec.md` (section 8, the decisions list, the revision history), `context/architecture.md`, `conventions.md` and the design notes now say the website is in a separate, private repository. CI keeps the connection-string check and drops the site's tests. Decision recorded.
+- Tests: `npm test` in `packages/cli`: 133 passed; `check` 0 errors.
+- Left open: the site's code is still in this repo's git history.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · 0.2.0 ready to publish
 - Changed: `docs/release/0.2.0-pack-dry-run.txt`, the files 0.2.0 publishes: 87, 57.3 kB. Against 0.1.0 it adds `src/feedback.js`, `src/owners.js` and the feedback block's template, and nothing else.
 - Tests: `npm test` in `packages/cli`: 133 passed.

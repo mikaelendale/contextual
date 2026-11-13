@@ -21,7 +21,7 @@ Only the latest release of `usecontextual` gets security fixes.
 
 - **The CLI** in `packages/cli`. It writes files in your repo and adds one line to your git pre-commit hook.
 - **The skills and templates** in `skills/` and `templates/`. Coding agents follow them, so an instruction that could lead an agent to run something you didn't ask for, or to send something out of your machine, counts as a security problem.
-- **The website** in `site/`.
+- **The website**, contextual.mikaelen.site, including the agent feedback form. Its code is in a separate, private repository, but report problems with it here the same way.
 
 ## What the CLI does on your machine
 

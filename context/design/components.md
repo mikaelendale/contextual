@@ -1,4 +1,6 @@
 # Components
+
+> The website these notes describe moved to a separate, private repository on 13 November 2026. This repo has no UI now; the notes stay as a record.
 Check here before building a new one, and add a row when you do.
 
 | Component | Where | Use for | Don't use for |

@@ -1,6 +1,12 @@
 # Log — Agent feedback
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · The site's side moved to a private repository
+- Changed: agent-feedback covers only the CLI command, its tests, the block's template and `docs/agent-feedback.md`. The form, Send and the owner's list moved with the website to a separate, private repository. `docs/agent-feedback.md` keeps what is collected, what never is, and how long reports are kept, and no longer describes running the site.
+- Tests: `npm test` in `packages/cli`: 133 passed.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · Kept for at least 30 days; the list page shows visits
 - Changed: `docs/agent-feedback.md` says reports are kept for at least 30 days. The reports page shows the site's page visits above the list. `site/lib/feedback/` now uses the shared `site/lib/db.ts` and `site/lib/rate-limit.ts` (moved from here). agent-feedback covers only `0001_agent_feedback.sql` in `site/db/`, so the site owns the visits migration.
 - Tests: the site's tests (12 passed); `next build`; the list page against the database at 375px and 1440px.

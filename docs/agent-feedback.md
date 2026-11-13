@@ -52,13 +52,8 @@ usecontextual feedback --harness claude-code --model "<model>" --skill next --ca
 
 `usecontextual feedback --help` lists every field and value. Pass `--print` to print the link instead of opening it. Each text is cut to 600 characters, and when the link would still be longer than 4,000 characters the longest text is trimmed further, and the output says so.
 
-## Running the site's side
+## The site's side
 
-The form, the Send endpoint and the owner's list live in `site/`. They need two environment variables, set in the host's settings and never committed:
+The form, the Send endpoint and the owner's list run on contextual.mikaelen.site, whose code is in a separate, private repository. They do what this page says: the server checks every field again, stores one row with the date, keeps no IP address, and keeps each report for at least 30 days.
 
-| Name | What it is |
-|---|---|
-| `DATABASE_URL` | The Neon connection string. The table comes from `site/db/migrations/0001_agent_feedback.sql` |
-| `FEEDBACK_REPORTS_SECRET` | A long random secret that opens `/agent/feedback/reports`, the owner's list |
-
-For trying the form against a local or preview copy of the site, `USECONTEXTUAL_FEEDBACK_URL` points the CLI's link there instead.
+For trying the CLI against a local or preview copy of the site, `USECONTEXTUAL_FEEDBACK_URL` points the link there instead.

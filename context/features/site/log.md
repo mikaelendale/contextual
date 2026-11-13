@@ -1,6 +1,12 @@
 # Log — Site
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · Moved to a private repository
+- Changed: `site/` is gone from this repo; the site's code is now at the root of a separate, private repository, so it isn't open source. Status deprecated; `covers: site/**` stays as a record. CI no longer runs the site's tests. The site's deploy and database notes moved with it.
+- Tests: in the private repo: the site's tests (12 passed), `next build`, the type check and lint, and its dev server answers on `/`, `/agent/feedback` and `/agent/feedback/reports`.
+- Left open: the code is still in this repo's git history; removing it from there would mean rewriting public history.
+- Deslop: not UI (no change to the site itself)
+
 ## 2026-11-13 · claude-code · Page visits in the database
 - Changed: the home page counts a visit once per browser per 30-minute session (`components/visit-beacon.tsx`, `POST /api/visits`, `lib/visits/`), stored as one row per page per day in a new table (`db/migrations/0002_page_visits.sql`, run on Neon). No IP address, browser details or referrer; the server allows 10 counts per address per 30 minutes, keyed by an in-memory hash. The feedback pages count nothing. The owner's reports page shows today, the last 7 and 30 days, and all time. The database connection and the rate limit moved to `lib/db.ts` and `lib/rate-limit.ts`, shared with agent-feedback (on the `shared:` line). CI runs `node --test lib/*/*.test.ts`.
 - Tests: 5 new tests (12 in the site). In headless Chrome against the database: the first visit counted, a reload and the feedback form didn't, a return after 31 minutes did; curl without the browser's same-origin mark got 403. The test visits were then deleted.

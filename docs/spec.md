@@ -341,7 +341,7 @@ Runs in a normal LLM chat. It only plans. It never writes the context folder.
 
 It asks a small number of questions (five at most): the idea, who it is for, web or mobile, whether it needs accounts, whether it needs payments. It proposes a stack and a design direction, then outputs one file.
 
-**It must also exist as a plain copy-paste prompt** on the website, so it works in any LLM and trying Contextual costs nothing. The site reads the prompt from `skills/contextual-plan/` in this repo, so there is one copy.
+**It must also exist as a plain copy-paste prompt** on the website, so it works in any LLM and trying Contextual costs nothing. The site links to the prompt in `skills/contextual-plan/` in this repo, so there is one copy.
 
 ### Plan file format (`contextual-plan.md`)
 
@@ -504,7 +504,7 @@ A git pre-commit hook runs `usecontextual check --staged` (section 6.2). It bloc
 
 ## 8. The Contextual repo (what we build)
 
-One public repo, `mikaelendale/contextual`, with fresh history and the MIT license. The teaser site moves into it as `site/`; the site's earlier history stays in a private repo, so opening the source does not publish it.
+One public repo, `mikaelendale/contextual`, with fresh history and the MIT license. The website isn't part of it: it was in `site/` until 13 November 2026, then moved to a private repo, so its code isn't open source.
 
 ```
 contextual/
@@ -519,7 +519,6 @@ contextual/
   presets/                   ready-made stacks
   example/                   one finished context folder to imitate
   docs/                      this spec, the plan-file format, the rules
-  site/                      the website (Next.js), deployed from this folder
 ```
 
 **Presets for v1:** Next.js, and Laravel with Inertia and React. A preset is a filled-in `stack/` folder plus matching `architecture.md` and `conventions.md` defaults.
@@ -607,7 +606,7 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 - Agent procedures are skills (`SKILL.md`), not slash commands.
 - Enforcement is a git pre-commit hook, not a harness-specific hook.
 - The npm package is `usecontextual`. The README and site warn that `npx contextual` is an unrelated package.
-- One public repo with fresh history: the spec's folders at the root, the site in `site/`. The site's old history stays private.
+- One public repo with fresh history, with the spec's folders at the root. The website's code is in a private repo (it was in `site/` until 13 November 2026).
 - Skills are copied, not symlinked, into `.agents/skills/` and `.claude/skills/`, kept identical, and installed in the repo only.
 - Contextual owns a marked block in `AGENTS.md`, and only that block counts toward the cap. An existing `CLAUDE.md` gets `@AGENTS.md` appended.
 - The hook runs a pinned local dev dependency; a pinned `npx` only in repos with no `package.json`; never a bare name. It blocks on feature branches and warns on the default branch.
@@ -619,6 +618,8 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 ---
 
 ## 14. Revision history
+
+- **13 November 2026, the website leaves this repo.** `site/` moved to a private repo, so the site's code isn't open source (section 8). The CLI's feedback link still points at contextual.mikaelen.site.
 
 - **13 November 2026, 0.2.0 (not published).**
   - Agent feedback (section 6.5).

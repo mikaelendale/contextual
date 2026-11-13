@@ -42,5 +42,4 @@ A task missing any of these isn't done. The pre-commit hook checks.
 
 ## Notes for this repo
 - This repo builds the CLI. To check it with the code on your branch, run `node packages/cli/bin/usecontextual.js check`; the `npx` command above runs the last published version.
-- `site/` has its own `AGENTS.md`, from Next.js. Read it before working on the site.
 - After changing anything in `skills/`, run `node packages/cli/bin/usecontextual.js update` so the copies in `.agents/skills/` and `.claude/skills/` match.

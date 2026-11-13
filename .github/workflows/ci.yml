@@ -49,7 +49,3 @@ jobs:
       # This repo is public. Database URLs live only in environment variables.
       - name: No connection strings or .env files committed
         run: node .github/scripts/no-connection-strings.mjs
-      # The site's server side: feedback validation, Send, the limits, and counting visits. Node runs the TypeScript directly.
-      - name: Site tests
-        working-directory: site
-        run: node --test lib/*/*.test.ts

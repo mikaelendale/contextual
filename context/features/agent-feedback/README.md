@@ -1,11 +1,11 @@
 # Agent feedback
 status: shipped
 phase: 2
-covers: packages/cli/src/feedback.js, packages/cli/test/feedback.test.js, templates/agent-feedback-block.md, site/app/agent/**, site/lib/feedback/**, site/db/migrations/0001_agent_feedback.sql, docs/agent-feedback.md
+covers: packages/cli/src/feedback.js, packages/cli/test/feedback.test.js, templates/agent-feedback-block.md, docs/agent-feedback.md
 depends-on: foundation, check, site
 
 ## What it does
-Coding agents report problems with Contextual itself, for a person to review and send. A second managed block in `AGENTS.md` asks the agent to note them while it works, and `usecontextual feedback` turns one note into a prefilled form on the site, with the draft in the link's fragment so nothing reaches a server until the person presses Send. The owner turns it on and off, and it never runs in CI. It follows Next.js's `experimental.agentFeedback`.
+Coding agents report problems with Contextual itself, for a person to review and send. A second managed block in `AGENTS.md` asks the agent to note them while it works, and `usecontextual feedback` turns one note into a prefilled form on the site, with the draft in the link's fragment so nothing reaches a server until the person presses Send. The owner turns it on and off, and it never runs in CI. It follows Next.js's `experimental.agentFeedback`. The form, Send and the owner's list are on the website, whose code moved to a separate, private repository on 13 November 2026; the boxes below about them were checked while it was here.
 
 ## Acceptance
 - [x] `init` asks once whether to turn agent feedback on; when nobody can answer, it stays off
