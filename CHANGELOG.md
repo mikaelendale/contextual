@@ -9,7 +9,7 @@ The `usecontextual` npm package. Versions follow semver; while the version is 0.
 - `which --unowned` lists the code no feature owns, and `check` counts it once setup has run.
 - Setup's path 3 lists nested `AGENTS.md` files and offers a `CLAUDE.md` next to each, so Claude Code reads them.
 
-## 0.1.0 (prepared, not published)
+## 0.1.0 (13 November 2026)
 
 The first release that works end to end.
 

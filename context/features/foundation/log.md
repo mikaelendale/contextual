@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-13 · claude-code · 0.1.0 published
+- Changed: `CHANGELOG.md` dates 0.1.0 (13 November 2026). The spec's status line says 0.1.0 is published and 0.2.0 is merged but not published.
+- Tests: from npm in an empty folder, `npx usecontextual@0.1.0` and `pnpm dlx usecontextual@0.1.0` print 0.1.0, and `init` then `check` work (0 errors, and the one warning expected before setup). The published package has the same 84 files as `docs/release/0.1.0-pack-dry-run.txt`. Bun isn't installed here, so `bunx` wasn't tried.
+- Left open: publishing 0.2.0.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · The trial link's real length
 - Changed: the trial notes said 1,745 characters; the link is 1,365.
 - Tests: measured the printed link.
