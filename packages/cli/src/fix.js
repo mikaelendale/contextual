@@ -23,7 +23,7 @@ export function fix({ root, branch = null }) {
   } catch {
     // check reports a broken .meta.json; nothing here can repair it
   }
-  const cli = meta?.cli ?? "npx usecontextual"
+  const cli = meta?.cli ?? "npx --no-install usecontextual"
 
   const planPath = join(ctx, "build-plan.md")
   const indexPath = join(ctx, "features", "_index.md")

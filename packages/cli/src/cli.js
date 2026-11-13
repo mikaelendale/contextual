@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { basename } from "node:path"
 
 import { check } from "./check.js"
@@ -87,8 +87,11 @@ export function runCli(argv, { cwd, out, err }) {
       const meta = JSON.parse(readText(join(root, "context", ".meta.json")))
       const defaultBranch = meta.defaultBranch ?? "main"
       result.findings.push(...checkStaged({ root, branch: result.branch, defaultBranch, skillDirs: meta.skillDirs ?? [] }))
-      // On the default branch the hook warns and never blocks (spec 4.2).
-      if (!result.branch || result.branch === defaultBranch) for (const f of result.findings) f.level = "warning"
+      // The hook warns and never blocks on the default branch (spec 4.2), and on every
+      // branch until setup has run: before context/idea.md exists there's nothing to keep in step.
+      const setupDone = existsSync(join(root, "context", "idea.md"))
+      if (!setupDone) result.findings.push({ level: "warning", file: null, message: "setup hasn't run yet (no context/idea.md), so this check only warns. Tell your agent \"set up contextual\"" })
+      if (!setupDone || !result.branch || result.branch === defaultBranch) for (const f of result.findings) f.level = "warning"
     }
     const errors = result.findings.filter((f) => f.level === "error")
     const warnings = result.findings.filter((f) => f.level === "warning")

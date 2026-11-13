@@ -52,7 +52,7 @@ Tarball Contents
 402B assets/templates/feature/notes.md
 630B assets/templates/feature/README.md
 653B assets/templates/feature/tests.md
-2.9kB assets/templates/README.md
+3.0kB assets/templates/README.md
 2.7kB assets/templates/repo/AGENTS.md
 11B assets/templates/repo/CLAUDE.md
 413B assets/templates/repo/context/.meta.json
@@ -76,26 +76,26 @@ Tarball Contents
 693B package.json
 1.2kB src/assets.js
 18.6kB src/check.js
-7.1kB src/cli.js
+7.5kB src/cli.js
 6.9kB src/context.js
 1.5kB src/files.js
 2.9kB src/fix.js
 2.0kB src/git.js
 1.2kB src/glob.js
 2.9kB src/hook.js
-8.7kB src/init.js
+8.8kB src/init.js
 3.4kB src/plan.js
-3.0kB src/staged.js
-3.8kB src/update.js
+3.5kB src/staged.js
+4.6kB src/update.js
 1.4kB src/which.js
 Tarball Details
 name: usecontextual
 version: 0.1.0
 filename: usecontextual-0.1.0.tgz
-package size: 47.3 kB
-unpacked size: 145.0 kB
-shasum: 02e98be395f464c6cd8abaf66f18fa635a6942f7
-integrity: sha512-u2PJww3btC0R6[...]3phBarR3RbyKw==
+package size: 47.8 kB
+unpacked size: 146.9 kB
+shasum: 3c9a424d20360386ccafc16ec10b6934fdb72270
+integrity: sha512-uS5EXecbFubAD[...]MefGN6uk/UdOg==
 total files: 84
 npm notice
 usecontextual-0.1.0.tgz

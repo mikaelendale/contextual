@@ -93,7 +93,8 @@ export function init({ cwd, version, harnesses = null, preset = null, force = fa
 
   const assets = assetRoot()
   const pm = packageManager(top)
-  const cli = pm ? "npx usecontextual" : `npx --yes usecontextual@${version}`
+  // --no-install: in a fresh clone without node_modules, npx fails instead of downloading an unpinned copy.
+  const cli = pm ? "npx --no-install usecontextual" : `npx --yes usecontextual@${version}`
   const skillDirs = harnesses ? skillDirsFor(harnesses) : detectSkillDirs(top)
   const deslop = readText(join(assets, "templates", "repo", "context", "design", "deslop.md"))
   const values = {

@@ -16,14 +16,14 @@ This repo keeps its memory in `context/`. Read it instead of guessing, and keep 
 Don't read other features' folders, `context/decisions/` or old log entries by default. Search them when a task needs the history.
 
 ### Before editing a file
-Run `npx usecontextual which <path>`. If it names a feature, read that feature's `README.md` first. If it says the path is shared, keep the change small and mention it in your log entry. If no feature owns the path, say so before changing it, then add the path to the right feature's `covers:` or to the `shared:` line in `context/architecture.md`.
+Run `npx --no-install usecontextual which <path>`. If it names a feature, read that feature's `README.md` first. If it says the path is shared, keep the change small and mention it in your log entry. If no feature owns the path, say so before changing it, then add the path to the right feature's `covers:` or to the `shared:` line in `context/architecture.md`.
 
 ### Definition of done (every task on a feature)
 1. Add an entry at the top of the feature's `log.md`.
 2. Update the feature's `README.md` (status, acceptance boxes) and any facts that changed in its `build.md`, `tests.md` or `notes.md`.
 3. Rewrite `context/status/<branch>.md`, in 40 lines or fewer.
 4. If the task touched UI: run the checklist in `context/design/deslop.md` and record the result in the log entry.
-5. Run `npx usecontextual check` and fix what it reports.
+5. Run `npx --no-install usecontextual check` and fix what it reports.
 
 A task missing any of these isn't done. The pre-commit hook checks.
 
@@ -32,7 +32,7 @@ A task missing any of these isn't done. The pre-commit hook checks.
 - For any UI work, follow `context/design/deslop.md` and `context/design/principles.md`.
 - When a product decision is unclear, ask. Don't guess.
 - When you choose between real alternatives, record it in `context/decisions/`.
-- Don't edit `context/features/_index.md` by hand. `npx usecontextual check --fix` rebuilds it.
+- Don't edit `context/features/_index.md` by hand. `npx --no-install usecontextual check --fix` rebuilds it.
 
 ### Skills
 - `contextual-setup`: writes this context the first time, from a plan file, from questions, or from the existing code.

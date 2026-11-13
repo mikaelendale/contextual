@@ -1,7 +1,7 @@
 // update, check --staged and the hook, in real git repos.
 import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
-import { chmodSync, mkdirSync, writeFileSync } from "node:fs"
+import { chmodSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 import { test } from "node:test"
 
@@ -132,4 +132,44 @@ test("the hook blocks a real commit on a feature branch and lets it through on m
   stage(dir, "src/features/teams/sample.ts")
   const allowed = spawnSync("git", ["-c", "user.name=T", "-c", "user.email=t@example.invalid", "commit", "-m", "typo"], { cwd: dir, encoding: "utf8" })
   assert.equal(allowed.status, 0, allowed.stdout + allowed.stderr)
+})
+
+test("update moves a repo with a package.json from `npx usecontextual` to `npx --no-install usecontextual`", () => {
+  const dir = tempRepo()
+  write(dir, "package.json", '{ "name": "app", "private": true }\n')
+  run(["init", "--no-install"], dir)
+  for (const file of ["context/.meta.json", "AGENTS.md", "context/features/_index.md"]) edit(dir, file, (t) => t.replaceAll("npx --no-install usecontextual", "npx usecontextual"))
+  const result = run(["update"], dir)
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(JSON.parse(readText(join(dir, "context/.meta.json"))).cli, "npx --no-install usecontextual")
+  assert.ok(!/npx usecontextual/.test(readText(join(dir, "AGENTS.md")) + readText(join(dir, "context/features/_index.md"))))
+  assert.equal(run(["check", "--branch", "main"], dir).status, 0)
+})
+
+test("the error for a branch with no status file names the fix: check --fix", () => {
+  const dir = exampleRepo()
+  gitIn(dir, ["switch", "-q", "-c", "feat/link-preview"])
+  edit(dir, "src/features/boards/sample.ts", (t) => t + "// changed\n")
+  edit(dir, "context/features/boards/log.md", (t) => t + "\n")
+  stage(dir, "src/features/boards/sample.ts", "context/features/boards/log.md")
+  const result = run(["check", "--staged"], dir)
+  assert.equal(result.status, 1, result.stdout)
+  assert.match(result.stdout, /error {4}context\/status\/feat-link-preview\.md: is missing: the branch feat\/link-preview needs its status file\. Run `npx --no-install usecontextual check --fix` to create it/)
+  assert.match(result.stdout, /context\/status\/feat-link-preview\.md: doesn't exist\. Run `npx --no-install usecontextual check --fix` to create it/)
+  assert.equal(run(["check", "--fix", "--staged"], dir).stdout.split("\n")[0], "fixed: created context/status/feat-link-preview.md from the template")
+})
+
+test("until setup has run (no context/idea.md), the hook only warns, even on a feature branch", () => {
+  const dir = copyExample()
+  addCode(dir)
+  rmSync(join(dir, "context", "idea.md"))
+  commitAll(dir)
+  gitIn(dir, ["switch", "-q", "-c", "feat/boards"])
+  edit(dir, "src/features/boards/sample.ts", (t) => t + "// changed\n")
+  stage(dir, "src/features/boards/sample.ts")
+  const result = run(["check", "--staged"], dir)
+  assert.equal(result.status, 0, result.stdout)
+  assert.match(result.stdout, /warning {2}context\/features\/boards\/log\.md: isn't in this commit/)
+  assert.match(result.stdout, /setup hasn't run yet \(no context\/idea\.md\), so this check only warns/)
+  assert.match(result.stdout, /0 errors/)
 })

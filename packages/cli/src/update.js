@@ -10,7 +10,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 
 import { assetRoot, INSTALLED_SKILLS } from "./assets.js"
-import { BLOCK_END, BLOCK_START, findRoot, hashText, readText } from "./context.js"
+import { BLOCK_END, BLOCK_START, buildIndex, findRoot, hashText, readFeatures, readPlan, readText } from "./context.js"
 import { hookLine, installHook } from "./hook.js"
 import { installSkills, templateBlock } from "./init.js"
 
@@ -21,8 +21,10 @@ export function update({ cwd, version }) {
   const assets = assetRoot()
   const metaPath = join(root, "context", ".meta.json")
   const meta = JSON.parse(readText(metaPath))
-  // A pinned npx (a repo with no package.json) moves to this version; `npx usecontextual` stays as it is.
-  const cli = (meta.cli ?? "npx usecontextual").replace(/usecontextual@[0-9][^\s]*/, `usecontextual@${version}`)
+  // A pinned npx (a repo with no package.json) moves to this version. With a package.json the command
+  // is `npx --no-install usecontextual`, so a fresh clone without node_modules never downloads a copy.
+  let cli = (meta.cli ?? "npx --no-install usecontextual").replace(/usecontextual@[0-9][^\s]*/, `usecontextual@${version}`)
+  if (cli === "npx usecontextual" && existsSync(join(root, "package.json"))) cli = "npx --no-install usecontextual"
   const changes = []
 
   const agentsPath = join(root, "AGENTS.md")
@@ -67,6 +69,17 @@ export function update({ cwd, version }) {
   if (after !== before) {
     writeFileSync(metaPath, after)
     changes.push("context/.meta.json: version and deslop.md hash")
+  }
+
+  // The feature index quotes the command in its header; it's derived, so rebuild it.
+  const indexPath = join(root, "context", "features", "_index.md")
+  const planPath = join(root, "context", "build-plan.md")
+  if (existsSync(indexPath) && existsSync(planPath)) {
+    const index = buildIndex({ cli, phases: readPlan(readText(planPath)).phases, featuresByName: new Map(readFeatures(root).map((f) => [f.name, f])) })
+    if (readText(indexPath) !== index) {
+      writeFileSync(indexPath, index)
+      changes.push("context/features/_index.md: rebuilt")
+    }
   }
 
   const skillDirs = Array.isArray(meta.skillDirs) && meta.skillDirs.length ? meta.skillDirs : [".agents/skills", ".claude/skills"]

@@ -1,6 +1,6 @@
 # Overnight report, 13–14 November 2026
 
-Everything is on the branch `build/v0.1`, pushed, with a draft pull request into `main`. Nothing was merged, published or deployed. All 104 tests pass.
+Everything is on the branch `build/v0.1`, pushed, with a draft pull request into `main`. Nothing was merged, published or deployed. All 107 tests pass.
 
 ## Finished
 
@@ -13,7 +13,7 @@ Everything is on the branch `build/v0.1`, pushed, with a draft pull request into
 | 5 | Setup path 3 | Tried on [mdn/todo-react](https://github.com/mdn/todo-react): 0 errors, 0 warnings. [Proposal, my answer, and the context it wrote](trials/2026-11-13-path3-todo-react/) |
 | 6 | Full run from zero | From a packed 0.1.0, in Claude Code and in Codex: init, setup, next, a hand edit through the hook, sync, check. 0 errors in both. [full-runs.md](trials/full-runs.md) |
 | 7 | Docs | README quickstart (npx, pnpm dlx, bunx), [a page per skill](skills/), a harness table showing only what was tested, [CHANGELOG](../CHANGELOG.md), [hooks/](../hooks/) with a CI job |
-| 8 | 0.1.0 | Version bumped. `npm pack --dry-run`: 84 files, 47.3 kB. List in [release/0.1.0-pack-dry-run.txt](release/0.1.0-pack-dry-run.txt). Not published |
+| 8 | 0.1.0 | Version bumped. `npm pack --dry-run`: 84 files, 47.8 kB. List in [release/0.1.0-pack-dry-run.txt](release/0.1.0-pack-dry-run.txt). Not published |
 
 The branch's commits, oldest first: d0a5707, 32f6746, 4eeaf8f, 453e55f, 1cfd090, 8cd1146, dfa7ec2, 05d089a, plus this report.
 

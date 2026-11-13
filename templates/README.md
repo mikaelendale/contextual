@@ -17,7 +17,7 @@ Every blank file Contextual puts in a repo. `usecontextual init` copies `repo/` 
 ## Two kinds of placeholder
 
 - `{{name}}` is filled by the CLI, mechanically, at `init` or `update`:
-  - `{{cli}}`: the command to run the CLI in this repo (`npx usecontextual`, or a pinned `npx --yes usecontextual@<version>` when the repo has no `package.json`)
+  - `{{cli}}`: the command to run the CLI in this repo (`npx --no-install usecontextual` when it's a dev dependency, or a pinned `npx --yes usecontextual@<version>` when the repo has no `package.json`)
   - `{{date}}`, `{{contextual_version}}`, `{{default_branch}}`, `{{deslop_hash}}`
 - `<!-- fill: … -->` is guidance for the agent. When a skill fills a file, it replaces each comment with real content and deletes the comment. `check` warns about any `fill:` comment left after setup.
 

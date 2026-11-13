@@ -13,6 +13,9 @@ The first release that works end to end.
 - `check`: validates deslop results in feature logs, and warns when more than a third of owned files are on the `shared:` line.
 - The agent skills: `contextual-setup` (from a plan, from questions, or from existing code), `contextual-next` and `contextual-sync`. Plus `contextual-plan`, a chat skill and a copy-paste prompt.
 - Presets for Next.js and for Laravel with Inertia and React.
+- With a `package.json`, `AGENTS.md`, the feature index and the skills run the CLI as `npx --no-install usecontextual`, so a fresh clone without `node_modules` fails instead of downloading an unpinned copy. `update` moves existing repos over.
+- The hook only warns until setup has run (no `context/idea.md`), on every branch.
+- When a branch has no status file, the error says to run `usecontextual check --fix`, which creates it.
 
 ## 0.0.1 (11 November 2026)
 

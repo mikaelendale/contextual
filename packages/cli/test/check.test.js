@@ -137,6 +137,7 @@ test("a status file over its line cap", () => {
 test("a branch with no status file", () => {
   const dir = copyExample()
   hasError(dir, /status\/feat-search\.md: is missing/, "feat/search")
+  hasError(dir, /needs its status file\. Run `npx --no-install usecontextual check --fix` to create it/, "feat/link-preview")
 })
 
 test("the default branch uses main.md", () => {

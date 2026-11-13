@@ -46,7 +46,9 @@ test("with a package.json, init pins itself as a dev dependency and the hook cal
   assert.equal(result.status, 0, result.stderr)
   assert.equal(JSON.parse(readText(join(dir, "package.json"))).devDependencies.usecontextual, pkg.version)
   assert.match(result.stdout, /run pnpm install/)
-  assert.equal(meta(dir).cli, "npx usecontextual")
+  assert.equal(meta(dir).cli, "npx --no-install usecontextual", "a fresh clone without node_modules must not download a copy")
+  assert.match(readText(join(dir, "AGENTS.md")), /Run `npx --no-install usecontextual which <path>`/)
+  assert.match(readText(join(dir, "context/features/_index.md")), /`npx --no-install usecontextual check --fix`/)
   assert.match(readText(join(dir, ".git/hooks/pre-commit")), /node_modules\/\.bin\/usecontextual check --staged \|\| exit 1/)
 })
 

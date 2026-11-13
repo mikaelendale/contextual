@@ -96,7 +96,7 @@ export function check({ root, branch = null }) {
     error("context/.meta.json", `"lastSync" needs both "commit" and "date" (spec 3.7)`)
   }
   const caps = { ...DEFAULT_CAPS, ...(meta.caps ?? {}) }
-  const cli = meta.cli ?? "npx usecontextual"
+  const cli = meta.cli ?? "npx --no-install usecontextual"
   const defaultBranch = meta.defaultBranch ?? "main"
   const skillDirs = Array.isArray(meta.skillDirs) ? meta.skillDirs : []
 
@@ -221,7 +221,7 @@ export function check({ root, branch = null }) {
     warn(null, "couldn't tell the current branch, so its status file wasn't checked (pass --branch <name>)")
   } else {
     const file = statusFileFor(resolvedBranch, defaultBranch)
-    if (!existsSync(join(statusDir, file))) error(`context/status/${file}`, `is missing: the branch ${resolvedBranch} needs its status file`)
+    if (!existsSync(join(statusDir, file))) error(`context/status/${file}`, `is missing: the branch ${resolvedBranch} needs its status file. Run \`${cli} check --fix\` to create it`)
   }
 
   // --- every markdown file: links, leftover guidance, log entries

@@ -5,12 +5,20 @@
  * warnings so small fixes and hand edits on main aren't stopped.
  */
 
-import { existsSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { join, relative } from "node:path"
 
 import { readFeatures, readShared, readText, statusFileFor } from "./context.js"
 import { repoTop, stagedFiles } from "./git.js"
 import { matches } from "./glob.js"
+
+function cliCommand(root) {
+  try {
+    return JSON.parse(readFileSync(join(root, "context", ".meta.json"), "utf8")).cli ?? "npx --no-install usecontextual"
+  } catch {
+    return "npx --no-install usecontextual"
+  }
+}
 
 /**
  * @param {{ root: string, branch: string | null, defaultBranch: string, skillDirs: string[] }} options
@@ -55,7 +63,11 @@ export function checkStaged({ root, branch, defaultBranch, skillDirs }) {
     }
   }
   if (touched.size > 0 && statusFile && !staged.includes(statusFile)) {
-    problem(statusFile, "isn't in this commit. Rewrite the branch's status file with what this change did")
+    if (!existsSync(join(root, statusFile))) {
+      problem(statusFile, `doesn't exist. Run \`${cliCommand(root)} check --fix\` to create it, fill it in, and stage it with this commit`)
+    } else {
+      problem(statusFile, "isn't in this commit. Rewrite the branch's status file with what this change did")
+    }
   }
   if (touched.size === 0 && sharedCount > 0) {
     note(null, "this commit changes only shared code. contextual-sync can record it against the features it serves later")

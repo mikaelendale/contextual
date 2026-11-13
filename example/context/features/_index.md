@@ -1,5 +1,5 @@
 # Features
-Rebuilt by `npx usecontextual check --fix` from each feature's README and `build-plan.md`. Don't edit by hand.
+Rebuilt by `npx --no-install usecontextual check --fix` from each feature's README and `build-plan.md`. Don't edit by hand.
 
 Phase 1 — Accounts: done · foundation, auth, teams
 

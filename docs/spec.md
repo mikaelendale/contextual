@@ -253,7 +253,7 @@ An agent never writes `pass` for a screen it hasn't seen. `check` rejects any ot
 
 - The Contextual version and creation date.
 - The default branch's real name.
-- The exact command the context files show for the CLI: `npx usecontextual` where it is a dev dependency, or a pinned `npx --yes usecontextual@<version>` otherwise (section 6.3).
+- The exact command the context files show for the CLI: `npx --no-install usecontextual` where it is a dev dependency, so a fresh clone without `node_modules` fails instead of downloading an unpinned copy; or a pinned `npx --yes usecontextual@<version>` when there's no `package.json` (section 6.3).
 - Which skill folders were installed.
 - **The last sync: its commit hash and its date.** The date survives squash merges and rebases that remove the commit from history (section 7).
 - Hashes of `idea.md` and `deslop.md`, computed with line endings normalized to LF, so a Windows checkout with `core.autocrlf` does not look like an edit.
@@ -299,7 +299,7 @@ Target: the agent spends under roughly 3,000 tokens on context before starting w
 
 A task missing any of these is not done. This is an instruction in AGENTS.md, backed by a git pre-commit hook that runs `usecontextual check --staged` (section 6.2). Git does not care which agent is driving, so enforcement works in every harness, on every clone where the hook is installed.
 
-**On a feature branch the hook blocks; on the default branch it warns.** Tiny fixes (a typo, a one-line bug) can go straight on main, and people editing by hand on main are not stopped; `contextual-sync` catches the context up afterwards. On a feature branch, `git commit --no-verify` is the deliberate way past the hook.
+**On a feature branch the hook blocks; on the default branch it warns. Until setup has run (no `context/idea.md`), it only warns, on every branch.** Tiny fixes (a typo, a one-line bug) can go straight on main, and people editing by hand on main are not stopped; `contextual-sync` catches the context up afterwards. On a feature branch, `git commit --no-verify` is the deliberate way past the hook.
 
 ### 4.3 Keeping context small as the project grows
 
@@ -397,6 +397,10 @@ A change to another feature's files counts too: that feature's `log.md` needs an
 Paths on the `shared:` line (section 3.8) are fine in a commit that also changes a feature. A commit that changes only shared code gets a warning, so `contextual-sync` can map it later.
 
 A changed file that no feature covers and that isn't on the `shared:` line gets a warning: "no feature owns this path."
+
+When the branch has no status file at all, the error says how to make one: `usecontextual check --fix` creates it from the template.
+
+Until setup has run (no `context/idea.md`), every finding is a warning, on every branch: there's no context yet to keep in step.
 
 A pre-commit hook cannot read the commit message, so there is no "skip" tag in messages. On a feature branch, `git commit --no-verify` is the way past the hook, on purpose.
 
@@ -587,6 +591,10 @@ Settled on 10 November 2026: the npm name, the skill paths for each harness, cop
 
 ## 14. Revision history
 
+- **14 November 2026, before publishing 0.1.0.**
+  - A missing branch status file's error names the fix, `check --fix` (section 6.2).
+  - Until setup has run, the hook only warns, on every branch (sections 4.2, 6.2).
+  - With a `package.json`, the context files and skills use `npx --no-install usecontextual`, so a fresh clone never downloads an unpinned copy (section 3.7).
 - **13–14 November 2026, overnight build (branch `build/v0.1`).**
   - The CLI's `init`, `update`, `check --staged` and the pre-commit hook (section 6). Presets for Next.js and for Laravel with Inertia and React.
   - `contextual-plan`: the chat skill and the copy-paste prompt. `contextual-setup` path 3.
