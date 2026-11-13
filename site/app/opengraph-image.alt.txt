@@ -1,1 +1,1 @@
-Contextual: Explain your project once. Your agent remembers the rest. Persistent memory for Claude Code and Codex. Coming soon.
+Contextual: Explain your project once. Your agent remembers the rest. Persistent memory for Claude Code and Codex. Free and open source.
