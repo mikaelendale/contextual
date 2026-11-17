@@ -4,18 +4,20 @@ Fill the files in this order. Later files depend on choices made in earlier ones
 
 If `init` used a preset (`context/stack/_index.md` says "Preset: …"), `stack/`, `architecture.md` and `conventions.md` already hold its defaults. Keep them, fill the remaining comments from the plan, and change a default only where the plan says otherwise.
 
+**If the repo already has code** (a scaffold, a framework's starter, an app): read its package manifest (`package.json`, `composer.json`, `pyproject.toml`, `go.mod`, `Gemfile`, `Cargo.toml` and the like) and look at its folders before you start. Everything installed goes in `stack/`, even when the plan's Stack doesn't name it, and the existing files get owners, as step 7 says. Change no code.
+
 Every project gets one feature the plan doesn't list: **`foundation`**, always the first item of Phase 1. It owns the app shell, the layouts, the config files at the repo root and the test setup, so that code has a real owner instead of piling up on the `shared:` line.
 
 ## 1. `AGENTS.md`
 
-Replace the comment above the Contextual block with `# <Project name>` and, on the next line, one sentence saying what the project is, taken from Idea. Don't touch anything between the markers.
+Replace the `<!-- fill: … -->` comment at the top of the file with `# <Project name>` and, on the next line, one sentence saying what the project is, taken from Idea. If the file already starts with a `# ` heading, leave it. The heading stays at the very top, above every block another tool manages (such as `<!-- BEGIN:nextjs-agent-rules -->`), and never inside one. Don't touch anything between the Contextual markers, or another tool's markers.
 
 ## 2. `context/stack/`
 
-- `_index.md`: one table row per Stack line: Layer | Choice | Notes. Link to a notes file only if you create one.
+- `_index.md`: one table row per Stack line: Layer | Choice | Notes. Then one row for each tool already installed in the repo that the plan didn't name (from the package manifest: the framework, UI kit, styling, linting, formatting, testing), with "Already in the repo" in Notes, so the packages-and-tools rule in `conventions.md` allows them. Link to a notes file only if you create one.
 - `overview.md`: one short paragraph per layer, saying what it is and why it was picked. Use the plan's reason when it gives one.
 - `requirements.md`: the runtime and versions, the outside accounts needed, the environment variables (names only, never values), and the exact commands from a fresh clone to a running app. Write "None" for a section that has nothing, such as no accounts.
-- `deploy.md`: where it runs and how a change ships. If hosting isn't decided, write "Not decided yet" under each heading and add the question to `status/main.md`.
+- `deploy.md`: where it runs and how a change ships. If hosting isn't decided, write "Not decided yet" under each heading and add the question to `questions.md` (step 9).
 - Create `stack/<lib>.md`, from this skill's `assets/stack-lib.md`, only for a library that needs notes about how this repo wires it. At setup that's usually none.
 
 ## 3. `context/conventions.md`
@@ -30,7 +32,7 @@ End Boundaries with the `shared:` line, in the same glob form as `covers:`. It l
 
 ## 5. `context/design/`
 
-- `principles.md`: from Design direction and Users. Turn the plain words into concrete values: color tokens with hex values, and each one's contrast against the background: at least 4.5:1 for body and muted text, and at least 3:1 for anything that marks a control, such as a field's outline or a focus ring. Then font families, a type scale, a spacing scale, corner radius, motion, icons, and the words' tone. Say once, under Look and feel, that the values were proposed at setup and can be changed.
+- `principles.md`: from Design direction and Users. If Design direction lists References (a guideline in the repo, a design system, links), read them first and take every value they set; mark those `given`. Turn the rest of the plain words into concrete values, marked `proposed`: color tokens with hex values, and each one's contrast against the background: at least 4.5:1 for body and muted text, and at least 3:1 for anything that marks a control, such as a field's outline or a focus ring. Compute each ratio with `<cli> contrast <color> <color>`; never estimate one, because `check` recomputes them. Then font families, a type scale, a spacing scale, corner radius, motion, icons, and the words' tone. Under Look and feel, name the references and say that proposed values can be changed. If the person mentions a guideline only after setup, update the values it sets and mark them given.
 - `layouts.md`: one section for each page template the Phase 1 features need, with its structure from top to bottom. Include where the empty, loading and error states go.
 - `components.md`: keep the table header. Under it write "None yet. Add a row when you build a shared component."
 
@@ -52,7 +54,8 @@ The heading is `## Phase <n> — <name>`, with an em dash, then two spaces and t
 Create a folder for every feature in every phase, named after the feature in kebab-case (`Check off items` becomes `check-off-items`). Each folder gets only `README.md`, from this skill's `assets/feature-README.md`:
 
 - `status: planned`. `phase:` the phase number.
-- `covers:` the paths this feature's code will live in, following `conventions.md`. Every feature needs at least one path, no path may belong to two features, and none may be on the `shared:` line.
+- `covers:` the paths this feature's code will live in, following `conventions.md`. No path may belong to two features, and none may be on the `shared:` line. For features in Phase 1 and Phase 2, write the paths. For later phases, write paths only when they're clear; otherwise `covers: not decided yet`, and `contextual-next` decides them before building. Never invent paths just to fill the line.
+- If the repo already has code, give each existing file an owner the way [existing-code.md](existing-code.md) does: the scaffold, root config, layouts and global styles to `foundation`, and any finished part of the app to the feature it is. Then `<cli> which --unowned` should list nothing.
 - `depends-on:` the features it needs built first (folder names), or `none`.
 - What it does: the first sentence must make sense alone, because it becomes the feature's line in the index. Up to three more sentences.
 - Acceptance: one `- [ ] ` checkbox per acceptance line in the plan, in the plan's words.
@@ -70,11 +73,20 @@ Every other Phase 1 feature has `foundation` in its `depends-on:`.
 - Updated: today's date, and you as the agent (`claude-code`, `codex`, `antigravity` or `opencode`).
 - Current phase: Phase 1 and its features. Nothing is built yet.
 - Recently merged: "Nothing yet."
-- Blocked / needs a human: every Open question from the plan, plus anything you marked "Not decided yet". "Nothing." if there are none.
+- Blocked / needs a human: only the questions in `questions.md` that block `foundation` or the first feature. "Nothing." if there are none.
 - Next: `foundation`, then the first feature of Phase 1.
 
 Keep it under 40 lines.
 
-## 9. `context/decisions/`
+## 9. `context/questions.md`
 
-If the plan chose between real alternatives and gave a reason (say, local storage over a database), record it as `YYYY-MM-DD-<slug>.md`, from this skill's `assets/decision.md`. Skip this when there were no such choices.
+Every Open question from the plan, and everything you marked "Not decided yet", one line each, under the heading that fits:
+
+- **For the owner**: questions about the product that only the person can answer.
+- **Proposed by the agent**: technical choices you can make yourself, such as a test tool or how migrations run. Make the choice, record it in `decisions/` (step 10), and list it here so the owner can overrule it.
+
+End each line with the feature it blocks (`blocks checkout`), or `blocks nothing yet`. Write "Nothing." under a heading with no lines.
+
+## 10. `context/decisions/`
+
+If the plan chose between real alternatives and gave a reason (say, local storage over a database), record it as `YYYY-MM-DD-<slug>.md`, from this skill's `assets/decision.md`. Record each choice you proposed in step 9 the same way. Skip this when there were no such choices.

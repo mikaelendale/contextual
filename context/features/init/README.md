@@ -12,3 +12,4 @@ depends-on: foundation, templates
 - [x] With a `package.json` it pins itself as an exact dev dependency, and the hook calls the local copy
 - [x] It never overwrites a file, and refuses outside a git repo
 - [x] `--harness`, or the harness folders it finds, decide where the skills go
+- [x] An existing `AGENTS.md` with no heading gets the heading placeholder at the very top

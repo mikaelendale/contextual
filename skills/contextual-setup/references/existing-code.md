@@ -38,6 +38,7 @@ Follow the fill order in `fill-from-plan.md`, describing what exists rather than
   - `tests.md`: the test files that exist and the command that runs them. Write "None yet" when there are none.
   - `notes.md`: anything that looked broken or odd, and questions for the owner.
   - `log.md`: one entry, `## <today> · <agent> · Found at setup`, listing what you read, with `Deslop: not verified (existing UI, not reviewed at setup)`, or `Deslop: not UI`.
-- **`status/main.md`**: what's built, what's half done, and the questions you raised.
+- **`status/main.md`**: what's built, what's half done, and the questions that block the next feature.
+- **`questions.md`**: every question you raised, one line each, under "For the owner" or "Proposed by the agent", as [fill-from-plan.md](fill-from-plan.md) step 9 describes.
 
 Then finish as in step 4 of SKILL.md. `check` reports a shipped feature whose `covers:` match no files as an error, so fix the globs until it passes. Run `<cli> which --unowned` as well: it lists the code files no feature owns, and should list none.

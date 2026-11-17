@@ -244,7 +244,39 @@ test("a shipped feature whose covers: matches nothing is an error; in progress, 
   edit(dir, "context/features/links/README.md", (t) => t.replace("covers: src/features/links/**", "covers: src/features/links/**, src/legacy/**"))
   edit(dir, "context/features/boards/README.md", (t) => t.replace("covers: src/features/boards/**", "covers: src/features/boards/**, src/boards-v2/**"))
   hasError(dir, /links\/README\.md: covers src\/legacy\/\*\*, which matches no files/)
-  assert.ok(warningsIn(dir).some((w) => /covers src\/boards-v2\/\*\*, which matches no files/.test(w.message)))
+  assert.ok(warningsIn(dir).some((w) => /covers src\/boards-v2\/\*\*, which has no files yet/.test(w.message)), describe(warningsIn(dir)))
+})
+
+test("a feature being built gets one warning for all its paths with no files yet, not one per path", () => {
+  const dir = copyExample()
+  addCode(dir)
+  edit(dir, "context/features/boards/README.md", (t) => t.replace("covers: src/features/boards/**", "covers: src/features/boards/**, src/boards-v2/**, src/boards-api/**, scripts/boards/**"))
+  const about = warningsIn(dir).filter((w) => w.file === "context/features/boards/README.md")
+  assert.equal(about.length, 1, describe(about))
+  assert.match(about[0].message, /^3 of its covers: paths have no files yet \(src\/boards-v2\/\*\*, src\/boards-api\/\*\*, scripts\/boards\/\*\*\)$/)
+})
+
+test("a planned feature may say covers: not decided yet; one being built may not", () => {
+  const dir = copyExample()
+  edit(dir, "context/features/weekly-digest/README.md", (t) => t.replace(/^covers: .*$/m, "covers: not decided yet"))
+  assert.deepEqual(errorsIn(dir), [], describe(errorsIn(dir)))
+  edit(dir, "context/features/weekly-digest/README.md", (t) => t.replace(/^covers: .*$/m, "covers:"))
+  hasError(dir, /weekly-digest\/README\.md: "covers:" lists no paths\. A planned feature whose paths aren't known yet can say "covers: not decided yet"/)
+  edit(dir, "context/features/boards/README.md", (t) => t.replace(/^covers: .*$/m, "covers: Not decided yet."))
+  hasError(dir, /boards\/README\.md: is in-progress, but its "covers:" says "not decided yet"/)
+})
+
+test("check recomputes the contrast ratios principles.md claims", () => {
+  const dir = copyExample()
+  const about = () => warningsIn(dir).filter((w) => w.file === "context/design/principles.md").map((w) => w.message)
+  assert.deepEqual(about(), [], "the example's ratios are right")
+  edit(dir, "context/design/principles.md", (t) => t.replace("Secondary text (5.4:1 on background, 5.0:1 on surface)", "Secondary text (7.1:1 on background, 5.0:1 on surface)").replace("(white text on it: 5.5:1)", "(white text on it: 3.1:1)"))
+  const found = about()
+  assert.ok(found.some((m) => /text-muted is 7\.1:1 on background, but it's 5\.\d\d:1/.test(m)), found.join("\n"))
+  assert.ok(found.some((m) => /accent is 3\.1:1 for white on accent, but it's 5\.\d\d:1/.test(m)), found.join("\n"))
+  assert.equal(found.length, 2, "the right claims stay quiet")
+  edit(dir, "context/design/principles.md", (t) => t.replace("| `text-muted` | #6A6A64 | Secondary text (7.1:1 on background, 5.0:1 on surface)", "| `text-muted` | #A0A09A | Secondary text (2.6:1 on background)"))
+  assert.ok(about().some((m) => /text-muted is 2\.\d\d:1 on background, under the 4\.5:1 text needs/.test(m)), about().join("\n"))
 })
 
 test("a shared: glob that matches nothing is a warning", () => {

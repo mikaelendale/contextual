@@ -6,7 +6,7 @@ Writes a project's context the first time, after `usecontextual init` has laid d
 
 | The repo has | It does |
 |---|---|
-| `contextual-plan.md` at the root | Fills `stack/`, `design/`, `architecture.md`, `conventions.md`, `build-plan.md` and one README per feature from the plan, then moves the plan to `context/idea.md` |
+| A plan file: `contextual-plan.md` at the root, one named like `contextual-plan (1).md`, or one you point it to | Copies it to the root if needed, then fills `stack/`, `design/`, `architecture.md`, `conventions.md`, `build-plan.md`, `questions.md` and one README per feature from the plan, then moves the plan to `context/idea.md`. If the repo already has code, the installed tools go in `stack/` and the existing files get owners |
 | Nothing yet, and no plan | Asks the five planning questions, writes the plan, shows it, and waits for you to confirm before writing anything else |
 | Code, and no plan | Reads the code, proposes features and the paths each owns, waits for you to confirm, then writes the context, with the features it found marked shipped |
 

@@ -1,7 +1,7 @@
 # <!-- fill: feature name -->
 status: planned
 phase: <!-- fill: phase number -->
-covers: <!-- fill: comma-separated globs for the paths this feature owns, e.g. src/features/boards/** -->
+covers: <!-- fill: comma-separated globs for the paths this feature owns, e.g. src/features/boards/**. A planned feature in a later phase whose paths aren't known yet may say "not decided yet"; they are decided before it is built. -->
 depends-on: <!-- fill: comma-separated feature folder names, or "none" -->
 
 ## What it does

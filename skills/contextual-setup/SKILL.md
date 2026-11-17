@@ -15,7 +15,7 @@ First read `context/.meta.json`. Its `cli` value is the command that runs the CL
 Look at what's in the repo, ignoring `.git/`, `context/`, `AGENTS.md`, `CLAUDE.md`, the skill folders and what `init` added (a `package.json` whose only dependency is `usecontextual`, its lockfile, `node_modules/`, `.gitignore`).
 
 - `context/idea.md` exists: setup already ran. Stop, and ask what the person wants changed.
-- `contextual-plan.md` is at the repo root: **path 1**. Go to step 3.
+- A plan file: `contextual-plan.md` at the repo root, a file there like `contextual-plan (1).md` (a browser's download name), or one the person points to anywhere. Copy any of the others to `contextual-plan.md` at the root, byte for byte (`cp`), and delete the root copy with the odd name. Then **path 1**: go to step 3. If the repo also has code, path 1 still applies, and [references/fill-from-plan.md](references/fill-from-plan.md) says how to account for that code.
 - No plan file and nothing else in the repo: **path 2**. Go to step 2.
 - No plan file, but there is code: **path 3**. Follow [references/existing-code.md](references/existing-code.md): scan, propose the features and their paths, wait for the person to confirm, then write. Change no code.
 
@@ -30,7 +30,7 @@ Look at what's in the repo, ignoring `.git/`, `context/`, `AGENTS.md`, `CLAUDE.m
 Read `contextual-plan.md` in full. Then fill the files in the order given in [references/fill-from-plan.md](references/fill-from-plan.md), which says what goes where. Always add a first feature the plan doesn't list, `foundation`: it owns the app shell, layouts and config. Rules for every file:
 
 - Keep every heading the template has, in order. Delete each `<!-- fill: … -->` comment once its content is written.
-- Write only what the plan says or what follows directly from it. When something isn't decided, write "Not decided yet" and add the question to "Blocked / needs a human" in `context/status/main.md`.
+- Write only what the plan says or what follows directly from it. When something isn't decided, write "Not decided yet" and add it to `context/questions.md`: under "For the owner" if it's about the product (what it does, for whom, money, accounts, content), or, if it's a technical choice you can make yourself, make it, record it in `context/decisions/`, and list it under "Proposed by the agent". `status/main.md` lists only the questions that block the next feature.
 - Never edit between `<!-- contextual:start -->` and `<!-- contextual:end -->` in `AGENTS.md`, and never edit `context/design/deslop.md` or `context/features/_index.md`.
 - Paths 1 and 2 write no `log.md` or other feature files: setup isn't work on a feature, and a planned feature has only its `README.md`. (Path 3 gives each feature it finds all five files.) The definition of done in `AGENTS.md` starts with the first feature.
 
@@ -39,4 +39,4 @@ Read `contextual-plan.md` in full. Then fill the files in the order given in [re
 1. Move `contextual-plan.md` to `context/idea.md` without changing a character: plain `mv`, or `git mv` if `git ls-files contextual-plan.md` lists it. Then check that `context/idea.md` exists and the plan file is gone. From now on nobody edits `idea.md`.
 2. Run `<cli> check --fix`. It rebuilds the feature index and stores the hash of `idea.md`. Then fix every error it reports and run it again, until there are 0 errors. Before any code exists, these warnings are expected: no code outside `context/`, and `shared:` paths that match no files yet.
 3. If this is a git repo, commit everything setup wrote, plus what `init` added, as one commit on the default branch: `Set up Contextual`. Skip this if the person said not to commit.
-4. Tell the person, in a few lines, what you wrote, the open questions waiting for them, and that "build the next feature" starts Phase 1.
+4. Tell the person, in a few lines, what you wrote, the questions waiting for them in `context/questions.md` (and which choices you proposed), and that "build the next feature" starts Phase 1.

@@ -72,6 +72,18 @@ test("init keeps an existing AGENTS.md and CLAUDE.md, adding the block and the i
   assert.equal(readText(join(dir, "CLAUDE.md")).match(/@AGENTS\.md/g).length, 1)
 })
 
+test("an AGENTS.md another tool wrote, with no heading, gets the heading placeholder at the very top", () => {
+  const dir = tempRepo()
+  const nextBlock = "<!-- BEGIN:nextjs-agent-rules -->\n# This is NOT the Next.js you know\nRead the docs first.\n<!-- END:nextjs-agent-rules -->\n"
+  write(dir, "AGENTS.md", nextBlock.replace("# This is NOT", "## This is NOT"))
+  assert.equal(run(["init"], dir).status, 0)
+  const agents = readText(join(dir, "AGENTS.md"))
+  assert.ok(agents.startsWith("<!-- fill: replace this comment with \"# <Project name>\""), agents.slice(0, 120))
+  assert.ok(agents.indexOf("<!-- fill:") < agents.indexOf("<!-- BEGIN:nextjs-agent-rules -->"), "the placeholder sits above the other tool's block")
+  assert.ok(agents.includes(nextBlock.replace("# This is NOT", "## This is NOT")), "the other tool's block is unchanged")
+  assert.equal(agents.split("<!-- contextual:start -->").length, 2)
+})
+
 test("init refuses to run twice, or over a context/ folder that isn't Contextual's, unless --force", () => {
   const dir = tempRepo()
   assert.equal(run(["init"], dir).status, 0)

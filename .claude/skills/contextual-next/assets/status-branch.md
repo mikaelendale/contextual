@@ -11,7 +11,7 @@
 <!-- fill: work started but not finished, with file paths. -->
 
 ## Blocked / needs a human
-<!-- fill: questions for a person, and anything blocked. "Nothing." when empty. -->
+<!-- fill: questions for a person that block this feature (they are also in context/questions.md), and anything else blocked. "Nothing." when empty. -->
 
 ## Next
 <!-- fill: the next concrete steps, numbered, so the next session can start without asking. -->
