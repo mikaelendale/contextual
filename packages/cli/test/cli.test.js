@@ -1,7 +1,8 @@
 import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
-import { existsSync, readdirSync, readFileSync } from "node:fs"
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
+import { join } from "node:path"
 import { test } from "node:test"
 
 import { bin } from "./helpers.js"
@@ -41,4 +42,15 @@ test("contrast prints the ratio of two colors, and says which minimums it meets"
   const bad = spawnSync(process.execPath, [bin, "contrast", "teal"], { encoding: "utf8" })
   assert.equal(bad.status, 2)
   assert.match(bad.stderr, /Give two hex colors/)
+})
+
+test("a crash says it's a bug in usecontextual, where to report it, and exits 70, never 1 or 65", () => {
+  // A context/.meta.json that is a folder makes the read throw: a stand-in for any unexpected error.
+  const dir = mkdtempSync(join(tmpdir(), "usecontextual-crash-"))
+  mkdirSync(join(dir, "context", ".meta.json"), { recursive: true })
+  const result = spawnSync(process.execPath, [bin, "check", "--staged"], { cwd: dir, encoding: "utf8" })
+  assert.equal(result.status, 70, result.stdout + result.stderr)
+  assert.match(result.stderr, /^usecontextual \d+\.\d+\.\d+ stopped on an unexpected error, on \w+ with Node v\d+/)
+  assert.match(result.stderr, /This is a bug in usecontextual, not in your project\. Please report it at https:\/\/github\.com\/mikaelendale\/contextual\/issues/)
+  rmSync(dir, { recursive: true, force: true })
 })

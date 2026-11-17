@@ -2,6 +2,10 @@
 
 The `usecontextual` npm package. Versions follow semver; while the version is 0.x, a minor version can change behavior.
 
+## 0.3.1 (not published)
+
+- When the CLI hits an unexpected error, it says so: which version, the platform and Node version, that it's a bug in usecontextual and where to report it, then the error. It exits 70, so the pre-commit hook says "couldn't run (exit 70)" with that message above it, instead of a bare exit 1. This is to find out why the hook skips its check on Windows (#11).
+
 ## 0.3.0 (17 November 2026)
 
 From the first agent feedback reports and a tester on Windows.

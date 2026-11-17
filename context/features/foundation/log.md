@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-18 · claude-code · A crash names itself; 0.3.0's setup tried for real
+- Changed: `bin/usecontextual.js` catches unexpected errors: it prints the version, platform, Node version, that it's a bug in usecontextual and where to report it, then the stack, and exits 70 (issue #11 needs this to tell a crash from npx failing). Version 0.3.1; CHANGELOG. A row in `docs/trials/README.md` for the 0.3.0 setup trial.
+- Tests: `npm test` in `packages/cli` (140 passed, one new). The trial: a Next.js scaffold with Next.js's AGENTS.md block, nine installed tools the plan doesn't name, a plan saved as `contextual-plan (1).md` outside the repo with `References: docs/brand.md`, and three phases; `init` from npm 0.3.0, then `claude -p "set up contextual. My plan is in …"` (Opus 5.5, 44 turns, 3 minutes). Every 0.3.0 change behaved as written; `check` 0 errors.
+- Left open: the hook on Windows (#11) still waits on the reporter's output.
+- Deslop: not UI.
+
 ## 2026-11-17 · claude-code · 0.3.0 published
 - Changed: `CHANGELOG.md` dates 0.3.0 (17 November 2026); the README's status line names it.
 - Tests: from npm in empty repos: `npx usecontextual@0.3.0` and `pnpm dlx usecontextual@0.3.0` print 0.3.0; in a repo whose AGENTS.md held only a Next.js-style block, `init` put the heading placeholder at the top and added `context/questions.md`; `check` 0 errors; `contrast` works. npm lists 89 files, as saved.
