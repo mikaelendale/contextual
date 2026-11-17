@@ -2,7 +2,7 @@
 Updated: 2026-11-17 · by: claude-code
 
 ## Current phase
-Phases 1 and 2 are done. Both are released: 0.1.0 and 0.2.0 (agent feedback), on 13 November 2026. 0.3.0, from the first agent feedback reports and a Windows tester, is merged (#13) and not yet published. The website moved to a separate, private repository on 13 November 2026, so this repo has no UI now.
+Phases 1 and 2 are done. Both are released: 0.1.0 and 0.2.0 (agent feedback), on 13 November 2026. 0.3.0, from the first agent feedback reports and a Windows tester, was published on 17 November 2026. The website moved to a separate, private repository on 13 November 2026, so this repo has no UI now.
 
 ## Recently merged
 - 2026-11-17 · check, commit-hook, init, templates, skills · 0.3.0: the first agent feedback reports and Windows fixes (#12, #13)
@@ -12,7 +12,6 @@ Phases 1 and 2 are done. Both are released: 0.1.0 and 0.2.0 (agent feedback), on
 - 2026-11-13 · contextual-setup · nested `AGENTS.md` files get a `CLAUDE.md` next to them
 
 ## Blocked / needs a human
-- Publishing 0.3.0 (npm 2FA).
 - PR #10 (Antigravity tested) waits on the contributor's answers; issue #11 (the hook skipping on Windows) waits on their output.
 - Later work is in GitHub issues #2, #3, #5 and #7.
 

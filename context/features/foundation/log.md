@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-17 · claude-code · 0.3.0 published
+- Changed: `CHANGELOG.md` dates 0.3.0 (17 November 2026); the README's status line names it.
+- Tests: from npm in empty repos: `npx usecontextual@0.3.0` and `pnpm dlx usecontextual@0.3.0` print 0.3.0; in a repo whose AGENTS.md held only a Next.js-style block, `init` put the heading placeholder at the top and added `context/questions.md`; `check` 0 errors; `contrast` works. npm lists 89 files, as saved.
+- Left open: trying the new setup steps in a real agent run.
+- Deslop: not UI.
+
 ## 2026-11-17 · claude-code · 0.3.0: the first agent feedback, and Windows
 - Changed: `src/context.js` reads `covers: not decided yet`; `src/cli.js` adds `usecontextual contrast <color> <color>`; version 0.3.0; CHANGELOG; the README notes `npx.cmd` for PowerShell (issue #11), the contrast command and `questions.md`, and that a downloaded plan can be anywhere. Decisions recorded for `questions.md` and for checking only clear contrast claims. CI's repo job is now named "Secrets check": the site's tests left with the site.
 - Tests: `npm test` in `packages/cli`: 139 passed.

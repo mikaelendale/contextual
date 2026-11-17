@@ -2,7 +2,7 @@
 
 The `usecontextual` npm package. Versions follow semver; while the version is 0.x, a minor version can change behavior.
 
-## 0.3.0 (not published)
+## 0.3.0 (17 November 2026)
 
 From the first agent feedback reports and a tester on Windows.
 
