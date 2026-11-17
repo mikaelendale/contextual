@@ -9,6 +9,7 @@ Updated: 2026-11-17 · by: claude-code
 - Templates: `context/questions.md`; given or proposed design values; an optional `References:` line in the plan.
 - Skills: setup takes a plan from anywhere and reads existing code on path 1; next decides undecided paths and reads blocking questions.
 - README: `npx.cmd` on PowerShell. PR #12 (Windows tests) merged; its status file removed.
+- CI green on Node 20 to 26 (PR #13); its repo job renamed "Secrets check".
 
 ## In progress
 Nothing.

@@ -2,7 +2,7 @@
 Newest first. One entry per task.
 
 ## 2026-11-17 · claude-code · 0.3.0: the first agent feedback, and Windows
-- Changed: `src/context.js` reads `covers: not decided yet`; `src/cli.js` adds `usecontextual contrast <color> <color>`; version 0.3.0; CHANGELOG; the README notes `npx.cmd` for PowerShell (issue #11), the contrast command and `questions.md`, and that a downloaded plan can be anywhere. Decisions recorded for `questions.md` and for checking only clear contrast claims.
+- Changed: `src/context.js` reads `covers: not decided yet`; `src/cli.js` adds `usecontextual contrast <color> <color>`; version 0.3.0; CHANGELOG; the README notes `npx.cmd` for PowerShell (issue #11), the contrast command and `questions.md`, and that a downloaded plan can be anywhere. Decisions recorded for `questions.md` and for checking only clear contrast claims. CI's repo job is now named "Secrets check": the site's tests left with the site.
 - Tests: `npm test` in `packages/cli`: 139 passed.
 - Left open: nothing.
 - Deslop: not UI.
