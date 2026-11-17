@@ -1,6 +1,12 @@
 # Log — Foundation
 Newest first. One entry per task.
 
+## 2026-11-16 · antigravity · Antigravity tested and verified on Windows
+- Changed: `README.md` and `docs/trials/README.md` updated to mark Antigravity as tested with Gemini 3.8 Flash (0 errors on check, skills loaded from `.agents/skills`, pre-commit hook runs).
+- Tests: `check` passes with 0 errors, 0 warnings; CLI commands verified on Windows.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · The spec is no longer in this repo
 - Changed: `docs/spec.md` deleted at the owner's request: the plan behind the product isn't public. The README, CONTRIBUTING.md, `skills/README.md`, `docs/maintaining.md` and `docs/harnesses.md` no longer link to it. Code comments still name spec sections.
 - Tests: `npm test` in `packages/cli`; `check` 0 errors.

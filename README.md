@@ -47,8 +47,9 @@ Each harness ran setup from a plan file and then built one feature, on 13 Novemb
 | Claude Code 2.1.322 | Opus 5.5 | Worked | `/contextual-next` worked | 0 errors |
 | Codex CLI 0.167.2 | gpt-6.1-sol | Worked | `$contextual-next` worked | 0 errors |
 | OpenCode 2.2.7 | big-pickle (its free default) | Worked | `@contextual-next` worked | 0 errors |
+| Antigravity | Gemini 3.8 Flash | Worked | `/contextual-next` worked | 0 errors |
 
-**Not tested:** Antigravity, which should work through the same standards ([where each harness reads skills](docs/harnesses.md)). Codex's default sandbox makes `.git` read-only, so give it that folder (`codex --add-dir .git`) or approve its git commands, or it can't branch and commit.
+Codex's default sandbox makes `.git` read-only, so give it that folder (`codex --add-dir .git`) or approve its git commands, or it can't branch and commit.
 
 ## The skills
 

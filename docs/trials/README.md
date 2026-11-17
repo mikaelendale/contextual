@@ -7,7 +7,7 @@ How they ran:
 - **Claude Code 2.1.322** (Opus 5.5): `claude -p`, with the person's own settings and personal skills left out, edits allowed in the folder, and a short list of allowed shell commands.
 - **Codex CLI 0.167.2** (gpt-6.1-sol, its default): `codex exec` in its `workspace-write` sandbox, plus `--add-dir <repo>/.git` so it could branch and commit.
 - **OpenCode 2.2.7** (big-pickle, its free default): `opencode run`, with a scoped permission list in `.opencode/opencode.json`: edits in the project, a short list of shell commands, no web.
-- **Antigravity CLI 1.5.6**: not run. The CLI isn't signed in on the test machine, and signing in needs the owner's browser.
+- **Antigravity** (Gemini 3.8 Flash): run in Google Antigravity on Windows 11. Discovers skills from `.agents/skills/`. Setup, hook execution and `check` verified with 0 errors.
 
 The sample plan is a household shopping list, "Pantry": plain HTML, CSS and JavaScript, saved in localStorage. A second plan, for a running club's sign-up sheet, came from the planning prompt.
 
@@ -30,6 +30,7 @@ The sample plan is a household shopping list, "Pantry": plain HTML, CSS and Java
 | Setup on existing code | Claude Code | "set up contextual", then confirmation | On [mdn/todo-react](https://github.com/mdn/todo-react): proposed `foundation` plus three features, waited, then wrote them as shipped with unverified lines marked. [Proposal, answer, context](2026-11-13-path3-todo-react/) | 0 errors, 0 warnings |
 | Agent feedback, for real | Claude Code | `update` to 0.2.0 on a copy of Pantry, `feedback on`, then the block's own command | Hit a real `check` miss (the installed CLI was older than the context), built a 1,365-character link, and the form showed every field. [The trial and the first reports](2026-11-13-agent-feedback/) | 0 errors, 2 warnings |
 | Setup on this repo | Claude Code | `init`, then "set up contextual", then the owner's changes | Proposed `foundation` plus 12 features covering every file, waited, then wrote them with the owner's changes. [What got in the way](2026-11-13-self-setup/) | 0 errors, 0 warnings |
+| Setup on Windows | Antigravity | `init`, then "set up contextual" | Discovered `.agents/skills`, committed through pre-commit hook | 0 errors |
 | Full run from zero | Claude Code and Codex | `init` from a packed 0.1.0, setup, next, a hand edit, sync | See [full-runs.md](full-runs.md) | |
 
 ## What the trials changed
