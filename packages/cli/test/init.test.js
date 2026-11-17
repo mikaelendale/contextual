@@ -2,7 +2,7 @@ import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
-import { join } from "node:path"
+import { basename, dirname, join } from "node:path"
 import { test } from "node:test"
 
 import { check } from "../src/check.js"
@@ -37,7 +37,9 @@ test("init in an empty repo lays down everything, and check passes with 0 errors
   // A pinned npx, never a bare name; it blocks only when the check itself found errors.
   assert.ok(readText(hook).includes(hookLine({ hasPackageJson: false, version: pkg.version })))
   assert.match(readText(hook), new RegExp(`npx --yes usecontextual@${pkg.version.replaceAll(".", "\\.")} check --staged \\|\\| usecontextual_exit=`))
-  assert.ok(statSync(hook).mode & 0o100, "the hook must be executable")
+  if (process.platform !== "win32") {
+    assert.ok(statSync(hook).mode & 0o100, "the hook must be executable")
+  }
   assert.match(result.stdout, /set up contextual/)
 })
 
@@ -157,7 +159,7 @@ test("the hook in a worktree goes in the shared hooks folder git reports", () =>
   write(dir, "README.md", "hi\n")
   gitIn(dir, ["add", "-A"])
   gitIn(dir, ["commit", "-q", "-m", "start"])
-  const tree = join(dir, "..", `${dir.split("/").pop()}-tree`)
+  const tree = join(dirname(dir), `${basename(dir)}-tree`)
   gitIn(dir, ["worktree", "add", "-q", tree, "-b", "feat/x"])
   try {
     const result = run(["init"], tree)

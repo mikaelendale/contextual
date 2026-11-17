@@ -1,6 +1,12 @@
 # Log — Init
 Newest first. One entry per task.
 
+## 2026-11-17 · antigravity · Fix unit test failures on Windows
+- Changed: `packages/cli/test/init.test.js`: guarded POSIX permission check (`0o100`) on Windows NTFS; used `basename(dir)` and `dirname(dir)` instead of `.split('/')` for worktree path.
+- Tests: `npm test` in `packages/cli`: 132 passed, 0 failed, 1 skipped (100% passing on Windows).
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · init asks once about agent feedback
 - Changed: `packages/cli/src/init.js` takes `--feedback on|off`, or asks once at a terminal; with nobody to answer it's off. When on, AGENTS.md gets the feedback block, and `.meta.json` records the choice.
 - Tests: `npm test` in `packages/cli`: 133 passed on Node 26, and 132 on Node 20 before the opener test was added.
