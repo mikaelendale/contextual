@@ -1,6 +1,12 @@
 # Log — Init
 Newest first. One entry per task.
 
+## 2026-11-17 · claude-code · A heading placeholder at the top of an AGENTS.md another tool wrote
+- Changed: `src/init.js`: when `AGENTS.md` exists without a `# ` heading (as when `next dev` wrote it with its own managed block), the template's heading comment goes at the very top. The template's comment now says the heading stays above every other tool's block. From agent feedback report 6. Also deleted `context/status/fix-windows-tests.md`, left on main by #12.
+- Tests: `npm test` in `packages/cli`: 139 passed.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-17 · antigravity · Fix unit test failures on Windows
 - Changed: `packages/cli/test/init.test.js`: guarded POSIX permission check (`0o100`) on Windows NTFS; used `basename(dir)` and `dirname(dir)` instead of `.split('/')` for worktree path.
 - Tests: `npm test` in `packages/cli`: 132 passed, 0 failed, 1 skipped (100% passing on Windows).

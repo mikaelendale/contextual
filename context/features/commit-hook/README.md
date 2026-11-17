@@ -12,3 +12,4 @@ The pre-commit hook, and the `check --staged` rule behind it: a commit that chan
 - [x] On the default branch the same commit gets a warning and goes through
 - [x] Until setup has run, the hook only warns
 - [x] When the CLI can't run (offline, the version not found, Node missing), the hook prints a note and the commit goes through
+- [x] A planned feature's code changes don't ask for a log entry it can't have yet

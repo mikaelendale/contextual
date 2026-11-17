@@ -1,4 +1,4 @@
-<!-- fill: replace this comment with "# <Project name>" and, on the next line, one sentence saying what the project is (from the Idea in context/idea.md). Keep both above the block below. -->
+<!-- fill: replace this comment with "# <Project name>" and, on the next line, one sentence saying what the project is (from the Idea in context/idea.md). Keep both at the top of the file, above every block another tool manages. -->
 
 <!-- contextual:start -->
 <!-- Managed by usecontextual. `update` rewrites everything between these markers; put your own notes outside them. -->

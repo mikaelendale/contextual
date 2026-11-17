@@ -11,3 +11,4 @@ The blank context files every project starts from, and the stack presets that fi
 - [x] `check` passes with 0 errors on what `init` lays down from them
 - [x] A preset fills `stack/`, `architecture.md` and `conventions.md` without naming a framework version
 - [x] Every skill asset is an exact copy of its template, and the example's `AGENTS.md` block and `deslop.md` match them
+- [x] `init` lays down `context/questions.md`, and the example has one filled in

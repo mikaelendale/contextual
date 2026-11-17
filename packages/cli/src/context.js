@@ -10,6 +10,8 @@ import { dirname, join, resolve } from "node:path"
 export const STATUSES = ["planned", "in-progress", "shipped", "deprecated"]
 export const FEATURE_FILES = ["README.md", "build.md", "tests.md", "notes.md", "log.md"]
 export const REQUIRED_FIELDS = ["status", "phase", "covers", "depends-on"]
+/** What a planned feature's `covers:` says before its paths are decided. */
+export const UNDECIDED = /^not decided( yet)?\.?$/i
 export const BLOCK_START = "<!-- contextual:start -->"
 export const BLOCK_END = "<!-- contextual:end -->"
 
@@ -80,7 +82,9 @@ export function readFeature(featuresDir, name) {
   }
   feature.status = feature.fields.status
   feature.phase = /^\d+$/.test(feature.fields.phase ?? "") ? Number(feature.fields.phase) : null
-  feature.covers = splitList(feature.fields.covers)
+  // A planned feature far down the plan may not know its paths yet.
+  feature.coversUndecided = UNDECIDED.test(feature.fields.covers ?? "")
+  feature.covers = feature.coversUndecided ? [] : splitList(feature.fields.covers)
   feature.dependsOn = splitList(feature.fields["depends-on"]).filter((d) => d !== "none")
 
   const what = text.split(/^## What it does\n/m)[1]

@@ -1,19 +1,19 @@
 # Design principles
 
 ## Look and feel
-Calm and dense, like a good email client: white and light grey, one teal accent, no illustrations. Lists rather than cards. The common actions have keyboard shortcuts.
+Calm and dense, like a good email client: white and light grey, one teal accent, no illustrations. Lists rather than cards. The common actions have keyboard shortcuts. The white background is given by the plan. The other values, including the exact grey and teal, were proposed at setup and can change.
 
 ## Color
-| Token | Value | Use for |
-|---|---|---|
-| `background` | #FFFFFF | The page |
-| `surface` | #F6F6F4 | Sidebar, hovered rows |
-| `border` | #E4E4E0 | Dividers, inputs |
-| `text` | #1B1B19 | Body text (17.3:1 on background) |
-| `text-muted` | #6A6A64 | Secondary text (5.4:1 on background, 5.0:1 on surface) |
-| `accent` | #0F766E | Primary buttons, links, the focus ring (white text on it: 5.5:1) |
-| `accent-hover` | #115E59 | Primary buttons on hover |
-| `danger` | #B42318 | Destructive actions and errors (6.6:1 on background) |
+| Token | Value | Use for | From |
+|---|---|---|---|
+| `background` | #FFFFFF | The page | given |
+| `surface` | #F6F6F4 | Sidebar, hovered rows | proposed |
+| `border` | #E4E4E0 | Dividers, inputs | proposed |
+| `text` | #1B1B19 | Body text (17.3:1 on background) | proposed |
+| `text-muted` | #6A6A64 | Secondary text (5.4:1 on background, 5.0:1 on surface) | proposed |
+| `accent` | #0F766E | Primary buttons, links, the focus ring (white text on it: 5.5:1) | proposed |
+| `accent-hover` | #115E59 | Primary buttons on hover | proposed |
+| `danger` | #B42318 | Destructive actions and errors (6.6:1 on background) | proposed |
 
 ## Type
 Inter for everything. Sizes: 12 for labels and dates, 14 for body text and controls, 16 for page intros, 20 for page titles, 24 for empty-state titles. Weights 400 and 600 only.

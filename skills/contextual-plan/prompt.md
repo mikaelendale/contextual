@@ -9,7 +9,7 @@ Step 1. Ask me these questions in one message, numbered, in plain words, and wai
 
 Step 2. From my answers, choose these yourself, with a one-line reason for each:
 - Stack: current, widely used tools, with as few moving parts as fit. No database when the browser's storage will do; no build step when plain files will do. If I named a stack, use mine.
-- Design direction: the look and feel in plain words, one accent color, and products it should feel like.
+- Design direction: the look and feel in plain words, one accent color, and products it should feel like. If I mentioned a design guideline, a design system or examples to follow, keep them.
 - Phases: in build order. Phase 1 must end with something I can use. Three to six features per phase. Each feature gets at least one acceptance line: a statement someone with the app in front of them can check yes or no ("results update as you type, from the second character", not "search is fast"). Don't invent requirements I didn't ask for; put suggestions under Open questions.
 
 Step 3. Write contextual-plan.md in exactly this format, with these headings in this order and no others:
@@ -36,6 +36,7 @@ Rules for the file:
 - Platform: web, mobile or both, and must-haves such as offline use.
 - Stack: one line per layer, as "- <Layer>: <choice>", with the reason. Write "Not decided" when it isn't, and add the question under Open questions.
 - Phases: "### Phase 1 — <name>" headings (with an em dash), numbered from 1. One plain sentence under a phase heading, saying what it delivers, is fine; everything else under it is feature lines. Feature names are one to three words before the colon and unique across all phases. Write features in build order. More than five acceptance lines means it's two features.
+- Design direction: if I gave a guideline, a design system or links, end the section with a line "References: …" listing them.
 - Open questions: what I haven't decided yet, and anything you'd suggest adding.
 - Plain words, no code, under about 150 lines.
 

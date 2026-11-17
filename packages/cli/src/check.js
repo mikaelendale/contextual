@@ -27,6 +27,7 @@ import { currentBranch, listFiles } from "./files.js"
 import { SHARED, isCodeFile, ownersOf } from "./owners.js"
 import { FEEDBACK_START, feedbackIsOn } from "./feedback.js"
 import { matches } from "./glob.js"
+import { contrastProblems } from "./contrast.js"
 
 const DEFAULT_CAPS = { agentsBlockLines: 60, statusLines: 40, featureReadmeLines: 60, startTokens: 3000 }
 const REQUIRED_CONTEXT_FILES = [
@@ -148,7 +149,11 @@ export function check({ root, branch = null }) {
     for (const field of REQUIRED_FIELDS) if (!(field in f.fields)) error(readme, `is missing its "${field}:" line`)
     if ("status" in f.fields && !STATUSES.includes(f.status)) error(readme, `has status "${f.status}"; use one of: ${STATUSES.join(", ")}`)
     if ("phase" in f.fields && f.phase === null) error(readme, `has phase "${f.fields.phase}"; use the phase number`)
-    if ("covers" in f.fields && f.covers.length === 0) error(readme, `"covers:" lists no paths`)
+    if (f.coversUndecided && f.status !== "planned") {
+      error(readme, `is ${f.status}, but its "covers:" says "not decided yet". Write the paths its code lives in`)
+    } else if ("covers" in f.fields && f.covers.length === 0 && !f.coversUndecided) {
+      error(readme, `"covers:" lists no paths. A planned feature whose paths aren't known yet can say "covers: not decided yet"`)
+    }
     for (const dep of f.dependsOn) if (!byName.has(dep)) error(readme, `depends on "${dep}", which isn't a feature folder`)
     if (!f.summary) error(readme, `needs a "## What it does" section; its first sentence goes in the index`)
     if (f.acceptanceTotal === 0) error(readme, `needs at least one checkbox under "## Acceptance"`)
@@ -276,6 +281,12 @@ export function check({ root, branch = null }) {
     }
   }
 
+  // --- design/principles.md: every contrast ratio it claims, recomputed
+  const principlesPath = join(ctx, "design", "principles.md")
+  if (existsSync(principlesPath)) {
+    for (const problem of contrastProblems(readText(principlesPath))) warn("context/design/principles.md", problem)
+  }
+
   // --- hashes (warnings only)
   if (setupDone) {
     const ideaHash = hashText(readText(join(ctx, "idea.md")))
@@ -320,14 +331,17 @@ export function check({ root, branch = null }) {
     const matchesAny = (glob) => projectFiles.some((p) => matches(p, glob))
     for (const f of features) {
       if (f.status !== "shipped" && f.status !== "in-progress") continue
+      const readme = `context/features/${f.name}/README.md`
+      const empty = []
       for (const glob of f.covers) {
         if (holds(f.name, glob)) continue
-        const report = f.status === "shipped" ? error : warn
-        report(
-          `context/features/${f.name}/README.md`,
-          matchesAny(glob) ? `covers ${glob}, but every file it matches belongs to a more specific glob` : `covers ${glob}, which matches no files`,
-        )
+        if (matchesAny(glob)) (f.status === "shipped" ? error : warn)(readme, `covers ${glob}, but every file it matches belongs to a more specific glob`)
+        else if (f.status === "shipped") error(readme, `covers ${glob}, which matches no files`)
+        else empty.push(glob)
       }
+      // A feature being built has paths with no files yet; one line says so, not one per path.
+      if (empty.length === 1) warn(readme, `covers ${empty[0]}, which has no files yet`)
+      if (empty.length > 1) warn(readme, `${empty.length} of its covers: paths have no files yet (${empty.join(", ")})`)
     }
     for (const glob of shared ?? []) {
       if (holds(SHARED, glob)) continue

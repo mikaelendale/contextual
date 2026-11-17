@@ -8,7 +8,7 @@
 <!-- fill: newest first, one line each: date · feature · what it added. Keep the last five. -->
 
 ## Blocked / needs a human
-<!-- fill: decisions only a person can make, and anything blocked. "Nothing." when empty. -->
+<!-- fill: the questions in context/questions.md that block the next feature, and anything else blocked. Not every open question: those stay in questions.md. "Nothing." when empty. -->
 
 ## Next
 <!-- fill: the next feature to build, and why it's next. -->

@@ -98,3 +98,23 @@ test("until setup has run (no context/idea.md), the hook only warns, even on a f
   assert.match(result.stdout, /setup hasn't run yet \(no context\/idea\.md\), so this check only warns/)
   assert.match(result.stdout, /0 errors/)
 })
+
+test("--staged doesn't ask a planned feature for a log entry it isn't allowed to have yet", () => {
+  // Setup's own commit: init added package.json, which foundation covers, while every feature is still planned.
+  const dir = exampleRepo()
+  gitIn(dir, ["switch", "-q", "main"])
+  edit(dir, "context/features/link-preview/README.md", (t) => t)
+  write(dir, "src/features/link-preview/sample.ts", "// first sketch\n")
+  stage(dir, "src/features/link-preview/sample.ts")
+  let result = run(["check", "--staged"], dir)
+  assert.equal(result.status, 0, result.stdout)
+  assert.doesNotMatch(result.stdout, /link-preview\/log\.md/)
+
+  // On a feature branch it's a warning that says how work on it should start, never a demand for a log.
+  gitIn(dir, ["switch", "-q", "-c", "feat/link-preview"])
+  run(["check", "--fix"], dir)
+  result = run(["check", "--staged"], dir)
+  assert.equal(result.status, 0, result.stdout)
+  assert.match(result.stdout, /warning {2}context\/features\/link-preview\/README\.md: link-preview is still planned, but this commit changes its code \(src\/features\/link-preview\/sample\.ts\)\. When work on it starts, set status: in-progress/)
+  assert.doesNotMatch(result.stdout, /link-preview\/log\.md/)
+})

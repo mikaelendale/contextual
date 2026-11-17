@@ -24,15 +24,17 @@ pnpm dlx usecontextual init
 bunx usecontextual init
 ```
 
+On Windows, if PowerShell refuses to run `npx` because of its execution policy, type `npx.cmd usecontextual init` instead.
+
 `init` adds the `context/` folder, the agent skills and a git pre-commit hook, and pins `usecontextual` as a dev dependency when there's a `package.json`. It never overwrites a file. Then, in your coding agent:
 
 1. **"set up contextual"**: it writes the context from `contextual-plan.md` if you put one at the root, asks you five questions if the repo is empty, or reads your existing code and proposes features for you to confirm.
 2. **"build the next feature"**: it builds one feature on its own branch, checks it, records it, and stops for you to review and merge.
 3. **"sync the context"**: after you edit code by hand or merge a branch, it brings the context back in line.
 
-Want to plan first? Paste [the planning prompt](skills/contextual-plan/prompt.md) into any AI chat. It gives you `contextual-plan.md`.
+Want to plan first? Copy the planning prompt from [contextual.mikaelen.site](https://contextual.mikaelen.site) (or [here](skills/contextual-plan/prompt.md)) into any AI chat. It gives you `contextual-plan.md`. If your browser saves it as `contextual-plan (1).md` or somewhere else, tell your agent where it is.
 
-Any time, for free: `npx usecontextual check` validates the context, and `npx usecontextual which <path>` says which feature owns a file.
+Any time, for free: `npx usecontextual check` validates the context, `npx usecontextual which <path>` says which feature owns a file, and `npx usecontextual contrast <color> <color>` gives the contrast ratio of two colors. Open questions collect in `context/questions.md`.
 
 **Agent feedback, if you want it.** Say yes when `init` asks, or run `npx usecontextual feedback on`, and your agent can prepare one report about problems with Contextual itself, as a form you review before anything is sent.
 Nothing about your project is collected: no code, names or paths, and no IP address. Closing the form sends nothing.

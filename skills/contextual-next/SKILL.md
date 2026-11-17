@@ -20,7 +20,8 @@ If you haven't this session, do the start-of-session read in `AGENTS.md` first. 
 1. `git switch -c feat/<folder>` from the default branch.
 2. Create `context/status/feat-<folder>.md` from [assets/status-branch.md](assets/status-branch.md).
 3. Create the feature's `build.md`, `tests.md`, `notes.md` and `log.md` from this skill's `assets/feature-*.md`, as [references/feature-files.md](references/feature-files.md) describes. Fill `build.md` and `tests.md` with your plan before writing code.
-4. In the feature's `README.md`, set `status: in-progress`. In `context/build-plan.md`, set the phase's marker to `[in progress]` and put `← current` after the item.
+4. If the feature's `covers:` says "not decided yet", decide its paths now, following `context/conventions.md`, and write them in. Then run `<cli> check` to make sure no other feature already owns them.
+5. In the feature's `README.md`, set `status: in-progress`. In `context/build-plan.md`, set the phase's marker to `[in progress]` and put `← current` after the item.
 
 ## 3. Build it
 
@@ -28,7 +29,8 @@ If you haven't this session, do the start-of-session read in `AGENTS.md` first. 
 - Before editing any file, run `<cli> which <path>` and follow the rule in `AGENTS.md`.
 - Write a test for each acceptance line you can test in code, before or with the code. Follow `context/conventions.md`.
 - Use only the packages and tools in `context/stack/`. Adding one, even for a one-off `npx` command, needs a record in `context/decisions/` first.
-- When a product decision isn't clear, ask. Don't guess. Note the question under Open questions in `notes.md` and under "Blocked / needs a human" in the status file.
+- Before you start, read the lines in `context/questions.md` (if it exists) that end `blocks <this feature>`. Ask the person the ones under "For the owner" and wait. Follow the ones under "Proposed by the agent" unless the person has said otherwise.
+- When a product decision isn't clear, ask. Don't guess. Add the question to `context/questions.md` under "For the owner" (`blocks <this feature>`; create the file with the headings `# Open questions`, `## For the owner` and `## Proposed by the agent` if it's missing) and to "Blocked / needs a human" in the status file. When a question is answered, delete its line and write the answer where it belongs.
 - When you choose between real alternatives, record it in `context/decisions/` from [assets/decision.md](assets/decision.md). When a library surprised you, add it to `context/stack/<lib>.md` from [assets/stack-lib.md](assets/stack-lib.md).
 
 ## 4. Verify it

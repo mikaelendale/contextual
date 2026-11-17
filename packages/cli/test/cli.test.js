@@ -31,3 +31,14 @@ test("the files that ship use LF line endings, so the bin's shebang works on mac
   }
   assert.ok(readFileSync(bin, "utf8").startsWith("#!/usr/bin/env node\n"))
 })
+
+test("contrast prints the ratio of two colors, and says which minimums it meets", () => {
+  const ok = spawnSync(process.execPath, [bin, "contrast", "6c6c74", "#f7f5f2"], { encoding: "utf8" })
+  assert.equal(ok.status, 0, ok.stderr)
+  assert.equal(ok.stdout.trim(), "4.78:1 · passes 4.5:1 for text · passes 3:1 for outlines, focus rings and large text")
+  const low = spawnSync(process.execPath, [bin, "contrast", "a0a09a", "ffffff"], { encoding: "utf8" })
+  assert.match(low.stdout, /^2\.\d\d:1 · fails 4\.5:1 for text · fails 3:1/)
+  const bad = spawnSync(process.execPath, [bin, "contrast", "teal"], { encoding: "utf8" })
+  assert.equal(bad.status, 2)
+  assert.match(bad.stderr, /Give two hex colors/)
+})

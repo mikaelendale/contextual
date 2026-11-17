@@ -1,6 +1,12 @@
 # Log — Templates
 Newest first. One entry per task.
 
+## 2026-11-17 · claude-code · questions.md, given or proposed values, undecided covers
+- Changed: `templates/repo/context/questions.md` (new): open questions for the owner, and technical choices the agent proposed. The status templates list only what blocks the next feature. `principles.md` asks for a From column (given or proposed) and ratios written as "4.8:1 on background". The feature README allows `covers: not decided yet` for later phases. The plan template has an optional `References:` line. Skill assets copied over. From agent feedback reports 7, 8 and 10.
+- Tests: `npm test` in `packages/cli`: 139 passed. The fixture tests check the example has every template file.
+- Left open: nothing.
+- Deslop: not UI.
+
 ## 2026-11-13 · claude-code · .meta.json records agent feedback; the block's text
 - Changed: `templates/repo/context/.meta.json` gains `"feedback"`. The block's text lives in `templates/agent-feedback-block.md`, which agent-feedback owns.
 - Tests: `npm test` in `packages/cli`: 133 passed on Node 26, and 132 on Node 20 before the opener test was added.

@@ -71,6 +71,11 @@ export function installSkills(top, assets, skillDirs) {
   }
 }
 
+/** The template's `<!-- fill: … -->` comment for the project heading: everything before the Contextual block. */
+function headingPlaceholder(assets) {
+  return readText(join(assets, "templates", "repo", "AGENTS.md")).split(BLOCK_START)[0].trim()
+}
+
 /** The Contextual block from the AGENTS.md template, filled in. */
 export function templateBlock(assets, cli) {
   const text = readText(join(assets, "templates", "repo", "AGENTS.md"))
@@ -140,8 +145,11 @@ export function init({ cwd, version, harnesses = null, preset = null, force = fa
     write("AGENTS.md", fillPlaceholders(readText(join(assets, "templates", "repo", "AGENTS.md")), values))
   } else if (!readFileSync(agentsPath, "utf8").includes(BLOCK_START)) {
     const text = readFileSync(agentsPath, "utf8")
-    writeFileSync(agentsPath, `${text}${text.endsWith("\n") ? "" : "\n"}\n${templateBlock(assets, cli)}\n`)
-    created.push("AGENTS.md (Contextual block added after the existing content)")
+    // An AGENTS.md written by another tool (a framework's own block) has no project heading yet:
+    // the template's heading placeholder goes at the very top, so setup knows where the heading belongs.
+    const heading = /^# \S/m.test(text) ? "" : `${headingPlaceholder(assets)}\n\n`
+    writeFileSync(agentsPath, `${heading}${text}${text.endsWith("\n") ? "" : "\n"}\n${templateBlock(assets, cli)}\n`)
+    created.push(heading ? "AGENTS.md (a heading placeholder at the top, and the Contextual block after the existing content)" : "AGENTS.md (Contextual block added after the existing content)")
   } else {
     kept.push("AGENTS.md")
   }

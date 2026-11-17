@@ -39,9 +39,9 @@ The same headings, in the same order, every time. Don't add, rename or reorder t
 | Users | Who uses it, roughly how many, how technical they are | `architecture.md` (roles), `design/principles.md` (tone of the words) |
 | Platform | Web, mobile or both, plus must-haves such as offline use | `stack/overview.md` |
 | Stack | One line per layer: `- <Layer>: <choice>`, with a reason when there is one | `stack/_index.md`, `overview.md`, `requirements.md`, `deploy.md`; a preset when one matches |
-| Design direction | The look and feel in plain words, any colors or fonts already chosen, products it should feel like | `design/principles.md` |
+| Design direction | The look and feel in plain words, any colors or fonts already chosen, products it should feel like. Optionally a line `References: …` naming a guideline, design system or links to follow | `design/principles.md`, where values from the references are marked given and the rest proposed |
 | Phases | Phases in build order, each a list of features with acceptance lines | `build-plan.md`, and one `features/<feature>/README.md` per feature, status `planned`. Setup also adds `foundation` first in Phase 1, for the app shell, layouts and config |
-| Open questions | What the person hasn't decided yet | "Blocked / needs a human" in `status/main.md` |
+| Open questions | What the person hasn't decided yet | `context/questions.md`; the status file lists only those that block the next feature |
 
 `idea.md` keeps all of it, so nothing is lost when a section maps loosely.
 

@@ -3,6 +3,7 @@ import { basename } from "node:path"
 
 import { assetRoot } from "./assets.js"
 import { check } from "./check.js"
+import { contrast, parseHex } from "./contrast.js"
 import { FEEDBACK_HELP, FEEDBACK_URL, automaticFields, buildReport, feedbackIsOn, inCI, openInBrowser, projectNames, setFeedback } from "./feedback.js"
 import { fix } from "./fix.js"
 import { STAGED_ERRORS_EXIT } from "./hook.js"
@@ -30,6 +31,7 @@ Usage:
   usecontextual which --unowned           list the code files no feature owns
   usecontextual update                    refresh Contextual's own files to this version
   usecontextual feedback on|off           let the agent prepare feedback about Contextual (feedback --help)
+  usecontextual contrast <color> <color>  the contrast ratio of two hex colors, such as 6c6c74 f7f5f2
 
   --harness   claude, codex, antigravity, opencode (comma-separated). Default: detected, or all
   --preset    next, laravel-inertia-react
@@ -71,6 +73,18 @@ export function runCli(argv, { cwd, out, err, ask = askOnTerminal, env = process
   if (command === "init") return runInit(flags, { cwd, out, err, ask })
   if (command === "feedback") return runFeedback(flags, { cwd, out, err, env, open })
   if (command === "update") return runUpdate({ cwd, out, err })
+  if (command === "contrast") {
+    const [a, b] = flags._
+    if (!parseHex(a ?? "") || !parseHex(b ?? "")) {
+      err("Give two hex colors, such as: usecontextual contrast 6c6c74 f7f5f2 (in a shell, quote a leading #).")
+      return 2
+    }
+    const ratio = contrast(a, b)
+    const verdict = (min, what) => `${ratio >= min ? "passes" : "fails"} ${min}:1 for ${what}`
+    out(`${ratio.toFixed(2)}:1 · ${verdict(4.5, "text")} · ${verdict(3, "outlines, focus rings and large text")}`)
+    return 0
+  }
+
   if (command !== "check" && command !== "which") {
     err(`Unknown command "${command}". Run usecontextual --help.`)
     return 2

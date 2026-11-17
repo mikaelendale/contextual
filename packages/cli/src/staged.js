@@ -57,6 +57,17 @@ export function checkStaged({ root, branch, defaultBranch, skillDirs }) {
     }
   }
 
+  // A planned feature can't have a log yet (check rejects one), so its code changes aren't asked for one:
+  // that's setup's own commit (init's package.json) or a hand edit before the feature starts.
+  const byName = new Map(features.map((f) => [f.name, f]))
+  for (const [name, paths] of [...touched]) {
+    if (byName.get(name)?.status !== "planned") continue
+    touched.delete(name)
+    if (!onDefault) {
+      note(`context/features/${name}/README.md`, `${name} is still planned, but this commit changes its code (${paths.slice(0, 3).join(", ")}${paths.length > 3 ? ", …" : ""}). When work on it starts, set status: in-progress and give it its log.md`)
+    }
+  }
+
   const statusFile = branch ? `context/status/${statusFileFor(branch, defaultBranch)}` : null
   for (const [name, paths] of touched) {
     const log = `context/features/${name}/log.md`

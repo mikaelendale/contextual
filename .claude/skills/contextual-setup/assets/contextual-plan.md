@@ -13,7 +13,7 @@
 <!-- fill: one line per layer, as "- Layer: choice". Write "Not decided" when you don't know. -->
 
 ## Design direction
-<!-- fill: the look and feel in plain words, any colors or fonts already chosen, and products it should feel like. -->
+<!-- fill: the look and feel in plain words, any colors or fonts already chosen, and products it should feel like. If you have a design guideline, a design system or examples to follow, add a line "References: <file in the repo, name or link>, …". -->
 
 ## Phases
 ### Phase 1 — <!-- fill: phase name -->

@@ -2,6 +2,20 @@
 
 The `usecontextual` npm package. Versions follow semver; while the version is 0.x, a minor version can change behavior.
 
+## 0.3.0 (not published)
+
+From the first agent feedback reports and a tester on Windows.
+
+- `check --staged` no longer asks a planned feature for a log entry, which `check` itself forbids: setup's own commit (with `init`'s `package.json` change) goes through cleanly. On a feature branch, changing a planned feature's code is a warning that says to set it in progress first.
+- `init` puts the heading placeholder at the very top of an `AGENTS.md` another tool wrote without a heading (such as Next.js's managed block), and setup writes the project's heading there, never inside another tool's block.
+- A planned feature can say `covers: not decided yet` until its paths are known; `contextual-next` decides them before building. A feature in progress or shipped still needs real paths.
+- A feature being built gets one warning for all its paths with no files yet, not one per path.
+- `context/questions.md`: open questions live there, split into questions for the owner and technical choices the agent proposed (each with a decision record). The status file lists only the ones blocking the next feature, so it stays about current work.
+- `design/principles.md` marks each value as given (by the owner or a reference) or proposed. The plan format takes an optional `References:` line under Design direction, for a guideline or design system to follow.
+- `check` recomputes the contrast ratios `principles.md` claims and warns when one is wrong, or when a text color is under 4.5:1. `usecontextual contrast <color> <color>` computes a ratio.
+- Setup takes a plan file from wherever the person points, or named like `contextual-plan (1).md`, and on a repo that already has code it lists the installed tools in `stack/` and gives existing files owners.
+- The CLI's own tests pass on Windows (thanks, @kilopal, #12).
+
 ## 0.2.0 (13 November 2026)
 
 - Agent feedback: when the owner turns it on, the agent notes problems with Contextual itself while it works, and before its final answer `usecontextual feedback` opens one prefilled form for the person to review and send. The report travels in the link's fragment, so nothing reaches a server until Send. `init` asks once (off when nobody can answer); `feedback on` and `feedback off` add and remove its block in `AGENTS.md`; `update` keeps it in step with `.meta.json`; it never runs in CI. See `docs/agent-feedback.md`.
